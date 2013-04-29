@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:com>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="content-language" content="es" />
+        <title>Pago a Proveedores</title>
+    <com:security/>
+   <link href="/var/commsys.css" media="screen,print" type="text/css" rel="stylesheet" />	
+    <script type="text/javascript" src="/common/jquery/jquery-1.6.1.min.js"></script>
+    <link href="/common/jquery/themes/ui-lightness/ui.all.css" media="screen,print" type="text/css" rel="stylesheet" />
+   <style>
+   	.lost {width:150px;margin:auto;}
+   	.lost a, .lost a:link, .lost a:visited {font:bold 10pt Helvetica,Arial;color:#999;text-decoration:none;}
+   	.renglon {height:40px;width:100%;}
+   	.renglon .c1 {float:left; width:160px;font:bold 12pt Helvetica,Arial;color:#666!important;}
+   	.renglon .l {float:left; width:130px;padding-right:5px;}
+	.renglon .c2 {float:left; width:110px;font:bold 12pt Helvetica,Arial;color:#666!important;}
+   	.renglon .c3 {float:left; width:50px;}
+   	#loginBox {margin:auto;width:914px;height:610px; text-align:center;}
+   	#loginBox #header {background: url(/images/login_bi.jpg); width:914px;margin-top:20px; height:285px;border:solid 2px #444;box-shadow: 4px 4px 10px #444;}
+   	#loginBox #ident {background: #f0f0f0; width:874px; height:165px;margin-top:20px;border:solid 2px #444;box-shadow: 4px 4px 10px #444;padding:20px;}
+   	#loginBox #ident form {width:320px;margin:auto;text-align:left;}
+	.login_fail {text-align:center; text-decoration: blink;}
+	
+   </style>	
+</head>
+<body class="inicio">   
+    <div id="loginBox">
+    	<div id="header"></div>          
+       	<div id="ident">
+                <com:form_begin/>       		
+           		<div class="renglon">
+	                <div class="l" align="right" >Usuario: </div>
+					<div class="c1" >
+					<input id="login" type="text" name="login" size="20" value=""> 
+					</div>
+                </div>
+                <div class="renglon">                            
+	                <div class="l" align="right"  >Clave: </div>
+					<div class="c2" >
+					<input id="password" type="password" name="password" size="10" value=""> 	
+					</div>					
+					<div class="c3" >					
+					<img id="loginIngresarButton" src="/images/default/login-ingresar.gif"  
+	                	onMouseOver="this.src='/images/default/login-ingresar-over.gif'" 
+	                	onMouseOut="this.src='/images/default/login-ingresar.gif'"/>
+					</div>
+	 			</div>	
+                <com:form_end/>
+                <com:error/>
+            </div>	
+        </div>
+    </div>
+    <div id="watermark"></div>
+    <div id="loginVersionNumber">
+        <com:homepage.comp.soft_version/>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#loginBoxSombra").hide();
+            $("#loginBoxSombra").fadeIn("slow");
+            $('[name="login"]').focus();
+            $("input:visible").keypress(function(e){
+                if(e.which==13) {
+                    var form = $(this).parents('form:first');
+                    form.submit();
+                }
+            });
+        });
+			$('#loginIngresarButton').click(function() {
+                    var form = $(this).parents('form:first');
+                    form.submit();	
+			});			
+    </script>
+</body>
+</html>

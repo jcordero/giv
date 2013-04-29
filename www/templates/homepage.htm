@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:com>
+	<head>
+    	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    	<meta http-equiv="content-language" content="es" />
+    	<title><com:title/></title>
+    	<com:security/>
+    	<com:jsincludes/>
+    	<link href="/var/commsys.css" media="screen,print" type="text/css" rel="stylesheet" />
+		<style type="text/css">
+			#navlist{position:relative;}
+			#navlist li{list-style:none;position:absolute;}
+			#navlist li, #navlist a{height:100px;width:110px;display:block; border:1px;}
+
+			#icon1{left:10px;}
+			#icon1{background:url('/images/icons/home_int.png') 0 0;}
+			#icon1:hover{border: 1px #2EAADC  solid;}
+			
+			#icon2{left:130px;}
+			#icon2{background:url('/images/icons/home_int.png') -100px 0;}
+			#icon2:hover{border: 1px #2EAADC  solid;}
+
+			#icon3{left:250px;}
+			#icon3{background:url('/images/icons/home_int.png') -190px 0;}
+			#icon3:hover{border: 1px #2EAADC solid;}
+
+			#icon4{left:370px;}
+			#icon4{background:url('/images/icons/home_int.png') -270px 0;}
+			#icon4:hover{border: 1px #2EAADC  solid;}
+			
+			#icon5{left:490px;}
+			#icon5{background:url('/images/icons/home_int.png') -370px 0;}
+			#icon5:hover{border: 1px #2EAADC  solid;}
+
+			#icon6{left:610px;}
+			#icon6{background:url('/images/icons/home_int.png') -480px 0;}
+			#icon6:hover{border: 1px #2EAADC solid;}	
+
+			#icon7{left:10px;top:130px}
+			#icon7{background:url('/images/icons/home_int.png') 0px -100px;}
+			#icon7:hover{border: 1px #2EAADC  solid;}
+			
+			#icon8{left:130px;top:130px}
+			#icon8{background:url('/images/icons/home_int.png') -105px -100px;}
+			#icon8:hover{border: 1px #2EAADC  solid;}
+
+			#icon9{left:250px;top:130px}
+			#icon9{background:url('/images/icons/home_int.png') -220px -100px;}
+			#icon9:hover{border: 1px #2EAADC solid;}
+
+			#icon10{left:370px;top:130px}
+			#icon10{background:url('/images/icons/home_int.png') -310px -100px;}
+			#icon10:hover{border: 1px #2EAADC  solid;}
+			
+			#icon11{left:490px;top:130px}
+			#icon11{background:url('/images/icons/home_int.png') -410px -100px;}
+			#icon11:hover{border: 1px #2EAADC  solid;}
+			
+			div#AccionesBotones {text-align:center;}
+			div#AccionesBotones div {margin: auto;width: 730px;height: 100%;}
+					
+	</style>
+    </head>
+	<body onLoad="onPageLoad()" class="homepage">
+		<div id="payload">
+            <div id="head">
+            	<div id="logo"><a href="/index.php"></a></div>
+                <com:homepage.comp.who_bind/>
+                <div id="appmenu"></div>
+            </div>
+			<!-- <div id="headSpacer"></div>  -->
+	
+			<div id="watermark"></div>
+			<div id="homepageCenter">
+				<div id="AccionesBotones">
+                    <com:homepage.comp.dynhome/>
+                </div>
+			</div>
+			
+		</div>	
+		<div id="footer" style='background-color:white;'><div id="versionNumber"></div></div>
+	</body>
+</html>

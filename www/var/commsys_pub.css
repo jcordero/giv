@@ -1,0 +1,923 @@
+
+body {
+    color:black;
+    margin:0px;
+    padding:0px;
+    text-align:center;
+    font: 10px Helvetica,Arial,sans-serif;   
+}
+
+
+img {border: none;}
+
+form {margin:0;padding:0;}
+
+a {outline: none;}
+
+a, a:hover, a:link,a:visited, a:active { text-decoration: none; font-weight: normal;}
+
+#home_operator {  margin-left:5px;   }
+
+.texto_claro {    color: #859BAE;    }
+
+.texto_oscuro {    color: #002d56;    }
+
+#center1 {
+    left:0px;
+    clear:both;
+}
+
+#margen_interno {
+    margin-top:33px;
+	width:100%;
+}
+
+#continuar button {font-family:Arial, Verdana; font-size: 10pt;clear: both;width:260px;margin-top:10px;margin-left:174px; min-height:20px}
+
+/*IMAGENES dentro de los formularios [calendario, flechita de ajax, etc] */
+.itm .fld img,.itm .fldm img  {	vertical-align:top; }
+
+.fldl {font-weight:bold;}
+
+#page_title {
+	text-align: right;
+	margin-right:10px;
+	margin-top:10px;
+	width:980px;
+	font: italic bold 12px "Lucida Grande", sans-serif;
+	}
+
+#who, #shortcuts {
+	height:65px;
+	padding:5px;
+    width: 95%;
+
+    margin-top:20px;
+	-webkit-border-bottom-left-radius: 10px 10px;
+	-webkit-border-bottom-right-radius: 10px 10px;
+	-webkit-border-top-left-radius: 10px 10px;
+	-webkit-border-top-right-radius: 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+    
+	}
+    
+ #who HR {
+    display: none;
+ }
+	
+#who IMG {
+        float:right;
+        width: 60px;
+        border: 2px solid #9ab0c2;
+    }
+ 
+#who #userGroup {
+    text-align: right;
+    width: 75%;
+    font-style: italic;
+    color: #859bae;
+    }
+    
+
+#who #userName {
+    text-align: right;
+    font-weight: bold;
+    width: 75%;
+    color: #597691;
+    font-size: 12px;
+}
+
+
+div#payload #head #who {
+    height: 40px;
+    margin-top: 10px;
+    position: absolute;
+    right: 40px;
+    text-align: right;
+    width: 400px;
+    z-index: 3;
+}
+
+div#payload #head #who #botonSalir img {
+    display: block;
+    margin-top: 8px;
+    width: auto;
+    border:0px;
+}
+
+div#payload #head #who img {
+    display: none;
+}
+
+div#payload #head #userName {
+    color: #FFFFFF;
+}
+
+#shortcuts {
+	height:auto;
+	}
+	
+#shortcuts_result {
+	clear:both;
+	}
+
+
+TD.home { font-size: 8pt; font-family: Verdana,arial}
+TD.homeNote{font-size: 8pt;font-family: Verdana,arial;background: #bfbfdf}
+TD.log{ font: 10px 'Courier New', Courier, arial}
+.login{background: #bfbfdf;text-align:center;}
+
+
+/* Indicador del usuario logeado en la home */
+#user{
+        float:right;
+        clear:right;
+        width:196px;
+        font:8pt Verdana;
+        text-align:center;
+    }
+#userid{
+        border: thin outset;
+        padding-right: 2px;
+        padding-left: 2px;
+        font: 10px Verdana, sans-serif;
+        padding-bottom: 2px;
+        vertical-align: middle;
+        width: 120px;
+        padding-top: 2px;
+        position: absolute;
+        top: 3px;
+        left: 650px;
+    }
+
+
+/* Barra contenedora de los botones de navegacion adelante / atras */
+#pag{   display:block;
+        width: 630px;
+        padding-top: 4px;
+        height: 20px
+    }
+#pagant{
+        display: inline;
+        left: 0px;
+        position: relative
+    }
+#pagsig{
+        display: inline;
+        left: 600px;
+        position: relative
+    }
+
+
+/* Formularios de carga/edicion de datos */
+#mainform h3{
+        font: bold 12pt "Lucida Grande", sans-serif;
+        text-align: right;
+        color: #3333aa;
+        margin-right:20px;
+        margin-bottom: -15px;
+    }
+.editor{
+        position: absolute;
+        border: #7e7e7e 1pt solid;
+        display: none;
+        background: #ecebeb;
+        width: 960px;
+        height: auto;
+        margin-left:0px;
+    }
+    
+.bajo_tabla {
+	display: none;
+	margin-bottom:20px;
+	background:#cfcfc0;
+	z-index:2;	
+	-webkit-border-bottom-left-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	border:2px solid #444;
+	padding:5px;
+	margin-left:30px;
+	margin-right:30px;
+	margin-top:0px;
+}
+
+.bajo_tabla_top {margin-top:3px;}
+
+.frm1{
+        position:relative;
+        font: 8pt "Lucida Grande", sans-serif;
+        margin-top: 0px;
+        text-align:left;
+        margin-bottom:20px;
+        padding-bottom:20px;
+    }
+.bloque {
+	clear:both; 
+	width:99%; 
+	margin:0px;
+	margin-bottom:20px;
+	margin-left:3px;
+	padding-bottom:5px;
+	position:relative;
+}
+
+.cuernito {background: url(/bindppb/images/default/cuernito.png) no-repeat; position:relative; width:20px; height:20px; top: -19px;left:10px;}
+
+.contenido {
+	padding-left:5px;
+	padding-top:2px;
+}
+
+.titulo {
+        width:100%;
+        height:30px;
+        font: bold 15px "Lucida Grande", sans-serif;
+		background:#DBE1E7;
+    }
+.titulo_texto {
+        float:left;
+        font: bold 16px "Lucida Grande", sans-serif;
+        padding: 4px 12px;
+		color: #767676;
+		
+    }
+    
+    
+.titulo .titulo_texto {
+        width: 250px;	
+    }
+
+.titulo BUTTON {
+        float: right;
+        width: 140px;	
+    }
+        
+.titulo_imagen {
+        float:left;
+		margin-top:2px;
+    }
+
+.frm1 .enviar{
+        clear: both;
+        margin: 0px 10px 8px 0px;
+        width: 100px;
+    }
+.frm1 .cancelar{
+        padding-left: 16px;
+        margin: 0px 0px 8px;
+        width: 100px;
+    }
+
+/* Caja contenedora del campo */
+.itm {  padding-top:2px;
+        font:8pt arial,sans-serif;
+        color:#000000;
+        padding-bottom:2px;
+        position:relative;
+        width:820px;
+        min-height: 20px;
+  		height: auto !important;
+  		height: 20px;
+  		clear:both;
+    }
+
+/* Etiqueta del campo */
+.itm .desc {
+       	float:left;
+        font:bold 8pt arial,sans-serif;
+        width:125px;
+        left:20px;
+        top:0px;
+		color: #5a5a5a;
+		min-height: 20px;
+  		height: auto !important;
+  		height: 20px;
+  		clear:none;
+  		display:block;
+  		margin:0px;
+  		padding:0px;
+    }
+
+/* campos: obligatorios,normales y solo lectura */
+.itm .fldm,
+.itm .fld,
+.itm .fldro {
+        font: 8pt arial,sans-serif;
+        position:relative;
+        left:0px;
+        top:0px;
+        width:auto;
+        min-height: 20px;
+  		height: auto !important;
+  		height: 20px;
+		/*margin-left:150px;*/
+    }
+    
+.itm .fldro table {
+        font-size: 12px;
+}
+/*Textos,etiquetas,campos INPUT y SELECT */
+.itm .fld #text,
+.itm .fldl,
+.itm .fld INPUT {
+        font: 8pt arial,sans-serif;
+        height:20px;
+        width:auto;
+        clear:right;
+
+    }
+    
+/*bordes de color pastel para los elementos input y textarea*/
+.itm .fld INPUT, .itm .fld textarea {
+        border: solid 1px #adbbc9;
+}
+
+
+.itm .fldl table {
+	border:1px solid black;
+	background: #cfcfcf;
+	}
+
+.itm .fldl table th {
+	color: #ffffff;
+	background: #8f8f8f;
+	}
+
+/*campos SELECT */	
+.itm .fld SELECT {
+        font: 8pt arial,sans-serif;
+        clear:right;
+        height:20px;
+}
+
+/*campos TEXTAREA */
+.itm .fld textarea {
+        font: 8pt arial,sans-serif;
+    }
+
+/*IMAGENES dentro de los formularios [calendario, flechita de ajax, etc] */
+.itm .fld img {
+	vertical-align:text-bottom;
+}
+
+.itm .calendar_height {
+	height:150px;
+	width:1px;
+	position:relative;
+	clear:none;
+}
+
+/* Campos obligatorios */
+.itm .fldm INPUT {
+        background: #e8ecf0;
+        font: 8pt arial,sans-serif;
+        height:20px;
+		border:1px solid #969696;
+    }
+    
+.itm .fldm textarea {
+        background: #e8ecf0;
+        font: 8pt arial,sans-serif;
+		border: solid 1px #969696;
+    }
+.itm .fldm SELECT {
+        background: #e8ecf0;
+        font: 8pt arial,sans-serif;
+        visibility: visible;
+		border: solid 1px #969696;
+    }
+.itm .fldm .tree_select {
+        background: #e8ecf0;
+        font: bold 10pt arial,sans-serif;
+        height:20px;
+        left:0px;
+		border: solid 1px #969696;
+    }
+	
+/* FIN Campos obligatorios */
+
+
+/* Control para gestionar avatars */
+.itm .avatar {
+        float: left;
+        clear:right;
+    }
+.itm .avatar IMG {
+        clear:none;
+        float:left;
+        margin-left:27px;
+    }
+.itm .avatar .box {
+        width:450px;
+        margin-left:150px;
+    }
+.itm .avatar .box .imgbox {
+        float: left;
+        padding:5px;
+        background: #cccccc;
+        width:450px
+    }
+
+.fldavatar { font:italic 8pt arial;margin-left:125px;width:100px;}
+.fldavatar IMG { clear:both; margin-left:10px;}
+.fldavatar .nom { font:italic 8pt arial; text-align:center;} 
+
+/* FIN Control para gestionar avatars */
+
+
+#helper {
+	float:left;
+	position:absolute;
+	z-index:10;
+	}
+
+/* Editores tipo tabla en los formularios */
+.tabla{
+        position:relative;
+        margin-bottom: 10px;
+        margin-left: 0px;
+    }
+.tabla h3{
+        margin-top: 2px;
+        padding-bottom: 3px;
+        font: bold 12px arial;
+        margin-left: 0px
+    }
+
+/* Paginas tipo search and list - Formulario de carga */
+.searchpars{
+        border: #5e5e5e 1pt solid;
+        background-color: #f5f5f5;
+        width: 98%;
+		margin:2px;
+		padding:5px;
+		position:relative;
+		-webkit-border-bottom-left-radius: 10px 10px;
+		-webkit-border-bottom-right-radius: 10px 10px;
+		-webkit-border-top-left-radius: 10px 10px;
+		-webkit-border-top-right-radius: 10px 10px;
+				
+		-moz-border-radius: 10px 10px 10px 10px;
+    }
+
+.searchpars h3{
+        padding:0px;
+        margin:0px;
+        margin-top:15px;
+        color: #002e57;
+        text-align: left;
+		font-size:14px;
+		height: 30px;
+
+	}
+
+/* Resultado de la consulta */
+.listado .pag {display: inline;}
+.listado .pag .nro {font: bold 14pt arial;display: inline;clear: none;}
+.listado .pag .nav {font: 10pt arial;display: inline;float:right;clear:none;width:400px;}
+.listado .pag .nav .saltarPagina {display: inline;float:left;clear:none;}
+.listado .pag .nav button {background:#eef;margin:2px;color:#000}
+.listado .pag .nav .actual {font: bold 12pt arial;display: inline;clear: none;}
+
+.listado{
+        width: 98%;
+		margin:5px;
+		padding:5px;
+		
+			-webkit-border-bottom-left-radius: 10px 10px;
+	-webkit-border-bottom-right-radius: 10px 10px;
+	-webkit-border-top-left-radius: 10px 10px;
+	-webkit-border-top-right-radius: 10px 10px;
+				
+		-moz-border-radius: 10px 10px 10px 10px;
+	    }
+
+.submitbutton{
+        position: relative;
+        clear: both;
+        padding-right: 20px;
+        margin-top: 5px;
+        height: 40px;
+        text-align: right;
+    }
+    
+.submitbutton BUTTON {
+        height: 32px;
+}
+
+.submitoptions{
+        position: relative;
+        clear: both;
+        padding-right: 30px;
+        padding-left: 0px;
+        padding-top: 4px;
+        margin-top: 5px;
+        height: 30px;
+        text-align: right;
+        background: #d5d5d5;
+        
+        -webkit-border-bottom-left-radius: 10px 10px;
+		-webkit-border-bottom-right-radius: 10px 10px;
+		-webkit-border-top-left-radius: 10px 10px;
+		-webkit-border-top-right-radius: 10px 10px;
+        
+        -moz-border-radius: 10px 10px 10px 10px;
+    }
+
+/* Formatos para las tablas */
+.caja1{
+        background-position: right;
+        font-size: 12pt;
+        background: url(/bindppb/images/default/right.gif) no-repeat;
+        color: white;
+    }
+.caja2{
+        margin-top: 0px;
+        font:bold 10pt arial;
+        margin-left: 0px;
+        width: 100%;
+        color: #000000;
+        height: 20px;
+        text-align: left;
+        background:#96A9B9;
+        border-spacing: 1px;
+    }
+    
+
+.bullet {
+    background-image: url(/bindppb/images/default/bullet-naranja.gif);
+    background-repeat: no-repeat;
+    width: 9px;
+    height: 11px;
+    float:left;
+    margin-top:2px;
+    margin-right:2px;
+}
+
+.tituloShortcuts {
+    font-size: 14px;
+    font-weight: bold;
+    color: #597691;   
+}
+
+.caja2 td {
+	padding-left:3px;
+}
+
+.caja2 th{
+        background-color: #dbe1e7;
+		height:25px;
+		padding-left:2px;
+
+}
+
+.caja3{
+        font-weight: 500;
+        font-size: 12pt;
+        text-transform: uppercase;
+        color: white;
+        background-color: #9966cc
+    }
+.caja4{ font-size: 10pt;
+        background: #8fa0b0 url(/bindppb/images/default/blue_head.png) repeat-x;
+        width: 390px;
+        color: white;
+        height: 38px;
+        text-align: center
+    }
+
+.cajadato {font: 8pt arial;height: 25px;background:#ebf0f4;}
+.cajadato_par {font: 8pt arial;height: 25px;background-color: #dcdcdc}
+.cajadato_impar {font: 8pt arial;height: 25px;background-color: #eaeaea}
+.cajadato_del TD{font: 8pt arial;height: 25px;background-color: #ff4444;}
+.cajaid{font: 8pt arial;color: #383c3f;height: 25px;background-color: #dbe1e7; font-weight: bold;width:30px;text-align:center;}
+
+div.p{padding-right: 10px;padding-left: 10px;font-size: 12px;padding-bottom: 10px;margin: 0px;padding-top: 10px;font-family: Verdana, sans-serif}
+div.small{font-size: 10px;font-family: Verdana, sans-serif}
+div.title{padding-left: 1px;font-weight: bold;font-size: 12px;margin-bottom: 1px;color: #000066;line-height: 9px;font-family: Verdana, sans-serif;height: 20px}
+
+
+div.hr{
+        border-top: #906040 1px solid;
+        border-bottom: #e0b090 1px solid
+    }
+
+
+/* Este es para el DIV donde esta el calendario */
+#calendario {
+        position:absolute;
+        visibility:hidden;
+        background-color: #ffffff;
+        z-index:10;
+        width:auto;
+        height:auto;
+    }
+
+
+.c {text-align:center;}
+
+.hint {display: none;position: absolute;right: -250px;width: 200px;margin-top: -4px;border: 1px solid #c93;padding: 10px 12px;background: #ffc url(/bindppb/images/default/pointer.gif) no-repeat -10px 5px;}
+.hint-pointer {position: absolute;left: -10px;top: 5px;width: 10px;height: 19px;background: url(/bindppb/images/default/pointer.gif) left top no-repeat;}
+
+.accion {font-family:Verdana,arial; font-size: 10pt;clear: both;width: 60%;margin-top:10px;}
+.accion .nota {float:left;width:80%;text-align:right;}
+.accion .flecha {float:left;width:10%;text-align:center;}
+.accion button {font-family:Arial, Verdana; font-size: 10pt;clear: both;width:260px;margin-top:10px;margin-left:174px; min-height:20px}
+
+#ppal { width: 600px; 
+        position: absolute; 
+        left: 0px;
+        top: 0px;
+    }
+
+#mapa { width:350px;
+        height:270px;
+        position: relative;
+		left: 130px;
+    }
+
+.popbackground {position:absolute;top:0;left:0;width:100%;height:100%;background:#888888}
+
+button {
+    font-family:Arial, Helvetica, sans-serif;
+	font-weight:bold;
+	font-size:12px;
+    color: #383c3f;
+	-webkit-border-bottom-left-radius: 5px 5px;
+	-webkit-border-bottom-right-radius: 5px 5px;
+	-webkit-border-top-left-radius: 5px 5px;
+	-webkit-border-top-right-radius: 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	background-color:#e8ecf0;
+	margin:5px;
+    border: solid 1px #adbbc9;
+}
+
+.week_nav {
+	background: #96a9b9;
+	width: 700px;
+	height: 40px;
+	margin-left:150px;
+    font-size:16px;
+    color: #fbfbfb;
+    font-weight: bold;
+}
+
+.week_nav button{
+    height:30px;  
+}	
+
+#m_tmp_dia_fecha {
+    margin-top:6px;
+}
+
+
+ /* Clear calendar's float, using dialog inbuilt form element */
+#calContainer .bd form {
+        clear:left;
+    }
+
+    /* Have calendar squeeze upto bd bounding box */
+ #calContainer .bd {
+        padding:0;
+    }
+
+#calContainer .hd {
+        text-align:left;
+    }
+
+    /* Center buttons in the footer */
+#calContainer .ft .button-group {
+        text-align:center;
+    }
+
+    /* Prevent border-collapse:collapse from bleeding through in IE6, IE7 */
+#calContainer_c.yui-overlay-hidden table {
+        *display:none;
+    }
+
+/* Remove calendar's border and set padding in ems instead of px, so we can specify an width in ems for the container */
+#cal {
+        border:none;
+        padding:1em;
+    }
+
+#footer1, #footer1 a {
+	color:#ffffff;
+    font-size: 12px;
+	text-align:left;
+	background-color:#597691;
+	height:30px;
+	padding:5px;
+    
+	}
+
+.tree_body {
+	margin-left:150px;
+}
+
+#error_msg {
+	width:940px;
+	height:100px;
+	padding:10px;
+	margin:10px;
+	border:2px solid red;
+	-webkit-border-bottom-left-radius: 10px 10px;
+	-webkit-border-bottom-right-radius: 10px 10px;
+	-webkit-border-top-left-radius: 10px 10px;
+	-webkit-border-top-right-radius: 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	background:#ffafaf;
+	}
+	
+#success_msg {
+	width:940px;
+	height:100px;
+	padding:10px;
+	margin:10px;
+	border:2px solid blue;
+	-webkit-border-bottom-left-radius: 10px 10px;
+	-webkit-border-bottom-right-radius: 10px 10px;
+	-webkit-border-top-left-radius: 10px 10px;
+	-webkit-border-top-right-radius: 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	background:#afafff;
+	}
+	
+	
+.hidden { position:absolute; top:0; left:-9999px; width:1px; height:1px; overflow:hidden; }	
+
+.fg-button { 
+	clear:left;
+	margin:0 4px 40px 20px; 
+	padding: .4em 1em; 
+	text-decoration:none !important; 
+	cursor:pointer; 
+	position: relative; 
+	text-align: center; 
+ }
+.fg-button .ui-icon { 
+	position: absolute; 
+	top: 50%; 
+	margin-top: -8px; 
+	left: 50%; 
+	margin-left: -8px; 
+}
+
+a.fg-button { float:left; clear:none; margin-left:2px; }
+button.fg-button { width:auto; overflow:visible; } 
+.fg-button-icon-left { padding-left: 2.1em; }
+.fg-button-icon-right { padding-right: 2.1em; }
+.fg-button-icon-left .ui-icon { right: auto; left: .2em; margin-left: 0; }
+.fg-button-icon-right .ui-icon { left: auto; right: .2em; margin-left: 0; }
+.fg-button-icon-solo { display:block; width:8px; text-indent: -9999px; } 
+.fg-button.ui-state-loading .ui-icon { background: url(/bindppb/images/default/spinner_bar.gif) no-repeat 0 0; }
+
+.btn_modificar {  
+	background: #e8ecf0 url(/bindppb/images/icons/Edit.png) no-repeat;
+    background-size:20px;
+    padding-left:20px; 
+    color:#383c3f;
+    border: 1px solid #adbbc9;
+    height:22px;
+}
+.btn_ver { 
+    background: #e8ecf0 url(/bindppb/images/icons/View.png) no-repeat;
+    background-size:20px;
+    padding-left:20px; 
+    color:#383c3f;
+    border: 1px solid #adbbc9;
+    height:22px;
+}
+.btn_imprimir {  
+    background: #e8ecf0 url(/bindppb/images/icons/Print.png) no-repeat;
+    background-size:20px;
+    padding-left:20px; 
+    color:#383c3f;
+    border: 1px solid #adbbc9;
+    height:22px;
+        }
+.btn_borrar {  
+    background: #e8ecf0 url(/bindppb/images/icons/Delete.png) no-repeat;
+    background-size:20px;
+    padding-left:20px; 
+    color:#383c3f;
+    border: 1px solid #adbbc9;
+    height:22px;
+}
+
+#mapArea {width:300px;height:300px;z-index:10;margin-left:150px;}
+
+#mapCanvas {width:300px;height:270px;z-index:11;}
+
+#tickets_tbl, #orientacion_tbl, #turnos_tbl, #calls_tbl, #encurso {clear:both;}
+
+#tickets_tbl table, #orientacion_tbl table, #turnos_tbl table, #calls_tbl table, #encurso table {width:100%;border:solid 1px #9ab0c2;}
+
+
+.note {display:inline;font:italic 9pt arial;}
+.cajadato_impar .fldavatar,.cajadato_par .fldavatar { margin-left:0px; width:auto;}
+
+.fld input[type="file"] { width:500px; }
+
+.toolbar_box {font:12pt Arial,Sans-Serif;text-align:center;background:#69BDE8;color:#ffffff;cursor: pointer;
+	-webkit-border-bottom-left-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius: 0px 0px 5px 5px;
+}
+
+.reporte {border:1px solid #000;padding:0px;margin:0px;}
+.reporte thead, .to {font:bold 12px Arial;background:#ec9700;}
+.reporte tbody td {border-right:1px solid #000;text-align:right;}
+.os {background:#C0C0C0;}
+.cl {background:#F0F0F0;}
+
+#person_doc .desc {width:30px;}
+
+.acciones {margin:5px;cursor:pointer;}
+
+#editMapCanvas {height:600px; width:800px;}
+
+.thumb {left: 120px;
+position: relative;}
+.fld .thumb {margin-left:0px;}
+/*.thumb button {margin-left:130px;}*/
+.thumb div {font:italic 11px Helvetica,Arial,Sans-Serif;clear:left;}
+.thumb .legend {position:absolute;top:7px;left:250px;}
+.table_thumb {margin-left:0px;cursor:pointer;}
+.table_thumb div {font:italic 11px Helvetica,Arial,Sans-Serif;clear:left;}
+
+/*** LOGIN ***/
+#loginFondo {position:relative;top:0px;left:0px;width:100%;height:100%;background:url(/bindppb/images/default/bindppb_watermark2.jpg);}
+#login {
+	margin-top:30px;
+	float:left;
+	margin-left:50px;
+	font:bold 15pt arial;
+	color: black;
+}
+
+#loginBoxSombra {
+	width:350px; 
+	height:206px; 
+	padding:10px;
+	position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -100px;
+	margin-left:-175px;
+	background-color: #e0e0e0;
+}
+
+#loginBox {
+width: 350px;
+height: 206px;
+margin: auto;
+background: url(/bindppb/images/default/login_bg_mpf.jpg) repeat-x;
+color: #1E3833;
+}
+
+div#loginbox input[type="text"],div#loginbox input[type="password"] { width:175px; font:bold 20px Helvetica,Arial,sans-serif; }
+	
+#loginLogo {float:left; width:80px; height:206px; background:#444444;text-align:center}
+#loginPayload {float: left; width:260px;padding-left:10px}
+
+#appmenu {
+	width:100%-30px;
+	overflow:visible;
+	height:33px;
+	background:#2190C3;
+	padding-left:40px;
+	position:relative;
+	top:0px;
+	left:0px;
+	z-index:100}
+#home {
+	position: absolute;
+	top: 4px;
+	left: 6px;
+	cursor: pointer;
+	background: white;
+	height: 10px;
+	width: 10px;
+	padding: 5px;
+	z-index:101;}
+	
+#ui-datepicker-div {display:none;}
+#uploadForm {height:130px;}
+
+#payload{
+	margin:auto;
+	width:984px;
+	text-align:left;
+	-webkit-box-shadow: 0 0 10px rgb(0,0,0);  
+	-moz-box-shadow: 0 0 10px rgb(0,0,0);  
+	box-shadow: 0 0 10px rgb(0,0,0);
+}
+
+#captcha_in {margin-left: 133px;
+margin-top: 10px;}
+

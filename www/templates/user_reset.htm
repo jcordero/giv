@@ -1,0 +1,50 @@
+<html xmlns:com="http://www.commsys.com.ar">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="content-language" content="es" />
+    <title><com:title/></title>
+    <com:security/>
+    <com:jsincludes/>
+    <link href="/var/commsys.css" media="screen,print" type="text/css" rel="stylesheet" />
+    <style>
+     #alert {position:absolute;top:200px;left:630px;width:450px;height:150px;background:#d0d0d0;z-index:50;    	
+    -webkit-border-bottom-left-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	font:12pt Helvetica,Arial,Sans-Serif;
+    }
+    #alert_image {position:absolute;top:5px;left:5px;}
+    #alert_msg {position:absolute;top:5px;left:100px;}
+    
+    </style>
+</head>
+<body onLoad="onPageLoad()" class="homepage">
+	<div id="payload">
+                <div id="head">
+                	<div id="logo"><a href="/index.php"></a></div>
+                    <com:homepage.comp.who_bind/>
+                    <div id="appmenu"></div>
+                </div>
+            <div id="page_title"><com:title/></div>
+			<div id="alert">
+				<div id="alert_image"><img src="/images/default/dialog-warning.png"></div>
+				<div id="alert_msg">
+					<b>REINICIO DE CLAVE:</b><br>
+					Si continua el proceso de este formulario se reiniciará la clave del usuario.<br>
+					Por favor confirme que sea el usuario correcto y que sea la operación que desea realizar<br>
+					
+					El usuario recibirá un correo electrónico con su nueva clave.    	
+				</div>
+			</div>			
+            <com:errormsg/>
+            <com:maincontent/>
+    </div>
+    <div id="footer">
+        <div id="versionNumber"><com:homepage.comp.soft_version/></div>
+    </div>
+</body>
+
+</html>
+

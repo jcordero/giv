@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:com>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="content-language" content="es" />
+        <title><com:title/></title>
+    <com:security/>
+    <com:jsincludes/>
+    <link href="/var/commsys.css" media="screen,print" type="text/css" rel="stylesheet" />
+</head>
+<body onLoad="onPageLoad()" class="homepage">
+		<div id="payload">
+                <div id="head">
+                	<div id="logo"><a href="/index.php"></a></div>
+                    <com:homepage.comp.who_bind/>
+                    <div id="appmenu"></div>
+                </div>
+        <div id="page_title"><com:title/></div>
+            <com:errormsg/>
+            <com:maincontent/>
+        </div>
+    <div id="footer">
+        <div id="versionNumber"><com:homepage.comp.soft_version/></div>
+    </div>
+</body>
+
+</html>
+

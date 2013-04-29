@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html">
+	<style>
+body {text-align:center;background:#FFFFFF;padding:0px;margin:10px;}
+#payload {margin:auto;width:631px;text-align:left;background:#ffffff;border:solid 5px #b32d38;font:22px Arial,Helvetica,Sans-Serif;}
+#logo {margin-left:0px;overflow:hidden;background:#caced1;}
+#logo img {margin-top:-13px;}	
+#mensaje {margin-top:10px;padding:20px;}
+#links {margin:0px;font:italic 12px Helvetica,Arial,Sans-Serif}
+	</style>
+</head>
+<body>
+	<div id='payload'>
+		<div id='logo'><img src="http://localhost/images/default/TopLogo.jpg"></div>
+		<div id='mensaje' xmlns:com="http://www.commsys.com.ar">
+			Estimado <com:use_name/><br>
+			<br>
+			A través de la página de Banco Industrial hemos recibido una solicitud de reinicio de clave. Si usted no ha solicitado el reinicio, ignore este mensaje.<br>
+			<br>
+			Si desea reiniciar su clave, deberá hacer click sobre el siguiente enlace dentro de las 24 horas de haber recibido este mensaje.
+			<br><br>
+			<a href="http://bindppc/modules/security/pass_reset_mail.php?spr_token=<com:spr_token/>">Haga click aqui para reiniciar su clave</a>
+		</div>
+	</div>	
+	<div id='links'>
+		Muchas gracias, Banco Industrial
+	</div>
+</body>
+</html>
