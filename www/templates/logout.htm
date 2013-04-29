@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:com>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+		<meta http-equiv="content-language" content="es" />
+		<title>Pago a Proveedores</title>
+		<com:security/>
+		<com:jsincludes/>
+		<link href="/var/commsys.css" media="screen,print" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="/common/jquery/jquery-1.6.1.min.js"></script>
+    <link href="/common/jquery/themes/ui-lightness/ui.all.css" media="screen,print" type="text/css" rel="stylesheet" />
+   <style>
+   	.lost {width:150px;margin:auto;}
+   	.lost a, .lost a:link, .lost a:visited {font:bold 10pt Helvetica,Arial;color:#999;text-decoration:none;}
+   	.renglon {text-align:center;margin-bottom:5px;}
+   	.renglon .c1 {height:40px;font:bold 16pt Helvetica,Arial;color:#cyan!important;}
+	.renglon .c2 {height:20px;font:12pt Helvetica,Arial;color:#666!important;}
+	.renglon .c3 {height:40px;font:12pt Helvetica,Arial;color:#003772n	!important;}
+   	#loginBox {margin:auto;width:914px;height:610px;}
+   	#loginBox #header {background: url(/images/login_bi.jpg); width:914px;margin-top:20px; height:285px;border:solid 2px #444;box-shadow: 4px 4px 10px #444;}
+   	#loginBox #ident {background: #f0f0f0; width:874px; height:165px;margin-top:20px;border:solid 2px #444;box-shadow: 4px 4px 10px #444;padding:20px;}
+   	#loginBox #ident form {width:320px;margin:auto;text-align:left;}
+   </style>			
+		<script type="text/javascript">
+			function iniciar()
+			{
+				setTimeout('irAHome()',15000);
+			}
+		</script>
+	</head>
+	<body onLoad="iniciar()"  class="inicio">
+    <div id="loginBox">
+    	<div id="header"></div>          
+       	<div id="ident">
+           		<div class="renglon"><div class="c1">Gracias por utilizar nuestro servicio</div></div>
+				<div class="renglon"><div class="c2">Ha finalizado su sesión de trabajo.</div></div>
+				<div class="renglon"><div class="c2">En un instante ser&aacute; enviado a la pagina de ingreso.</div></div>
+				<div class="renglon"><div class="c3">Ingresar ahora: 
+						<input type="image" 
+                    	src="/images/default/login-ingresar.gif" id="loginIngresarButton" 
+                    	onMouseOver="this.src='/images/default/login-ingresar-over.gif'" 
+                    	onMouseOut="this.src='/images/default/login-ingresar.gif'" onClick="irAHome()">
+				</div></div>	
+			</div>
+	</div>
+    <div id="watermark"></div>
+    <div id="loginVersionNumber">
+        <com:homepage.comp.soft_version/>
+    </div>
+		<script type="text/javascript">
+		$(document).ready(function() {
+			$("#loginBox").hide();
+			$("#loginBox").fadeIn("slow");
+		//	$("#loginBox").show("bounce",{distance:60,times:3},500);
+		});
+		</script>
+	</body>
+	
+</html>
