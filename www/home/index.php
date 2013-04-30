@@ -1,3 +1,3 @@
 <?php
-header("Location: /bindppb/index.php");
+header("Location: /giv/index.php");
 ?>
