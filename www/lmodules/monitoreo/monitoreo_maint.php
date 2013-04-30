@@ -36,7 +36,7 @@ class unico_gr extends cform_group {
         $this->getClass("cmonitoreo")->GetField("color")->SetDisplayValues(Array("Name"=>"color", "Label"=>"Color", "Size"=>50, "IsForDB"=>true, "Order"=>102, "IsMandatory"=>true, "Presentation"=>"TEXT", "IsNullable"=>false, "IsVisible"=>true, "Class"=>"cmonitoreo"));
         $this->getClass("cmonitoreo")->GetField("color_html")->SetDisplayValues(Array("Name"=>"color_html", "Label"=>"Color Hexa", "Size"=>50, "IsForDB"=>true, "Order"=>103, "Presentation"=>"TEXT", "IsNullable"=>false, "Class"=>"cmonitoreo"));
         $this->getClass("cmonitoreo")->GetField("monitoreos_semanales")->SetDisplayValues(Array("Name"=>"monitoreos_semanales", "Label"=>"Numero", "Type"=>"tinyint", "IsForDB"=>true, "Order"=>104, "IsMandatory"=>true, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "Class"=>"cmonitoreo"));
-        $this->getClass("cmonitoreo")->GetField("descripcion")->SetDisplayValues(Array("Name"=>"descripcion", "Label"=>"text", "Size"=>50, "IsForDB"=>true, "Order"=>105, "IsMandatory"=>true, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "Class"=>"cmonitoreo"));
+        $this->getClass("cmonitoreo")->GetField("descripcion")->SetDisplayValues(Array("Name"=>"descripcion", "Label"=>"Descripcion", "Size"=>50, "IsForDB"=>true, "Order"=>105, "IsMandatory"=>true, "Presentation"=>"TEXT", "IsNullable"=>false, "IsVisible"=>true, "Class"=>"cmonitoreo"));
     }
 }
 }

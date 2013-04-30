@@ -6,12 +6,12 @@
 </make>
 
 <make object="search_and_list"> 
-	<build out_file="monitoreo.php" classname="cmonitoreo" title="Nuevo Estado de Monitoreo">
+	<build out_file="monitoreo.php" classname="cmonitoreo" title="Estado de Monitoreo">
 		<field name="id_estado_de_monitoreo" label="Estado" presentation="TEXT" isvisible="false" />
-		<field name="color" label="Color" presentation="TEXT" ismandatory="true" />
+		<field name="color" label="Color" presentation="TEXT" />
 		<field name="color_html" label="Color Hexa" presentation="TEXT" isvisible="false" />
-		<field name="monitoreos_semanales" label="Numero" presentation="INT" ismandatory="true" />
-		<field name="descripcion" label="text" presentation="INT" ismandatory="true" />
+		<field name="monitoreos_semanales" label="Numero" presentation="INT" />
+		<field name="descripcion" label="Descripcion" presentation="TEXT"  />
 		<searchfield name="color" />
 		<searchfield name="color_html" />
 		<searchfield name="monitoreos_semanales" />
@@ -38,7 +38,7 @@
 		<field name="color" label="Color" presentation="TEXT" ismandatory="true" />
 		<field name="color_html" label="Color Hexa" presentation="TEXT" isvisible="false" />
 		<field name="monitoreos_semanales" label="Numero" presentation="INT" ismandatory="true" />
-		<field name="descripcion" label="text" presentation="INT" ismandatory="true" />
+		<field name="descripcion" label="Descripcion" presentation="TEXT" ismandatory="true" />
 	</build>
 </make>
 
@@ -48,9 +48,49 @@
 		<field name="color" label="Color" presentation="TEXT" ismandatory="true" />
 		<field name="color_html" label="Color Hexa" presentation="TEXT" isvisible="false" />
 		<field name="monitoreos_semanales" label="Numero" presentation="INT" ismandatory="true" />
-		<field name="descripcion" label="text" presentation="INT" ismandatory="true" />
+		<field name="descripcion" label="Descripcion" presentation="TEXT" ismandatory="true" />
 	</build>
 </make>
 
+<!-- 
+<make object="class"> 
+	<build out_file="cforzado.php" classname="cforzado" classlabel="forzado">
+		<parse in_file="monitoreo.sql" tablename="motivos_de_cierre_forzado" />
+	</build>
+</make>
 
+<make object="search_and_list"> 
+	<build out_file="forzado.php" classname="cforzado" title="Cierre forzado">
+		<field name="id_motivo_de_cierre_forzado" label="ID" presentation="TEXT" isvisible="false" />
+		<field name="motivo" label="Motivo" presentation="TEXT" ismandatory="true" />
+		<searchfield name="id_motivo_de_cierre_forzado" />
+		<searchfield name="motivo" />
+		<listfield name="id_motivo_de_cierre_forzado" />
+		<listfield name="motivo" />
+		<action label="ver" target="forzado_maint.php.php?OP=V" operation="V">
+			<sendfield classname="cforzado" name="id_motivo_de_cierre_forzado"/>
+		</action>
+		<action label="baja" target="forzado_maint_b.php?OP=M" operation="M">
+			<sendfield classname="cforzado" name="id_motivo_de_cierre_forzado"/>
+		</action>
+		<action label="modificacion" target="forzado_maint.php.php?OP=M" operation="M">
+			<sendfield classname="cforzado" name="id_motivo_de_cierre_forzado"/>
+		</action>
+	</build>
+</make>
+
+<make object="table_maint"> 
+	<build out_file="forzado_maint.php" classname="cforzado" title="Cierre forzado" next="forzado.php?last=1&amp;OP=L">
+		<field name="id_motivo_de_cierre_forzado" label="Motivo" presentation="SEQUENCE" isvisible="false" />
+		<field name="motivo" label="Motivo" presentation="TEXT" ismandatory="true" />
+	</build>
+</make>
+
+<make object="table_maint"> 
+	<build out_file="forzado_maint_b.php" classname="cforzado" title="Baja de Cierre Forzado" next="forzado.php?last=1&amp;OP=L">
+		<field name="id_motivo_de_cierre_forzado" label="Motivo" presentation="TEXT" isvisible="false" />
+		<field name="motivo" label="Motivo" presentation="TEXT" ismandatory="true" />
+	</build>
+</make>
+ -->
 </ayaxphpclass>

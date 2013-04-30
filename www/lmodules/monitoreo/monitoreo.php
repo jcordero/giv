@@ -10,7 +10,7 @@ include_once "cmonitoreo.php";
 class cmonitoreo_sl extends csearchandlist {
     function __construct() {
         parent::__construct();
-        $this->m_title = "Nuevo Estado de Monitoreo";
+        $this->m_title = "Estado de Monitoreo";
         $this->m_classname = "cmonitoreo_sl";
         $this->m_obj = new cmonitoreo();
         $this->m_page_name = "monitoreo.php";
@@ -37,10 +37,10 @@ class cmonitoreo_sl extends csearchandlist {
         //SetDisplayValues($attributes) 
 
     /* Campos de busqueda */
-        $this->m_obj->GetField("color")->SetDisplayValues(Array("Name"=>"color", "Label"=>"Color", "Size"=>50, "IsForDB"=>true, "Order"=>102, "IsMandatory"=>true, "Presentation"=>"TEXT", "IsNullable"=>false, "IsVisible"=>true));
+        $this->m_obj->GetField("color")->SetDisplayValues(Array("Name"=>"color", "Label"=>"Color", "Size"=>50, "IsForDB"=>true, "Order"=>102, "Presentation"=>"TEXT", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("color_html")->SetDisplayValues(Array("Name"=>"color_html", "Label"=>"Color Hexa", "Size"=>50, "IsForDB"=>true, "Order"=>103, "Presentation"=>"TEXT", "IsNullable"=>false, "IsVisible"=>true));
-        $this->m_obj->GetField("monitoreos_semanales")->SetDisplayValues(Array("Name"=>"monitoreos_semanales", "Label"=>"Numero", "Type"=>"tinyint", "IsForDB"=>true, "Order"=>104, "IsMandatory"=>true, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true));
-        $this->m_obj->GetField("descripcion")->SetDisplayValues(Array("Name"=>"descripcion", "Label"=>"text", "Size"=>50, "IsForDB"=>true, "Order"=>105, "IsMandatory"=>true, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true));
+        $this->m_obj->GetField("monitoreos_semanales")->SetDisplayValues(Array("Name"=>"monitoreos_semanales", "Label"=>"Numero", "Type"=>"tinyint", "IsForDB"=>true, "Order"=>104, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true));
+        $this->m_obj->GetField("descripcion")->SetDisplayValues(Array("Name"=>"descripcion", "Label"=>"Descripcion", "Size"=>50, "IsForDB"=>true, "Order"=>105, "Presentation"=>"TEXT", "IsNullable"=>false, "IsVisible"=>true));
     }
 
 }
@@ -59,7 +59,7 @@ class col102 extends ccolumn
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"color", "Label"=>"Color", "Size"=>50, "IsForDB"=>true, "Order"=>102, "IsMandatory"=>true, "Presentation"=>"TEXT", "IsNullable"=>false, "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"color", "Label"=>"Color", "Size"=>50, "IsForDB"=>true, "Order"=>102, "Presentation"=>"TEXT", "IsNullable"=>false, "IsVisible"=>true));
     }
 }
 
@@ -93,7 +93,7 @@ class col104 extends ccolumn
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"monitoreos_semanales", "Label"=>"Numero", "Type"=>"tinyint", "IsForDB"=>true, "Order"=>104, "IsMandatory"=>true, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"monitoreos_semanales", "Label"=>"Numero", "Type"=>"tinyint", "IsForDB"=>true, "Order"=>104, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true));
     }
 }
 
@@ -102,7 +102,7 @@ class col105 extends ccolumn
     function __construct($parent)
     {
         parent::__construct($parent);
-        $this->m_title = 'text';
+        $this->m_title = 'Descripcion';
         $this->m_order = '105';
         $this->m_isvisible = true;
         $this->m_align = 'left';
@@ -110,7 +110,7 @@ class col105 extends ccolumn
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"descripcion", "Label"=>"text", "Size"=>50, "IsForDB"=>true, "Order"=>105, "IsMandatory"=>true, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"descripcion", "Label"=>"Descripcion", "Size"=>50, "IsForDB"=>true, "Order"=>105, "Presentation"=>"TEXT", "IsNullable"=>false, "IsVisible"=>true));
     }
 }
 
@@ -119,7 +119,7 @@ class cmonitoreo_table extends ctable
     function __construct($parent)
     {
         parent::__construct($parent);
-        $this->m_title = 'Nuevo Estado de Monitoreo'; //Titulo de la tabla
+        $this->m_title = 'Estado de Monitoreo'; //Titulo de la tabla
         $this->m_classname = 'cmonitoreo'; //Clase contenedora de datos
         $this->m_total = false; //Incluir ultima fila de totales
 
