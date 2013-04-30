@@ -9,9 +9,10 @@ class CDH_ESTADO_MONITOREO  extends CDH_SELECT
 	    global $sess, $primary_db;
 		parent::__construct($parent);
 		$this->m_parent->m_search="fix";
-		$this->m_fill_sql = "SELECT descripcion,color_html FROM estados_de_monitoreos where color='<val>'";
-		$this->m_helper_sql = "SELECT descripcion,color_html FROM estados_de_monitoreos where color='<val>'";
+		$this->m_fill_sql = "SELECT descripcion FROM estados_de_monitoreos where id_estado_de_monitoreo='<val>'";
+		$this->m_helper_sql = "SELECT descripcion FROM estados_de_monitoreos where (id_estado_de_monitoreo='<val>'";
 	}
+	
 	function getJsIncludes()
 	{	
 		/*

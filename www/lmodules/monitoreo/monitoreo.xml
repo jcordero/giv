@@ -34,7 +34,7 @@
 
 <make object="table_maint"> 
 	<build out_file="monitoreo_maint.php" classname="cmonitoreo" title="Monitoreo" next="monitoreo.php?last=1&amp;OP=L">
-		<field name="id_estado_de_monitoreo" label="Estado" presentation="TEXT" isvisible="false" />
+		<field name="id_estado_de_monitoreo" label="Estado" presentation="SEQUENCE" isvisible="false" />
 		<field name="color" label="Color" presentation="TEXT" ismandatory="true" />
 		<field name="color_html" label="Color Hexa" presentation="TEXT" isvisible="false" />
 		<field name="monitoreos_semanales" label="Numero" presentation="INT" ismandatory="true" />

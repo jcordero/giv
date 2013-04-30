@@ -32,7 +32,7 @@ class unico_gr extends cform_group {
 
     public function InitializeInstance() {
         //SetDisplayValues($attributes) 
-        $this->getClass("cmonitoreo")->GetField("id_estado_de_monitoreo")->SetDisplayValues(Array("Name"=>"id_estado_de_monitoreo", "Label"=>"Estado", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"TEXT", "IsNullable"=>false, "Class"=>"cmonitoreo"));
+        $this->getClass("cmonitoreo")->GetField("id_estado_de_monitoreo")->SetDisplayValues(Array("Name"=>"id_estado_de_monitoreo", "Label"=>"Estado", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"SEQUENCE", "IsNullable"=>false, "Class"=>"cmonitoreo"));
         $this->getClass("cmonitoreo")->GetField("color")->SetDisplayValues(Array("Name"=>"color", "Label"=>"Color", "Size"=>50, "IsForDB"=>true, "Order"=>102, "IsMandatory"=>true, "Presentation"=>"TEXT", "IsNullable"=>false, "IsVisible"=>true, "Class"=>"cmonitoreo"));
         $this->getClass("cmonitoreo")->GetField("color_html")->SetDisplayValues(Array("Name"=>"color_html", "Label"=>"Color Hexa", "Size"=>50, "IsForDB"=>true, "Order"=>103, "Presentation"=>"TEXT", "IsNullable"=>false, "Class"=>"cmonitoreo"));
         $this->getClass("cmonitoreo")->GetField("monitoreos_semanales")->SetDisplayValues(Array("Name"=>"monitoreos_semanales", "Label"=>"Numero", "Type"=>"tinyint", "IsForDB"=>true, "Order"=>104, "IsMandatory"=>true, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "Class"=>"cmonitoreo"));
