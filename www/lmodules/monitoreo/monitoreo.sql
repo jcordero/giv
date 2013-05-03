@@ -10,6 +10,18 @@ CREATE TABLE estados_de_monitoreos (
 	)
 )
 
+CREATE TABLE items_a_monitorear (
+	id_item_a_monitorear int(10) unsigned NOT NULL,
+	titulo varchar(50) NOT NULL,
+	nivel_de_determinacion int(3) unsigned NOT NULL,
+	orden int(3) unsigned  NOT NULL,
+	constraint pk_estados_de_monitoreo PRIMARY KEY clustered
+	(
+		id_item_a_monitorear
+	)
+)
+
+
 CREATE TABLE motivos_de_cierre_forzado (
 	id_motivo_de_cierre_forzado int(10) NOT NULL DEFAULT '0',
 	motivo varchar(100) DEFAULT NULL,

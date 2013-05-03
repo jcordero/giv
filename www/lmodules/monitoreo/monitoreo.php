@@ -27,9 +27,9 @@ class cmonitoreo_sl extends csearchandlist {
 
         $this->m_search_fields = array('color','color_html','monitoreos_semanales','descripcion');
 
-        $this->addAction(5,"monitoreo_maint.php.php?OP=V",array(new caction_param('id_estado_de_monitoreo')),"","ver","V","","");
+        $this->addAction(5,"monitoreo_maint.php?OP=V",array(new caction_param('id_estado_de_monitoreo')),"","ver","V","","");
         $this->addAction(5,"monitoreo_maint_b.php?OP=M",array(new caction_param('id_estado_de_monitoreo')),"","baja","M","","");
-        $this->addAction(5,"monitoreo_maint.php.php?OP=M",array(new caction_param('id_estado_de_monitoreo')),"","modificacion","M","","");
+        $this->addAction(5,"monitoreo_maint.php?OP=M",array(new caction_param('id_estado_de_monitoreo')),"","modificacion","M","","");
     }
 
     //Inicializo la parte de busqueda

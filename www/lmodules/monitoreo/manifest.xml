@@ -1,8 +1,11 @@
 <module name="Monitoreo" version="1.0" release="4/10/2011">
 	<menu language="spa">
 		<menuitem name="Parametros" order="1" pda="true" >
-    		<menuitem name="Nuevo Estado de Monitoreo" action="/lmodules/monitoreo/monitoreo_maint.php?OP=M" tooltip="Ingresar nuevo parametro" order="1" pda="true"/>
+    		<menuitem name="Nuevo Estado de Monitoreo" action="/lmodules/monitoreo/monitoreo_maint.php?OP=N" tooltip="Ingresar nuevo parametro" order="1" pda="true"/>
     		<menuitem name="Listado de Estados de Monitoreo" action="/lmodules/monitoreo/monitoreo.php?OP=L" tooltip="Listar y consultar parametros" order="2" pda="true"/>
-    	</menuitem>
+                <menuitem name="Nuevo Item de Monitoreo" action="/lmodules/monitoreo/monitoreo_item_maint.php?OP=N" tooltip="Ingresar nuevo item a monitorear" order="3" pda="true"/>
+    		<menuitem name="Listado de Items de Monitoreo" action="/lmodules/monitoreo/monitoreo_item.php?OP=L" tooltip="Listar y consultar item a monitorear" order="4" pda="true"/>
+   
+                </menuitem>
 	</menu>
 </module>

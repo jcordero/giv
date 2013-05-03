@@ -20,13 +20,13 @@
 		<listfield name="color_html" />
 		<listfield name="monitoreos_semanales" />
 		<listfield name="descripcion" />
-		<action label="ver" target="monitoreo_maint.php.php?OP=V" operation="V">
+		<action label="ver" target="monitoreo_maint.php?OP=V" operation="V">
 			<sendfield classname="cmonitoreo" name="id_estado_de_monitoreo"/>
 		</action>
 		<action label="baja" target="monitoreo_maint_b.php?OP=M" operation="M">
 			<sendfield classname="cmonitoreo" name="id_estado_de_monitoreo"/>
 		</action>
-		<action label="modificacion" target="monitoreo_maint.php.php?OP=M" operation="M">
+		<action label="modificacion" target="monitoreo_maint.php?OP=M" operation="M">
 			<sendfield classname="cmonitoreo" name="id_estado_de_monitoreo"/>
 		</action>
 	</build>
@@ -49,6 +49,45 @@
 		<field name="color_html" label="Color Hexa" presentation="TEXT" isvisible="false" />
 		<field name="monitoreos_semanales" label="Numero" presentation="INT" ismandatory="true" />
 		<field name="descripcion" label="Descripcion" presentation="TEXT" ismandatory="true" />
+	</build>
+</make>
+
+<make object="class"> 
+	<build out_file="cmonitoreo_item.php" classname="cmonitoreo_item" classlabel="monitoreo">
+		<parse in_file="monitoreo.sql" tablename="items_a_monitorear" />
+	</build>
+</make>
+
+<make object="search_and_list"> 
+	<build out_file="monitoreo_item.php" classname="cmonitoreo_item" title="Item a monitoreaer">
+		<field name="id_item_a_monitorear" presentation="INT" isvisible="false" />
+		<field name="titulo" label="titulo"  presentation="TEXT" />
+		<field name="nivel_de_determinacion" label="Nivel" presentation="INT"  />
+                <field name="orden" label="orden" presentation="INT" />
+		<searchfield name="titulo" />
+		<searchfield name="nivel_de_determinacion" />
+		<searchfield name="orden" />
+		<listfield name="titulo" />
+		<listfield name="nivel_de_determinacion" />
+		<listfield name="orden" />
+		<action label="ver" target="monitoreo_item_maint.php?OP=V" operation="V">
+			<sendfield classname="cmonitoreo_item" name="id_item_a_monitorear"/>
+		</action>
+		<action label="baja" target="monitoreo_item_maint_b.php?OP=M" operation="M">
+			<sendfield classname="cmonitoreo_item" name="id_item_a_monitorear"/>
+		</action>
+		<action label="modificacion" target="monitoreo_item_maint.php?OP=M" operation="M">
+			<sendfield classname="cmonitoreo_item" name="id_item_a_monitorear"/>
+		</action>
+	</build>
+</make>
+
+<make object="table_maint"> 
+	<build out_file="monitoreo_item_maint.php" classname="cmonitoreo_item" title="Monitoreo" next="monitoreo_item.php?last=1&amp;OP=L">
+		<field name="id_item_a_monitorear"  presentation="INT" isvisible="false" />
+		<field name="titulo" label="titulo"  presentation="TEXT" ismandatory="true"/>
+		<field name="nivel_de_determinacion" label="Nivel" presentation="INT"  />
+                <field name="orden" label="orden" presentation="INT" />
 	</build>
 </make>
 
