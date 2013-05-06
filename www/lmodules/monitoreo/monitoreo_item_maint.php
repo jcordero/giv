@@ -32,7 +32,7 @@ class unico_gr extends cform_group {
     public function InitializeInstance() {
         //SetDisplayValues($attributes) 
         $this->getClass("cmonitoreo_item")->GetField("id_item_a_monitorear")->SetDisplayValues(Array("Name"=>"id_item_a_monitorear", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "Class"=>"cmonitoreo_item"));
-        $this->getClass("cmonitoreo_item")->GetField("titulo")->SetDisplayValues(Array("Name"=>"titulo", "Label"=>"titulo", "Size"=>50, "IsForDB"=>true, "Order"=>102, "IsMandatory"=>true, "Presentation"=>"TEXT", "IsNullable"=>false, "IsVisible"=>true, "Class"=>"cmonitoreo_item"));
+        $this->getClass("cmonitoreo_item")->GetField("titulo")->SetDisplayValues(Array("Name"=>"titulo", "Label"=>"titulo", "Size"=>50, "IsForDB"=>true, "Order"=>102, "Presentation"=>"TEXT", "IsNullable"=>false, "IsVisible"=>true, "Class"=>"cmonitoreo_item"));
         $this->getClass("cmonitoreo_item")->GetField("nivel_de_determinacion")->SetDisplayValues(Array("Name"=>"nivel_de_determinacion", "Label"=>"Nivel", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "Class"=>"cmonitoreo_item"));
         $this->getClass("cmonitoreo_item")->GetField("orden")->SetDisplayValues(Array("Name"=>"orden", "Label"=>"orden", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "Class"=>"cmonitoreo_item"));
     }

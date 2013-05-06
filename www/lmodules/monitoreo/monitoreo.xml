@@ -85,7 +85,7 @@
 <make object="table_maint"> 
 	<build out_file="monitoreo_item_maint.php" classname="cmonitoreo_item" title="Monitoreo" next="monitoreo_item.php?last=1&amp;OP=L">
 		<field name="id_item_a_monitorear"  presentation="INT" isvisible="false" />
-		<field name="titulo" label="titulo"  presentation="TEXT" ismandatory="true"/>
+		<field name="titulo" label="titulo"  presentation="TEXT" ismandatory="false"/>
 		<field name="nivel_de_determinacion" label="Nivel" presentation="INT"  />
                 <field name="orden" label="orden" presentation="INT" />
 	</build>

@@ -15,7 +15,7 @@ CREATE TABLE items_a_monitorear (
 	titulo varchar(50) NOT NULL,
 	nivel_de_determinacion int(3) unsigned NOT NULL,
 	orden int(3) unsigned  NOT NULL,
-	constraint pk_estados_de_monitoreo PRIMARY KEY clustered
+	constraint pk_item_de_monitoreo PRIMARY KEY clustered
 	(
 		id_item_a_monitorear
 	)
