@@ -65,7 +65,7 @@
 		<field name="id_item_a_monitorear" presentation="INT" isvisible="false" />
 		<field name="titulo" label="titulo"  presentation="TEXT" />
 		<field name="nivel_de_determinacion" label="Nivel" presentation="INT"  />
-                <field name="orden" label="orden" presentation="INT" />
+        <field name="orden" label="orden" presentation="INT" />
 		<searchfield name="titulo" />
 		<searchfield name="nivel_de_determinacion" />
 		<searchfield name="orden" />
@@ -89,7 +89,7 @@
 		<field name="id_item_a_monitorear"  presentation="INT" isvisible="false" />
 		<field name="titulo" label="titulo"  presentation="TEXT" ismandatory="false"/>
 		<field name="nivel_de_determinacion" label="Nivel" presentation="INT"  />
-                <field name="orden" label="orden" presentation="INT" />
+        <field name="orden" label="orden" presentation="INT" />
 	</build>
 </make>
 
