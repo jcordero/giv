@@ -17,7 +17,7 @@
 --
 -- Table structure for table `avi_entrantes`
 --
-use db_monitoreo_gcba;
+use db_giv;
 
 DROP TABLE IF EXISTS `avi_entrantes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
