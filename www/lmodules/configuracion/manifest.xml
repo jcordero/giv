@@ -1,0 +1,35 @@
+<module name="configuracion" version="1.0" release="30/06/2013">
+	<right name="configuracion.menu" note="Permiso para menu Items"/>
+	<right name="configuracion.items" note="Permiso para consultar Items de Monitoreo"/>
+	<right name="configuracion.items.nuevo" note="Permiso para ingresar un nuevo Item"/>
+	<right name="configuracion.items.actualizar" note="Permiso para actualizar un Item"/>
+	<right name="configuracion.cli_calls" note="Permiso para consultar Tipo de Llamado"/>
+	<right name="configuracion.cli_calls.nuevo" note="Permiso para ingresar un nuevo Tipo de Llamado"/>
+	<right name="configuracion.cli_calls.actualizar" note="Permiso para actualizar un Tipo de Llamado"/>
+	<right name="configuracion.crit_status" note="Permiso para consultar Estado de Operador"/>
+	<right name="configuracion.crit_status.nuevo" note="Permiso para ingresar un nuevo Estado de Operador"/>
+	<right name="configuracion.crit_status.actualizar" note="Permiso para actualizar un Estado de Operador"/>	
+	<right name="configuracion.criterios" note="Permiso para consultar criterios "/>
+	<right name="configuracion.criterios.nuevo" note="Permiso para ingresar un nuevo criterio"/>
+	<right name="configuracion.criterios.actualizar" note="Permiso para actualizar un criterio"/>
+	<menu language="spa">
+		<menuitem name="Configuracion" order="2" right="configuracion.menu" pda="true" >
+				<menuitem name="Items de Monitoreo" order="1" right="configuracion.items" pda="true" >
+					<menuitem name="Listado de Items de Monitoreo" right="configuracion.items" action="/lmodules/configuracion/items.php?OP=L" tooltip="Listar y consultar items a monitorear" order="1" pda="true"/>
+					<menuitem name="Nuevo Item de Monitoreo" right="configuracion.items.nuevo" action="/lmodules/configuracion/items_maint.php?OP=N" tooltip="Ingresar nuevo item a monitorear" order="2" pda="true"/>
+				</menuitem>
+				<menuitem name="Tipos de Llamados" order="2" right="configuracion.cli_calls" pda="true" >
+					<menuitem name="Listado de Tipos de Llamados" right="configuracion.cli_calls" action="/lmodules/configuracion/cli_calls.php?OP=L" tooltip="Listar y consultar Tipos de Llamados" order="1" pda="true"/>
+					<menuitem name="Nuevo Tipo de Llamado" right="configuracion.cli_calls.nuevo" action="/lmodules/configuracion/cli_calls_maint.php?OP=N" tooltip="Ingresar nuevo Tipos de Llamados" order="2" pda="true"/>
+				</menuitem>
+				<menuitem name="Estados de Operadores" order="3" right="configuracion.crit_status" pda="true" >
+					<menuitem name="Listado de Estados de Operadores" right="configuracion.crit_status" action="/lmodules/configuracion/crit_status.php?OP=L" tooltip="Listar y consultar Estados de Operadores" order="1" pda="true"/>
+					<menuitem name="Nuevo Estado de Operadores" right="configuracion.crit_status.nuevo" action="/lmodules/configuracion/crit_status_maint.php?OP=N" tooltip="Ingresar nuevo Estado de Operadores" order="2" pda="true"/>
+				</menuitem>
+				<menuitem name="Criterios" order="4" right="configuracion.criterios" pda="true" >
+					<menuitem name="Listado de criterios" right="configuracion.criterios" action="/lmodules/configuracion/criterios.php?OP=L" tooltip="Listar y consultar Criterios" order="1" pda="true"/>
+					<menuitem name="Nuevo criterios " right="configuracion.criterios.nuevo" action="/lmodules/configuracion/criterios_maint.php?OP=N" tooltip="Ingresar nuevo Criterio" order="2" pda="true"/>
+				</menuitem>			
+		</menuitem>
+	</menu>	
+</module>

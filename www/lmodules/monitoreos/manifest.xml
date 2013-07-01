@@ -1,0 +1,14 @@
+<module name="monitoreos" version="1.0" release="30/06/2013">
+	<right name="monitoreos.menu" note="Permiso para menu Items"/>
+	<right name="monitoreos.cerrar_circuito" note="Permiso para Cerrar Circuito"/>	
+	<right name="monitoreos.iniciar_circuito" note="Permiso para Iniciar Circuito"/>
+	<right name="monitoreos.supervisar" note="Permiso para ingresar un nuevo Tipo de Llamado"/>
+	<menu language="spa">
+		<menuitem name="monitoreos" order="4" right="monitoreos.menu" pda="true" >
+			<menuitem name="Cerrar Circuito de Monitoreo" right="monitoreos.cerrar_circuito" action="/lmodules/monitoreos/mon_cerrar.php?OP=X" tooltip="Cerrar Circuito de Monitoreo" order="1" pda="true"/>
+			<menuitem name="Iniciar Circuito de Monitoreo" right="monitoreos.iniciar_circuito" action="/lmodules/monitoreos/mon_cerrar.php?OP=X" tooltip="Iniciar Circuito de Monitoreo" order="2" pda="true"/>
+			<menuitem name="Listado de Monitoreos"  action="/lmodules/monitoreos/monitoreos.php?OP=L" tooltip="Listar y consultar Monitoreos" order="3" pda="true"/>
+			<menuitem name="Supervisar Monitoreos" right="monitoreos.supervisar" action="/lmodules/monitoreos/monitoreos_superv.php?OP=L" tooltip="Listar Monitoreos Pendientes de Supervisión" order="4" pda="true"/>
+		</menuitem>
+	</menu>	
+</module>

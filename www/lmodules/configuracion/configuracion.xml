@@ -1,0 +1,164 @@
+<ayaxphpclass>
+<!-- ITEMS -->
+<make object="class"> 
+	<build out_file="citems.php" classname="citems" classlabel="Items">
+		<parse in_file="configuracion.sql" tablename="items" />	
+		<field name="it_code" sequence="items"/>	
+		<method ObjFactoryQuerySuffix=" ORDER BY it_order"/>		
+		<field name="it_importance" total="true" />
+	</build>
+</make>
+<make object="search_and_list"> 
+	<build out_file="items.php" classname="citems" title="Listado de Items a Monitorear">
+			<field name="it_code" label="Item Nro" presentation="INT" />
+			<field name="it_name" label="Nombre del Item" presentation="TEXT" />
+			<field name="it_order" label="Orden" presentation="INT" />
+			<field name="it_importance" label="Importancia" presentation="INT" total="true" />
+			<field name="it_status" label="Estado" presentation="ESTADO" />			
+			<searchfield name="it_code"/>
+			<searchfield name="it_name"/>
+			<searchfield name="it_order"/>
+			<searchfield name="it_importance"/>
+			<searchfield name="it_status"/>
+			<listfield name="it_code"/>
+			<listfield name="it_name"/>
+			<listfield name="it_order"/>
+			<listfield name="it_importance" total="true" />
+			<listfield name="it_status"/>
+			<action label="ver" target="items_maint.php?OP=V" operation="V" >
+				<sendfield classname="citems" name="it_code"/>
+			</action>
+			<action label="modificar" right="configuracion.items.actualizar" target="items_maint.php?OP=M" operation="M"  >
+				<sendfield classname="citems" name="it_code"/>
+			</action>						
+	</build>
+</make>
+<!-- ABM DE ITEMS -->
+<make object="table_maint"> 
+	<build out_file="items_maint.php" classname="citems" title="Items a Monitorear" next="items.php?last=1&amp;OP=L">
+		<field name="it_code" label="Item Nro"  presentation="SEQUENCE" classparams="items" readonly="true"/>	
+		<field name="it_name" label="Nombre del Item" presentation="TEXT" ismandatory="true"/>
+		<field name="it_order" label="Orden" presentation="INT" ismandatory="true" />
+		<field name="it_importance" label="Importancia" presentation="INT" ismandatory="true" />	
+		<field name="it_status" label="Estado"  presentation="ESTADO"  initialvalue="ACTIVO" ismandatory="true" />		
+	</build>
+</make>
+
+
+<!-- cli_calls -->
+<make object="class"> 
+	<build out_file="ccli_calls.php" classname="ccli_calls" classlabel="Tipos de Llamados">
+		<parse in_file="configuracion.sql" tablename="cli_calls" />	
+		<field name="cli_call_code" sequence="cli_calls"/>	
+	</build>
+</make>
+<make object="search_and_list"> 
+	<build out_file="cli_calls.php" classname="ccli_calls" title="Listado de Tipos de Llamados">
+			<field name="cli_call_code" label="Nro" presentation="INT" />
+			<field name="cli_call_name" label="Tipo de Llamado" presentation="TEXT" />
+			<field name="cli_call_status" label="Estado" presentation="ESTADO" />			
+			<searchfield name="cli_call_code"/>
+			<searchfield name="cli_call_name"/>
+			<searchfield name="cli_call_status"/>
+			<listfield name="cli_call_code"/>
+			<listfield name="cli_call_name"/>
+			<listfield name="cli_call_status"/>
+			<action label="ver" target="cli_calls_maint.php?OP=V" operation="V" >
+				<sendfield classname="ccli_calls" name="cli_call_code"/>
+			</action>
+			<action label="modificar" right="configuracion.cli_calls.actualizar" target="cli_calls_maint.php?OP=M" operation="M"  >
+				<sendfield classname="ccli_calls" name="cli_call_code"/>
+			</action>						
+	</build>
+</make>
+<!-- ABM DE cli_calls -->
+<make object="table_maint"> 
+	<build out_file="cli_calls_maint.php" classname="ccli_calls" title="Tipos de Llamados a Monitorear" next="cli_calls.php?last=1&amp;OP=L">
+		<field name="cli_call_code" label="Nro"  presentation="SEQUENCE" classparams="cli_calls" readonly="true"/>	
+		<field name="cli_call_name" label="Tipo de Llamado" presentation="TEXT" ismandatory="true"/>
+		<field name="cli_call_status" label="Estado"  presentation="ESTADO"  initialvalue="ACTIVO" ismandatory="true" />		
+	</build>
+</make>
+
+<!-- crit_status -->
+<make object="class"> 
+	<build out_file="ccrit_status.php" classname="ccrit_status" classlabel="Estados de Operador">
+		<parse in_file="configuracion.sql" tablename="crit_status" />	
+		<field name="crit_status" sequence="crit_status"/>	
+	</build>
+</make>
+<make object="search_and_list"> 
+	<build out_file="crit_status.php" classname="ccrit_status" title="Listado de Estados del Operador">
+			<field name="crit_status" label="Nro" presentation="INT" />
+			<field name="crit_status_name" label="Nombre" presentation="TEXT" />
+			<field name="crit_status_color" label="Color" presentation="TEXT" />	
+			<field name="crit_status_color_html" label="Color Html" presentation="TEXT" />	
+			<field name="crit_status_mon_sem" label="Monitoreos por Semana" presentation="INT" />				
+			<searchfield name="crit_status"/>
+			<searchfield name="crit_status_name"/>
+			<listfield name="crit_status"/>
+			<listfield name="crit_status_name"/>
+			<listfield name="crit_status_color"/>
+			<listfield name="crit_status_color_html"/>
+			<listfield name="crit_status_mon_sem"/>
+			
+			<action label="modificar" right="configuracion.crit_status.actualizar" target="crit_status_maint.php?OP=M" operation="M"  >
+				<sendfield classname="ccrit_status" name="crit_status"/>
+			</action>						
+			<action label="eliminar" right="configuracion.crit_status.actualizar" target="crit_status_maint.php?OP=B" operation="B"  >
+				<sendfield classname="ccrit_status" name="crit_status"/>
+			</action>						
+
+	</build>
+</make>
+<make object="table_maint"> 
+	<build out_file="crit_status_maint.php" classname="ccrit_status" title="Estados de Operador a Monitorear" next="crit_status.php?last=1&amp;OP=L">
+		<field name="crit_status" label="Nro"  presentation="SEQUENCE" classparams="crit_status" readonly="true"/>	
+		<field name="crit_status_name" label="Tipo de Llamado" presentation="TEXT" ismandatory="true"/>
+		<field name="crit_status_color" label="Color" presentation="TEXT" ismandatory="true"/>
+		<field name="crit_status_color_html" label="Color Html" presentation="TEXT" ismandatory="true"/>
+		<field name="crit_status_mon_sem" label="Monitoreos por Semana" presentation="INT" ismandatory="true"/>		
+	</build>
+</make>
+
+<!-- criterios -->
+<make object="class"> 
+	<build out_file="ccriterios.php" classname="ccriterios" classlabel="Criterios">
+		<parse in_file="configuracion.sql" tablename="criterios" />	
+		<field name="crit_code" sequence="criterios"/>	
+	</build>
+</make>
+<make object="search_and_list"> 
+	<build out_file="criterios.php" classname="ccriterios" title="Listado de Criterios">
+			<field name="crit_code" label="Nro" presentation="INT" />
+			<field name="crit_oper_status_ini" label="Estado Inicial" presentation="CRIT_STATUS" />
+			<field name="crit_cant_mal_desde" label="Mon. erróneos Desde" presentation="INT" />		
+			<field name="crit_cant_mal_hasta" label="Mon. erróneos Hasta" presentation="INT" />				
+			<field name="crit_oper_status_fin" label="Estado Final" presentation="CRIT_STATUS" />	
+			<field name="crit_cant_monitoreos" label="Monitoreos a Realizar" presentation="INT" />	
+			<searchfield name="crit_code" isvisible="false"/>
+			<searchfield name="crit_oper_status_ini"/>
+			<searchfield name="crit_oper_status_fin"/>			
+			<listfield name="crit_code" isvisible="false"/>
+			<listfield name="crit_oper_status_ini"/>
+			<listfield name="crit_cant_mal_desde"/>
+			<listfield name="crit_cant_mal_hasta"/>
+			<listfield name="crit_oper_status_fin"/>
+			<listfield name="crit_cant_monitoreos"/>			
+			<action label="modificar" right="configuracion.criterios.actualizar" target="criterios_maint.php?OP=M" operation="M"  >
+				<sendfield classname="ccriterios" name="crit_code"/>
+			</action>						
+	</build>
+</make>
+<make object="table_maint"> 
+	<build out_file="criterios_maint.php" classname="ccriterios" title="Criterios a Monitorear" next="criterios.php?last=1&amp;OP=L">
+		<field name="crit_code" label="Nro"  presentation="SEQUENCE" classparams="criterios" readonly="true"/>	
+			<field name="crit_oper_status_ini" label="Estado Inicial" presentation="CRIT_STATUS" />
+			<field name="crit_cant_mal_desde" label="Mon. erróneos Desde" presentation="INT" />		
+			<field name="crit_cant_mal_hasta" label="Mon. erróneos Hasta" presentation="INT" />				
+			<field name="crit_oper_status_fin" label="Estado Final" presentation="CRIT_STATUS" />	
+			<field name="crit_cant_monitoreos" label="Monitoreos a Agregar" presentation="INT" />		
+	</build>
+</make>
+
+</ayaxphpclass>

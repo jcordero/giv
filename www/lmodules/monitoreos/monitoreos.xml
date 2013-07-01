@@ -1,0 +1,48 @@
+<ayaxphpclass>
+<make object="class"> 
+	<build out_file="citems.php" classname="citems" classlabel="Items">
+		<parse in_file="configuracion.sql" tablename="items" />	
+		<field name="it_code" sequence="items"/>	
+		<method ObjFactoryQuerySuffix=" ORDER BY it_order"/>		
+		<field name="it_importance" total="true" />
+	</build>
+</make>
+<make object="search_and_list"> 
+	<build out_file="items.php" classname="citems" title="Listado de Items a Monitorear">
+			<field name="it_code" label="Item Nro" presentation="INT" />
+			<field name="it_name" label="Nombre del Item" presentation="TEXT" />
+			<field name="it_order" label="Orden" presentation="INT" />
+			<field name="it_importance" label="Importancia" presentation="INT" total="true" />
+			<field name="it_status" label="Estado" presentation="ESTADO" />			
+			<searchfield name="it_code"/>
+			<searchfield name="it_name"/>
+			<searchfield name="it_order"/>
+			<searchfield name="it_importance"/>
+			<searchfield name="it_status"/>
+			<listfield name="it_code"/>
+			<listfield name="it_name"/>
+			<listfield name="it_order"/>
+			<listfield name="it_importance" total="true" />
+			<listfield name="it_status"/>
+			<action label="ver" target="items_maint.php?OP=V" operation="V" >
+				<sendfield classname="citems" name="it_code"/>
+			</action>
+			<action label="modificar" right="configuracion.items.actualizar" target="items_maint.php?OP=M" operation="M"  >
+				<sendfield classname="citems" name="it_code"/>
+			</action>						
+	</build>
+</make>
+<!-- ABM DE ITEMS -->
+<make object="table_maint"> 
+	<build out_file="items_maint.php" classname="citems" title="Items a Monitorear" next="items.php?last=1&amp;OP=L">
+		<field name="it_code" label="Item Nro"  presentation="SEQUENCE" classparams="items" readonly="true"/>	
+		<field name="it_name" label="Nombre del Item" presentation="TEXT" ismandatory="true"/>
+		<field name="it_order" label="Orden" presentation="INT" ismandatory="true" />
+		<field name="it_importance" label="Importancia" presentation="INT" ismandatory="true" />	
+		<field name="it_status" label="Estado"  presentation="ESTADO"  initialvalue="ACTIVO" ismandatory="true" />		
+	</build>
+</make>
+
+
+
+</ayaxphpclass>
