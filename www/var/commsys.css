@@ -108,7 +108,7 @@ div#footer {
 	font-size: 12px;
 	font-weight: bold;
 	text-shadow: 0px 1px 2px #224064;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: Arial, Calibri, sans-serif;
 	outline: 0px;
 	outline-style: none;
 }
@@ -124,7 +124,7 @@ form#uploadForm, #alert_box {text-align:left!important;}
 	border: 1px solid #000; border-radius:5px; padding:5px;
 	background: #003772;cursor:pointer; 
 	font-weight: bold; color: #FFF!important;  
-	font-family: 16px Arial, Helvetica, sans-serif;
+	font-family: 16px Arial, Calibri, sans-serif;
 }
 .ui-state-disabled{
 	background: #ddd; border: 1px solid #999; color: #666!important;
@@ -324,7 +324,7 @@ div#payload #head {
 	width: 1000px;
     position: relative;
     z-index: 3; /*para arreglar bug de IE*/
-    background: url(/images/header_pago_prov.gif) no-repeat;  
+    background: url(/images/header.gif) no-repeat;  
 }
 img.logo {width: 300px; }
 div#logo {
@@ -1511,7 +1511,7 @@ div#loginBox a:hover{color:#666;}
 }
 
 button {
-    font-family:Arial, Helvetica, sans-serif;
+    font-family:Arial, Calibri, sans-serif;
     font-weight:bold;
     font-size:14px;    
     background: #FFF;

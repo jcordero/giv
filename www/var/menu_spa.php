@@ -17,17 +17,66 @@
         	$buff.='</li>';
         	$buff.='</ul>';
         }
-    	$buff.="<li>Parametros";
-    	$buff.='<ul>';
-        	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/monitoreo/monitoreo_maint.php?OP=N')."\">Nuevo Estado de Monitoreo</a>";
-        	$buff.='</li>';
-        	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/monitoreo/monitoreo.php?OP=L')."\">Listado de Estados de Monitoreo</a>";
-        	$buff.='</li>';
-        	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/monitoreo/monitoreo_item_maint.php?OP=N')."\">Nuevo Item de Monitoreo</a>";
-        	$buff.='</li>';
-        	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/monitoreo/monitoreo_item.php?OP=L')."\">Listado de Items de Monitoreo</a>";
-        	$buff.='</li>';
-    	$buff.='</ul>';
+        if($this->haveRight($primary_db,'configuracion.menu')) { 
+        	$buff.="<li>Configuracion";
+        	$buff.='<ul>';
+            if($this->haveRight($primary_db,'configuracion.items')) { 
+            	$buff.="<li>Items de Monitoreo";
+            	$buff.='<ul>';
+                if($this->haveRight($primary_db,'configuracion.items')) { 
+                	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/configuracion/items.php?OP=L')."\">Listado de Items de Monitoreo</a>";
+                	$buff.='</li>';
+                }
+                if($this->haveRight($primary_db,'configuracion.items.nuevo')) { 
+                	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/configuracion/items_maint.php?OP=N')."\">Nuevo Item de Monitoreo</a>";
+                	$buff.='</li>';
+                }
+            	$buff.='</ul>';
+            	$buff.='</li>';
+            }
+            if($this->haveRight($primary_db,'configuracion.cli_calls')) { 
+            	$buff.="<li>Tipos de Llamados";
+            	$buff.='<ul>';
+                if($this->haveRight($primary_db,'configuracion.cli_calls')) { 
+                	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/configuracion/cli_calls.php?OP=L')."\">Listado de Tipos de Llamados</a>";
+                	$buff.='</li>';
+                }
+                if($this->haveRight($primary_db,'configuracion.cli_calls.nuevo')) { 
+                	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/configuracion/cli_calls_maint.php?OP=N')."\">Nuevo Tipo de Llamado</a>";
+                	$buff.='</li>';
+                }
+            	$buff.='</ul>';
+            	$buff.='</li>';
+            }
+        	$buff.='</ul>';
+        }
+        if($this->haveRight($primary_db,'circuitos.menu')) { 
+        	$buff.="<li>circuitos";
+        	$buff.='<ul>';
+            if($this->haveRight($primary_db,'circuitos.circuitos')) { 
+            	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/circuitos/circuitos.php?OP=L')."\">Listado de Circuitos de Monitoreo</a>";
+            	$buff.='</li>';
+            }
+            if($this->haveRight($primary_db,'circuitos.circuitos.nuevo')) { 
+            	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/circuitos/circuitos_maint.php?OP=N')."\">Nuevo Circuito de Monitoreo</a>";
+            	$buff.='</li>';
+            }
+            if($this->haveRight($primary_db,'circuitos.cir_groups')) { 
+            	$buff.="<li>Asignacion de Grupos";
+            	$buff.='<ul>';
+                if($this->haveRight($primary_db,'circuitos.cir_groups')) { 
+                	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/circuitos/cir_groups.php?OP=L')."\">Listado de Grupos de Asignados</a>";
+                	$buff.='</li>';
+                }
+                if($this->haveRight($primary_db,'circuitos.cir_groups.nuevo')) { 
+                	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/circuitos/cir_groups_maint.php?OP=N')."\">Nueva Asignacion de Grupos</a>";
+                	$buff.='</li>';
+                }
+            	$buff.='</ul>';
+            	$buff.='</li>';
+            }
+        	$buff.='</ul>';
+        }
         if($this->haveRight($primary_db,'menu.archivo.administracion')) { 
         	$buff.="<li>Administración";
         	$buff.='<ul>';
@@ -239,6 +288,10 @@
             	$buff.="<li><a href=\"".$this->encodeURL('/modules/rss/articles_maint.php?OP=N')."\">Nuevo articulo</a>";
             	$buff.='</li>';
             	$buff.='</ul>';
+            	$buff.='</li>';
+            }
+            if($this->haveRight($primary_db,'menu.archivo.administracion.eventbus')) { 
+            	$buff.="<li><a href=\"".$this->encodeURL('/modules/eventbus/events.php?OP=X')."\">Ver actividad en EventBus</a>";
             	$buff.='</li>';
             }
             if($this->haveRight($primary_db,'menu.archivo.administracion.eventos')) { 
