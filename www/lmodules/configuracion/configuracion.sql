@@ -10,7 +10,7 @@ CREATE TABLE items (
 	)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;   
 
-DROP TABLE IF EXISTS cli_calls;
+
 CREATE TABLE cli_calls (
   cli_call_code int(10) NOT NULL,
   cli_call_name varchar(200) NULL,  
@@ -21,18 +21,17 @@ CREATE TABLE cli_calls (
   )
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;   
 
-DROP TABLE IF EXISTS criterios;
+
 CREATE TABLE criterios (
   crit_code int(10) NOT NULL,
   crit_oper_status_ini int NULL,  
   crit_oper_status_fin int NULL, 
-  crit_cant_monitoreos int NULL,    
   crit_cant_mal_desde int NULL, 
   crit_cant_mal_hasta int NULL, 
     constraint pk_criterios primary key clustered (crit_code)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;  
 
-DROP TABLE IF EXISTS crit_status;
+
 CREATE TABLE crit_status (
   crit_status int NULL,  
   crit_status_name varchar(50) NULL, 
@@ -42,4 +41,13 @@ CREATE TABLE crit_status (
   constraint pk_crit_status primary key clustered (crit_status)  
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;  
 
+
+CREATE TABLE oper_status (
+  use_code  varchar(50) NULL,  
+  crit_status int NULL, 
+  oper_nuevo int NULL,
+  oper_hora_in varchar(10) NULL,   
+  oper_hora_out varchar(10) NULL,    
+  constraint pk_oper_status primary key clustered (use_code)  
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;  
 -- --------------------------------------------------------

@@ -41,8 +41,8 @@ class ccircuitos_sl extends csearchandlist {
     /* Campos de busqueda */
         $this->m_obj->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "Sequence"=>"circuitos"));
         $this->m_obj->GetField("cir_name")->SetDisplayValues(Array("Name"=>"cir_name", "Label"=>"Nombre", "Size"=>200, "IsForDB"=>true, "Order"=>102, "Presentation"=>"TEXT", "IsVisible"=>true));
-        $this->m_obj->GetField("cir_date_ini")->SetDisplayValues(Array("Name"=>"cir_date_ini", "Label"=>"Fecha Inicio", "Type"=>"datetime", "IsForDB"=>true, "Order"=>103, "Presentation"=>"DATE", "IsVisible"=>true));
-        $this->m_obj->GetField("cir_date_fin")->SetDisplayValues(Array("Name"=>"cir_date_fin", "Label"=>"Fecha Final", "Type"=>"datetime", "IsForDB"=>true, "Order"=>104, "Presentation"=>"DATE", "IsVisible"=>true));
+        $this->m_obj->GetField("cir_date_ini")->SetDisplayValues(Array("Name"=>"cir_date_ini", "Label"=>"Fecha Inicio", "Type"=>"datetime", "IsForDB"=>true, "Order"=>103, "Presentation"=>"DATERANGE", "IsVisible"=>true));
+        $this->m_obj->GetField("cir_date_fin")->SetDisplayValues(Array("Name"=>"cir_date_fin", "Label"=>"Fecha Final", "Type"=>"datetime", "IsForDB"=>true, "Order"=>104, "Presentation"=>"DATERANGE", "IsVisible"=>true));
         $this->m_obj->GetField("cir_importance_min")->SetDisplayValues(Array("Name"=>"cir_importance_min", "Label"=>"Importancia Min", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"INT", "IsVisible"=>true));
         $this->m_obj->GetField("cir_status")->SetDisplayValues(Array("Name"=>"cir_status", "Label"=>"Estado", "Size"=>20, "IsForDB"=>true, "Order"=>106, "Presentation"=>"ESTADO_CIRCUITOS", "IsVisible"=>true));
     }
@@ -63,7 +63,7 @@ class col103 extends ccolumn
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cir_date_ini", "Label"=>"Fecha Inicio", "Type"=>"datetime", "IsForDB"=>true, "Order"=>103, "Presentation"=>"DATE", "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"cir_date_ini", "Label"=>"Fecha Inicio", "Type"=>"datetime", "IsForDB"=>true, "Order"=>103, "Presentation"=>"DATERANGE", "IsVisible"=>true));
     }
 }
 
@@ -80,7 +80,7 @@ class col104 extends ccolumn
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cir_date_fin", "Label"=>"Fecha Final", "Type"=>"datetime", "IsForDB"=>true, "Order"=>104, "Presentation"=>"DATE", "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"cir_date_fin", "Label"=>"Fecha Final", "Type"=>"datetime", "IsForDB"=>true, "Order"=>104, "Presentation"=>"DATERANGE", "IsVisible"=>true));
     }
 }
 

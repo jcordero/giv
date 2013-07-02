@@ -48,6 +48,48 @@
             	$buff.='</ul>';
             	$buff.='</li>';
             }
+            if($this->haveRight($primary_db,'configuracion.crit_status')) { 
+            	$buff.="<li>Estados de Operadores";
+            	$buff.='<ul>';
+                if($this->haveRight($primary_db,'configuracion.crit_status')) { 
+                	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/configuracion/crit_status.php?OP=L')."\">Listado de Estados de Operadores</a>";
+                	$buff.='</li>';
+                }
+                if($this->haveRight($primary_db,'configuracion.crit_status.nuevo')) { 
+                	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/configuracion/crit_status_maint.php?OP=N')."\">Nuevo Estado de Operadores</a>";
+                	$buff.='</li>';
+                }
+            	$buff.='</ul>';
+            	$buff.='</li>';
+            }
+            if($this->haveRight($primary_db,'configuracion.crit_status')) { 
+            	$buff.="<li>Operadores";
+            	$buff.='<ul>';
+                if($this->haveRight($primary_db,'configuracion.crit_status')) { 
+                	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/configuracion/oper_status.php?OP=L')."\">Listado de Operadores</a>";
+                	$buff.='</li>';
+                }
+                if($this->haveRight($primary_db,'configuracion.crit_status.nuevo')) { 
+                	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/configuracion/oper_status_maint.php?OP=N')."\">Nuevo Operador a Monitorear</a>";
+                	$buff.='</li>';
+                }
+            	$buff.='</ul>';
+            	$buff.='</li>';
+            }
+            if($this->haveRight($primary_db,'configuracion.criterios')) { 
+            	$buff.="<li>Criterios";
+            	$buff.='<ul>';
+                if($this->haveRight($primary_db,'configuracion.criterios')) { 
+                	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/configuracion/criterios.php?OP=L')."\">Listado de criterios</a>";
+                	$buff.='</li>';
+                }
+                if($this->haveRight($primary_db,'configuracion.criterios.nuevo')) { 
+                	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/configuracion/criterios_maint.php?OP=N')."\">Nuevo criterios </a>";
+                	$buff.='</li>';
+                }
+            	$buff.='</ul>';
+            	$buff.='</li>';
+            }
         	$buff.='</ul>';
         }
         if($this->haveRight($primary_db,'circuitos.menu')) { 
@@ -75,6 +117,28 @@
             	$buff.='</ul>';
             	$buff.='</li>';
             }
+        	$buff.='</ul>';
+        }
+        if($this->haveRight($primary_db,'monitoreos.menu')) { 
+        	$buff.="<li>monitoreos";
+        	$buff.='<ul>';
+            if($this->haveRight($primary_db,'monitoreos.iniciar_circuito')) { 
+            	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/monitoreos/mon_iniciar_circuito_maint.php?OP=N')."\">Iniciar Circuito de Monitoreo</a>";
+            	$buff.='</li>';
+            }
+            if($this->haveRight($primary_db,'monitoreos.supervisar')) { 
+            	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/monitoreos/monitoreos_superv.php?OP=L')."\">Monitorear</a>";
+            	$buff.='</li>';
+            }
+        	$buff.='</ul>';
+        }
+        if($this->haveRight($primary_db,'reportes.menu')) { 
+        	$buff.="<li>reportes";
+        	$buff.='<ul>';
+        	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/monitoreos/monitoreos.php?OP=L')."\">Listado de Monitoreos</a>";
+        	$buff.='</li>';
+        	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/circuitos/cir_groups_oper.php?OP=L')."\">Desempeño de Operadores</a>";
+        	$buff.='</li>';
         	$buff.='</ul>';
         }
         if($this->haveRight($primary_db,'menu.archivo.administracion')) { 

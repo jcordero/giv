@@ -26,10 +26,15 @@
 					<menuitem name="Listado de Estados de Operadores" right="configuracion.crit_status" action="/lmodules/configuracion/crit_status.php?OP=L" tooltip="Listar y consultar Estados de Operadores" order="1" pda="true"/>
 					<menuitem name="Nuevo Estado de Operadores" right="configuracion.crit_status.nuevo" action="/lmodules/configuracion/crit_status_maint.php?OP=N" tooltip="Ingresar nuevo Estado de Operadores" order="2" pda="true"/>
 				</menuitem>
-				<menuitem name="Criterios" order="4" right="configuracion.criterios" pda="true" >
+				<menuitem name="Operadores" order="4" right="configuracion.crit_status" pda="true" >
+					<menuitem name="Listado de Operadores" right="configuracion.crit_status" action="/lmodules/configuracion/oper_status.php?OP=L" tooltip="Listar y consultar Operadores" order="1" pda="true"/>
+					<menuitem name="Nuevo Operador a Monitorear" right="configuracion.crit_status.nuevo" action="/lmodules/configuracion/oper_status_maint.php?OP=N" tooltip="Ingresar nuevo Operador" order="2" pda="true"/>
+				</menuitem>
+				<menuitem name="Criterios" order="5" right="configuracion.criterios" pda="true" >
 					<menuitem name="Listado de criterios" right="configuracion.criterios" action="/lmodules/configuracion/criterios.php?OP=L" tooltip="Listar y consultar Criterios" order="1" pda="true"/>
 					<menuitem name="Nuevo criterios " right="configuracion.criterios.nuevo" action="/lmodules/configuracion/criterios_maint.php?OP=N" tooltip="Ingresar nuevo Criterio" order="2" pda="true"/>
-				</menuitem>			
+				</menuitem>	
+				
 		</menuitem>
 	</menu>	
 </module>

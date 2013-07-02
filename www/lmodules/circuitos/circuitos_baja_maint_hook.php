@@ -28,7 +28,7 @@ class ccircuitos_hooks extends cclass_maint_hooks
 		$cir_date_fin = $obj->getField("cir_date_fin")->getValue();
 		$cir_status = $obj->getField("cir_status")->getValue();
 		$cir_importance_min = $obj->getField("cir_importance_min")->getValue();
-		if  ( ($cir_status != 'PENDIENTE') || ($cir_status != 'ACTIVO'))
+		if  ( ($cir_status != 'PENDIENTE') && ($cir_status != 'ACTIVO'))
 		{
 				$res[] = "MENSAJE: Solo se pueden anular circuitos con estado PENDIENTE o ACTIVO.";
 				return $res;

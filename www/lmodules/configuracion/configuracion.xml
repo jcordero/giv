@@ -135,7 +135,6 @@
 			<field name="crit_cant_mal_desde" label="Mon. erróneos Desde" presentation="INT" />		
 			<field name="crit_cant_mal_hasta" label="Mon. erróneos Hasta" presentation="INT" />				
 			<field name="crit_oper_status_fin" label="Estado Final" presentation="CRIT_STATUS" />	
-			<field name="crit_cant_monitoreos" label="Monitoreos a Realizar" presentation="INT" />	
 			<searchfield name="crit_code" isvisible="false"/>
 			<searchfield name="crit_oper_status_ini"/>
 			<searchfield name="crit_oper_status_fin"/>			
@@ -144,20 +143,46 @@
 			<listfield name="crit_cant_mal_desde"/>
 			<listfield name="crit_cant_mal_hasta"/>
 			<listfield name="crit_oper_status_fin"/>
-			<listfield name="crit_cant_monitoreos"/>			
 			<action label="modificar" right="configuracion.criterios.actualizar" target="criterios_maint.php?OP=M" operation="M"  >
 				<sendfield classname="ccriterios" name="crit_code"/>
 			</action>						
 	</build>
 </make>
+
+<!-- oper_status -->
+<make object="class"> 
+	<build out_file="coper_status.php" classname="coper_status" classlabel="oper_status">
+		<parse in_file="configuracion.sql" tablename="oper_status" />	
+	</build>
+</make>
+<make object="search_and_list"> 
+	<build out_file="oper_status.php" classname="coper_status" title="Listado de Operadores">
+			<field name="use_code" label="Nro" presentation="OPERADOR" />
+			<field name="crit_status" label="Estado Operador" presentation="CRIT_STATUS" />
+			<field name="oper_nuevo" label="Nuevo" presentation="SINO" />		
+			<field name="oper_hora_in" label="Hora Ingreso" presentation="TEXT" cols="8"/>				
+			<field name="oper_hora_out" label="Hora Egreso" presentation="TEXT" cols="8"/>	
+			<searchfield name="use_code"/>
+			<searchfield name="crit_status"/>
+			<searchfield name="oper_nuevo"/>			
+			<listfield name="use_code"/>
+			<listfield name="crit_status"/>
+			<listfield name="oper_nuevo"/>
+			<listfield name="oper_hora_in"/>
+			<listfield name="oper_hora_out"/>
+			<action label="usuario"  target="/modules/security/users_maint.php?OP=V" operation="V"  >
+				<sendfield classname="coper_status" name="use_code"/>
+			</action>						
+	</build>
+</make>
+ 
 <make object="table_maint"> 
-	<build out_file="criterios_maint.php" classname="ccriterios" title="Criterios a Monitorear" next="criterios.php?last=1&amp;OP=L">
-		<field name="crit_code" label="Nro"  presentation="SEQUENCE" classparams="criterios" readonly="true"/>	
-			<field name="crit_oper_status_ini" label="Estado Inicial" presentation="CRIT_STATUS" />
-			<field name="crit_cant_mal_desde" label="Mon. erróneos Desde" presentation="INT" />		
-			<field name="crit_cant_mal_hasta" label="Mon. erróneos Hasta" presentation="INT" />				
-			<field name="crit_oper_status_fin" label="Estado Final" presentation="CRIT_STATUS" />	
-			<field name="crit_cant_monitoreos" label="Monitoreos a Agregar" presentation="INT" />		
+	<build out_file="oper_status_maint.php" classname="coper_status" title="Operadores a Monitorear" next="oper_status.php?last=1&amp;OP=L">
+			<field name="use_code" label="Nro" presentation="OPERADOR" />
+			<field name="crit_status" label="Estado Operador" presentation="CRIT_STATUS" ismandatory="true"/>
+			<field name="oper_nuevo" label="Nuevo" presentation="SINO" ismandatory="true"/>		
+			<field name="oper_hora_in" label="Hora Ingreso" presentation="TEXT" cols="8" ismandatory="true"/>			
+			<field name="oper_hora_out" label="Hora Egreso" presentation="TEXT" cols="8" ismandatory="true"/>	
 	</build>
 </make>
 

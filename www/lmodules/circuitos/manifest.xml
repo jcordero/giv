@@ -15,5 +15,8 @@
 					<menuitem name="Nueva Asignacion de Grupos" right="circuitos.cir_groups.nuevo" action="/lmodules/circuitos/cir_groups_maint.php?OP=N" tooltip="Asignar un grupo a un circuito a monitorear" order="2" pda="true"/>
 				</menuitem>	
 		</menuitem>
+		<menuitem name="reportes" order="5" right="reportes.menu" pda="true" >
+			<menuitem name="Desempeño de Operadores"  action="/lmodules/circuitos/cir_groups_oper.php?OP=L" tooltip="Listar y consultar grupos de Operadores" order="5" pda="true"/>
+		</menuitem>		
 	</menu>	
 </module>

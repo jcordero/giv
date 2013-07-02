@@ -31,7 +31,7 @@ class grupo_gr extends cform_group {
     public function InitializeInstance() {
         //SetDisplayValues($attributes) 
         $this->getClass("ccir_groups")->GetField("cirg_code")->SetDisplayValues(Array("Name"=>"cirg_code", "Label"=>"Grupo Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"SEQUENCE", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Sequence"=>"cir_groups", "ClassParams"=>"cir_groups", "Class"=>"ccir_groups"));
-        $this->getClass("ccir_groups")->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "IsMandatory"=>true, "Presentation"=>"CIRCUITOS", "IsNullable"=>false, "IsVisible"=>true, "Class"=>"ccir_groups"));
+        $this->getClass("ccir_groups")->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "IsMandatory"=>true, "Presentation"=>"SELECTTABLE", "IsNullable"=>false, "IsVisible"=>true, "ClassParams"=>"SELECT  cir_name,cir_code FROM circuitos where cir_status in (\"PENDIENTE\") order by cir_name", "Class"=>"ccir_groups"));
         $this->getClass("ccir_groups")->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "IsMandatory"=>true, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true, "Class"=>"ccir_groups"));
     }
 }

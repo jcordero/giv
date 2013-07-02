@@ -1,48 +1,211 @@
 <ayaxphpclass>
 <make object="class"> 
-	<build out_file="citems.php" classname="citems" classlabel="Items">
-		<parse in_file="configuracion.sql" tablename="items" />	
-		<field name="it_code" sequence="items"/>	
-		<method ObjFactoryQuerySuffix=" ORDER BY it_order"/>		
-		<field name="it_importance" total="true" />
+	<build out_file="cmonitoreos.php" classname="cmonitoreos" classlabel="monitoreos">
+		<parse in_file="monitoreos.sql" tablename="monitoreos" />	
+		<method ObjFactoryQuerySuffix=" ORDER BY mon_code desc"/>		
 	</build>
 </make>
+
 <make object="search_and_list"> 
-	<build out_file="items.php" classname="citems" title="Listado de Items a Monitorear">
-			<field name="it_code" label="Item Nro" presentation="INT" />
-			<field name="it_name" label="Nombre del Item" presentation="TEXT" />
-			<field name="it_order" label="Orden" presentation="INT" />
-			<field name="it_importance" label="Importancia" presentation="INT" total="true" />
-			<field name="it_status" label="Estado" presentation="ESTADO" />			
-			<searchfield name="it_code"/>
-			<searchfield name="it_name"/>
-			<searchfield name="it_order"/>
-			<searchfield name="it_importance"/>
-			<searchfield name="it_status"/>
-			<listfield name="it_code"/>
-			<listfield name="it_name"/>
-			<listfield name="it_order"/>
-			<listfield name="it_importance" total="true" />
-			<listfield name="it_status"/>
-			<action label="ver" target="items_maint.php?OP=V" operation="V" >
-				<sendfield classname="citems" name="it_code"/>
+	<build out_file="monitoreos.php" classname="cmonitoreos" title="Listado de monitoreos">
+			<field name="mon_code" label="Nro" presentation="INT" />
+			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" />
+			<field name="use_code_operador" label="Operador" presentation="OPERADOR" />
+			<field name="use_code_supervisor" label="Supervisor" presentation="SUPERVISOR"/>
+			<field name="mon_date" label="Fecha" presentation="DATERANGE" />
+			<field name="mon_status" label="Estado Monitoreo" presentation="MON_STATUS" />	
+			<field name="cli_call_code" label="Tipo LLamado" presentation="CLI_CALL" />	
+			<field name="mon_note" label="Nota" presentation="TEXT" />	
+			<field name="mon_call_reference" label="Ref LLamado" presentation="TEXT" />	
+			<field name="mon_puntaje" label="Puntaje" presentation="INT" />	
+			<field name="mon_aprobo" label="Aprobado" presentation="SINO" />	
+			<field name="mon_perjuicio_cliente" label="Perjuicio" presentation="SINO" />	
+			<field name="mon_add_mon" label="Agrega Monitoreos?" presentation="SINO" />	
+			<field name="mon_add_cap" label="Agrega Capacitacion" presentation="SINO" />	
+			<searchfield name="mon_code"/>
+			<searchfield name="cir_code"/>
+			<searchfield name="use_code_operador"/>
+			<searchfield name="use_code_supervisor"/>
+			<searchfield name="mon_date"/>
+			<searchfield name="mon_status"/>
+			<searchfield name="cli_call_code"/>
+			<searchfield name="mon_call_reference"/>
+			<searchfield name="mon_aprobo"/>
+			<searchfield name="mon_perjuicio_cliente"/>
+			<searchfield name="mon_add_mon"/>
+			<searchfield name="mon_add_cap"/>
+
+			<listfield name="mon_code" isvisible="false"/>
+			<listfield name="cir_code"/>
+			<listfield name="use_code_operador"/>
+			<listfield name="use_code_supervisor"/>
+			<listfield name="mon_date"/>
+			<listfield name="mon_status"/>
+			<listfield name="cli_call_code"/>
+			<listfield name="mon_call_reference" isvisible="false"/>
+			<listfield name="mon_aprobo"/>
+			<listfield name="mon_puntaje" />
+			<listfield name="mon_perjuicio_cliente"/>
+			<listfield name="mon_add_mon" isvisible="false"/>
+			<listfield name="mon_add_cap" isvisible="false"/>
+			<listfield name="mon_note"/>			
+			<action label="detalle" target="monitoreos_maint.php?OP=V" operation="V" next="monitoreos.php?last=1&amp;OP=L">
+				<sendfield classname="cmonitoreos" name="mon_code"/>
 			</action>
-			<action label="modificar" right="configuracion.items.actualizar" target="items_maint.php?OP=M" operation="M"  >
-				<sendfield classname="citems" name="it_code"/>
+					
+	</build>
+</make>
+
+
+<make object="search_and_list"> 
+	<build out_file="monitoreos_superv.php" classname="cmonitoreos" title="Monitorear">
+			<field name="mon_code" label="Nro" presentation="INT" />
+			<field name="cir_code" label="Circuito" presentation="CIRCUITO_ACTIVO" />
+			<field name="use_code_operador" label="Operador" presentation="OPERADOR" />
+			<field name="use_code_supervisor" label="Supervisor" presentation="CURRENTUSER"/>
+			<field name="mon_date" label="Fecha" presentation="DATERANGE" />
+			<field name="mon_status" label="Estado Monitoreo" presentation="MON_STATUS" initialvalue="PENDIENTE"/>	
+			<field name="cli_call_code" label="Tipo LLamado" presentation="CLI_CALL" />	
+			<field name="mon_note" label="Nota" presentation="TEXT" />	
+			<field name="mon_call_reference" label="Ref LLamado" presentation="TEXT" />	
+			<field name="mon_puntaje" label="Puntaje" presentation="INT" />	
+			<field name="mon_aprobo" label="Aprobado" presentation="SINO" />	
+			<field name="mon_perjuicio_cliente" label="Perjuicio" presentation="SINO" />	
+			<field name="mon_add_mon" label="Agrega Monitoreos?" presentation="SINO" />	
+			<field name="mon_add_cap" label="Agrega Capacitacion" presentation="SINO" />	
+			<searchfield name="cir_code"/>
+			<searchfield name="use_code_operador"/>
+			<searchfield name="use_code_supervisor" presentation="CURRENTUSER" classparams="force"/>
+			<searchfield name="mon_status" isvisible="false" initialvalue="PENDIENTE"/>	
+
+			<listfield name="mon_code" isvisible="false"/>
+			<listfield name="cir_code"/>
+			<listfield name="use_code_supervisor"/>
+			<listfield name="use_code_operador"/>
+			<action label="monitorear" right="monitoreos.supervisar" target="monitoreos_superv_maint.php?OP=M" operation="M"  >
+				<sendfield classname="cmonitoreos" name="mon_code"/>
 			</action>						
 	</build>
 </make>
-<!-- ABM DE ITEMS -->
-<make object="table_maint"> 
-	<build out_file="items_maint.php" classname="citems" title="Items a Monitorear" next="items.php?last=1&amp;OP=L">
-		<field name="it_code" label="Item Nro"  presentation="SEQUENCE" classparams="items" readonly="true"/>	
-		<field name="it_name" label="Nombre del Item" presentation="TEXT" ismandatory="true"/>
-		<field name="it_order" label="Orden" presentation="INT" ismandatory="true" />
-		<field name="it_importance" label="Importancia" presentation="INT" ismandatory="true" />	
-		<field name="it_status" label="Estado"  presentation="ESTADO"  initialvalue="ACTIVO" ismandatory="true" />		
+<make object="class"> 
+	<build out_file="cmonitoreos_superv.php" classname="cmonitoreos_superv" classlabel="Supervision de Monitoreos">
+		<parse in_file="monitoreos.sql" tablename="monitoreos" />	
+		<build classname="mon_items" classlabel="Items de Monitoreo">
+			<parse in_file="monitoreos.sql" tablename="mon_items"/>
+			<method ObjFactoryQuerySuffix=" ORDER BY it_order"/>		
+			<key parent="mon_code" child="mon_code"/>
+		</build>	
 	</build>
 </make>
 
+<!-- Consulta de monitoreos -->
+<make object="table_maint"> 
+	<build out_file="monitoreos_superv_maint.php" classname="cmonitoreos_superv" title="Monitoreo" >
+		<group id="datos1" title="Datos Principales" order="1">
+			<field name="mon_code" label="Nro" presentation="INT" readonly="true"/>
+			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" readonly="true"/>
+			<field name="cirg_code" label="Grupo Oper" presentation="INT" isvisible="false"/>
+			<field name="use_code_operador" label="Operador" presentation="OPERADOR" readonly="true"/>
+			<field name="use_code_supervisor" label="Supervisor" presentation="SUPERVISOR" readonly="true"/>
+			<field name="mon_date" label="Fecha" presentation="DATETIME" classparams="force" readonly="true"/>
+			<field name="mon_status" label="Estado Monitoreo" presentation="MON_STATUS" readonly="true"/>
+		</group>
+		<group id="datos2" title="Datos a Completar en el Monitoreo" order="2" >		
+			<field name="cli_call_code" label="Tipo LLamado" presentation="CLI_CALL" ismandatory="true"/>	
+			<field name="mon_note" label="Nota" presentation="TEXT" ismandatory="true" />	
+			<field name="mon_call_reference" label="Ref LLamado" presentation="TEXT" />	
+		</group>
+		<group id="datos3" title="Datos automaticos" order="4">
+			<field name="mon_puntaje" label="Puntaje" presentation="INT" readonly="true"/>
+			<field name="mon_perjuicio_cliente" label="Perjuicio del Cliente" presentation="SINO" readonly="true"/>
+			<field name="mon_aprobo" label="Aprobado" presentation="SINO" readonly="true"/>
+			<field name="mon_add_mon" label="Agrega Monitoreos?" presentation="SINO" readonly="true"/>
+			<field name="mon_add_cap" label="Agrega Capacitacion" presentation="SINO" readonly="true"/>
+		</group>
+		<table relationclass="" classname="mon_items" title="Items" order="3" add="false" delete="false"  update="true">
+			<column title="Item" order="1">
+				<field name="mon_code" label="Monitoreo" isvisible="false"/>
+				<field name="it_code" label="Item" isvisible="false"/>				
+				<field name="it_order" label="Orden" isvisible="false"/>	
+				<field name="it_name" label="Item" presentation="TEXT" readonly="true"/>
+			</column>
+			<column title="Aprobado?" order="2">			
+				<field name="it_importance" label="Importancia" presentation="INT" isvisible="false"/>			
+				<field name="it_puntaje" label="Puntaje" presentation="INT" isvisible="false"/>		
+				<field name="it_aprobo" label="Aprobado?" presentation="SINO" direct_edit="true" ismandatory="true"/>		
+			</column>
+			<column title="Perjuicio del Cliente" order="3">			
+				<field name="it_perjuicio_cliente" label="Perjuicio?" presentation="SINON"  direct_edit="true" ismandatory="true"/>		
+			</column>
+			<column title="Nota" order="4">			
+				<field name="it_note" label="Nota" presentation="TEXT" direct_edit="true" ismandatory="true"/>		
+			</column>
+		</table>	
+	</build>
+</make>
 
+<!-- Consulta de monitoreos -->
+<make object="table_maint"> 
+	<build out_file="monitoreos_maint.php" classname="cmonitoreos_superv" title="Detalle de Monitoreo" >
+		<group id="datos1" title="Datos Principales" order="1">
+			<field name="mon_code" label="Nro" presentation="INT" readonly="true"/>
+			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" readonly="true"/>
+			<field name="cirg_code" label="Grupo Oper" presentation="INT" isvisible="false"/>
+			<field name="use_code_operador" label="Operador" presentation="OPERADOR" readonly="true"/>
+			<field name="use_code_supervisor" label="Supervisor" presentation="SUPERVISOR" readonly="true"/>
+			<field name="mon_date" label="Fecha" presentation="DATETIME"  readonly="true"/>
+			<field name="mon_status" label="Estado Monitoreo" presentation="TEXT" readonly="true"/>
+		</group>
+		<group id="datos2" title="Datos a Completar en el Monitoreo" order="2" >		
+			<field name="cli_call_code" label="Tipo LLamado" presentation="CLI_CALL" readonly="true"/>
+			<field name="mon_note" label="Nota" presentation="TEXT" readonly="true"/>
+			<field name="mon_call_reference" label="Ref LLamado" presentation="TEXT" readonly="true"/>	
+		</group>
+		<group id="datos3" title="Datos automaticos" order="4">
+			<field name="mon_puntaje" label="Puntaje" presentation="TEXT" readonly="true"/>
+			<field name="mon_perjuicio_cliente" label="Perjuicio del Cliente" presentation="TEXT" readonly="true"/>
+			<field name="mon_aprobo" label="Aprobado" presentation="TEXT" readonly="true"/>
+			<field name="mon_add_mon" label="Agrega Monitoreos?" presentation="TEXT" readonly="true"/>
+			<field name="mon_add_cap" label="Agrega Capacitacion" presentation="TEXT" readonly="true"/>
+		</group>
+		<table relationclass="" classname="mon_items" title="Items" order="3" add="false" delete="false" update="false">
+			<column title="Item" order="1">
+				<field name="mon_code" label="Monitoreo" isvisible="false"/>
+				<field name="it_code" label="Item" isvisible="false"/>				
+				<field name="it_order" label="Orden" isvisible="false"/>	
+				<field name="it_name" label="Item" presentation="TEXT" readonly="true"/>
+			</column>
+			<column title="Aprobado?" order="2">			
+				<field name="it_aprobo" label="Aprobado?" presentation="TEXT" />		
+			</column>
+			<column title="Perjuicio del Cliente" order="3">			
+				<field name="it_perjuicio_cliente" label="Perjuicio?" presentation="TEXT"/>		
+			</column>
+			<column title="Nota" order="4">			
+				<field name="it_note" label="Nota" presentation="TEXT" direct_edit="true" ismandatory="true"/>		
+			</column>
+			<column title="Puntaje" order="5">			
+				<field name="it_importance" label="Importancia" presentation="INT" />			
+				<field name="it_puntaje" label="Puntaje" presentation="INT" />
+			</column>				
+		</table>	
+	</build>
+</make>
+<make object="class"> 
+	<build out_file="cmon_iniciar_circuito.php" classname="cmon_iniciar_circuito" classlabel="Iniciar Monitoreo">
+		<parse in_file="../circuitos/circuitos.sql" tablename="circuitos" />	
+	</build>
+</make> 
 
+<make object="table_maint"> 
+	<build out_file="mon_iniciar_circuito_maint.php" classname="cmon_iniciar_circuito" title="Iniciar Circuito">
+	<group id="datos" title="Confirme con continuar para iniciar el circuito" >
+		<field name="cir_code" label="Circuito"  presentation="CIRCUITOS" readonly="true"/>	
+		<field name="cir_date_ini" label="Fecha Inicio" presentation="TEXT" readonly="true"/>	
+		<field name="cir_date_fin" label="Fecha Final" presentation="TEXT"  readonly="true"/>			
+		<field name="cir_importance_min" label="Importancia Min" presentation="INT"  readonly="true"/>	
+		<field name="cir_status" label="Estado" presentation="TEXT" readonly="true"/>
+	</group>	
+	</build>	
+</make>
 </ayaxphpclass>

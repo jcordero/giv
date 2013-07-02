@@ -11,8 +11,8 @@
 	<build out_file="circuitos.php" classname="ccircuitos" title="Listado de Circuitos a Monitorear">
 			<field name="cir_code" label="Circuito Nro" presentation="INT" />
 			<field name="cir_name" label="Nombre" presentation="TEXT" />
-			<field name="cir_date_ini" label="Fecha Inicio" presentation="DATE" />
-			<field name="cir_date_fin" label="Fecha Final" presentation="DATE" />
+			<field name="cir_date_ini" label="Fecha Inicio" presentation="DATERANGE" />
+			<field name="cir_date_fin" label="Fecha Final" presentation="DATERANGE" />
 			<field name="cir_importance_min" label="Importancia Min" presentation="INT" />	
 			<field name="cir_status" label="Estado" presentation="ESTADO_CIRCUITOS" />			
 			<searchfield name="cir_code"/>
@@ -139,7 +139,7 @@
 	<build out_file="cir_groups_maint.php" classname="ccir_groups" title="Asignación de Grupos a Circuitos" next="cir_groups.php?last=1&amp;OP=L">
 	    <group title="Datos Principales" id="grupo" order="1">	
 		<field name="cirg_code" label="Grupo Nro"  presentation="SEQUENCE" classparams="cir_groups" readonly="true"/>	
-		<field name="cir_code" label="Circuito" presentation="CIRCUITOS"  ismandatory="true" />		
+		<field name="cir_code" label="Circuito"  presentation="SELECTTABLE"  classparams="SELECT  cir_name,cir_code FROM circuitos where cir_status in ('PENDIENTE') order by cir_name" ismandatory="true" />		
 		<field name="use_code_supervisor" label="Supervisor" presentation="SUPERVISOR"  ismandatory="true" />	
 		</group>
 		<table relationclass="" classname="cir_groups_oper" title="Operadores" order="2" add="true" delete="true" update="true">
@@ -194,4 +194,20 @@
 			</action>
 	</build>
 </make>
+<!--
+<make object="class"> 
+	<build out_file="coper_desemp.php" classname="coper_desemp" classlabel="Estado de Operadores por Circuitos">
+		<parse in_file="circuitos.sql" tablename="cir_groups_oper" />		
+		<method SaveDBTotalQuery="select sum(cirg_cant_mon_pendientes) as cirg_cant_mon_pendientes,round(avg(pro_indice),2) as pro_indice , sum(pro_encontrados) as pro_encontrados from prod_agotados"/>
+         <method ObjFactoryQuery="select * from cir_groups_oper g join circuitos c on g. "/>
+         <method ObjFactoryQuerySuffix=" ORDER BY anio desc, mes desc,pro_indice asc"/>
+ 		
+		<field name="cirg_cant_mon_pendientes" total="true" />
+		<field name="cirg_cant_mon_realizados" total="true" />
+		<field name="cirg_cant_mon_ok" total="true" />
+		<field name="cirg_cant_mon_mal" total="true" />
+	</build>
+</make>
+-->
+
 </ayaxphpclass>

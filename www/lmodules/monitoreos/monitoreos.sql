@@ -1,6 +1,7 @@
 CREATE TABLE monitoreos (
   mon_code int(10) NOT NULL,
   cir_code int(10) NOT NULL,
+  cirg_code int(10) NOT NULL,
   use_code_operador int not null,
   use_code_supervisor int not null, 
   mon_date datetime  NULL,

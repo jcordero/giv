@@ -14,7 +14,7 @@
 		$sess->Load();
 		ob_flush();
 		ob_start();
-?><div class="m1"><a href="">Configuracion</a></div><div class="m1"><a href="">circuitos</a></div>
+?><div class="m1"><a href="">Configuracion</a></div><div class="m1"><a href="">circuitos</a></div><div class="m1"><a href="">monitoreos</a></div><div class="m1"><a href="">reportes</a></div>
 <?php
 		$_SESSION["cache_menu_pda_js"]=ob_get_contents();
 	}
