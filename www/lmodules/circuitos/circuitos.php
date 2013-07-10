@@ -29,6 +29,7 @@ class ccircuitos_sl extends csearchandlist {
 
         $this->addAction(7,"circuitos_maint.php?OP=V",array(new caction_param('cir_code')),"","ver","V","","");
         $this->addAction(7,"circuitos_maint.php?OP=M",array(new caction_param('cir_code')),"","modificar","M","circuitos.circuitos.actualizar","");
+        $this->addAction(7,"circuitos_fecha_maint.php?OP=M",array(new caction_param('cir_code')),"","modificar fecha","M","circuitos.circuitos.actualizar","");
         $this->addAction(7,"circuitos_baja_maint.php?OP=M",array(new caction_param('cir_code')),"","anular","M","circuitos.circuitos.actualizar","");
         $this->addAction(7,"cir_groups_maint.php?OP=N",array(new caction_param('cir_code')),"","asignar grupo","N","circuitos.cir_groups.nuevo","");
         $this->addAction(7,"cir_groups.php?OP=L",array(new caction_param('cir_code')),"","grupos","L","circuitos.cir_groups","");

@@ -25,9 +25,9 @@ class ccir_groups_oper_sl extends csearchandlist {
 		$this->m_render_html = 'BLOCK';
 		$this->m_render_pdml = 'BLOCK';
 
-        $this->m_search_fields = array('cirg_code','use_code_operador','crit_status_ini','crit_status_fin','cirg_cierre_forzado','cirg_cierre_motivo');
+        $this->m_search_fields = array('cirg_code','use_code_operador','crit_status_ini','crit_status_fin');
 
-        $this->addAction(7,"cir_groups_v_maint.php?OP=V",array(new caction_param('cirg_code')),"","ver asignacion","V","","");
+        $this->addAction(5,"cir_groups_v_maint.php?OP=V",array(new caction_param('cirg_code')),"","ver asignacion","V","","");
     }
 
     //Inicializo la parte de busqueda
@@ -39,8 +39,6 @@ class ccir_groups_oper_sl extends csearchandlist {
         $this->m_obj->GetField("use_code_operador")->SetDisplayValues(Array("Name"=>"use_code_operador", "Label"=>"Operador", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>102, "Presentation"=>"OPERADOR", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("crit_status_ini")->SetDisplayValues(Array("Name"=>"crit_status_ini", "Label"=>"Estado Inicial", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"CRIT_STATUS", "IsVisible"=>true));
         $this->m_obj->GetField("crit_status_fin")->SetDisplayValues(Array("Name"=>"crit_status_fin", "Label"=>"Estado Final", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"CRIT_STATUS", "IsVisible"=>true));
-        $this->m_obj->GetField("cirg_cierre_forzado")->SetDisplayValues(Array("Name"=>"cirg_cierre_forzado", "Label"=>"Cierre Forzado", "Size"=>2, "IsForDB"=>true, "Order"=>105, "Presentation"=>"SINO", "IsVisible"=>true));
-        $this->m_obj->GetField("cirg_cierre_motivo")->SetDisplayValues(Array("Name"=>"cirg_cierre_motivo", "Label"=>"Motivo de Cierre Forzado", "Size"=>200, "IsForDB"=>true, "Order"=>106, "Presentation"=>"TEXT", "IsVisible"=>true));
     }
 
 }
@@ -119,15 +117,15 @@ class col105 extends ccolumn
     function __construct($parent)
     {
         parent::__construct($parent);
-        $this->m_title = 'Cierre Forzado';
+        $this->m_title = 'Pendientes';
         $this->m_order = '105';
         $this->m_isvisible = true;
         $this->m_align = 'left';
-        $this->m_sort_field = 'cirg_cierre_forzado';
+        $this->m_sort_field = 'cirg_cant_mon_pendientes';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cirg_cierre_forzado", "Label"=>"Cierre Forzado", "Size"=>2, "IsForDB"=>true, "Order"=>105, "Presentation"=>"SINO", "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"cirg_cant_mon_pendientes", "Label"=>"Pendientes", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"INT", "IsVisible"=>true, "total"=>true));
     }
 }
 
@@ -136,15 +134,15 @@ class col106 extends ccolumn
     function __construct($parent)
     {
         parent::__construct($parent);
-        $this->m_title = 'Motivo de Cierre Forzado';
+        $this->m_title = 'Realizados';
         $this->m_order = '106';
         $this->m_isvisible = true;
         $this->m_align = 'left';
-        $this->m_sort_field = 'cirg_cierre_motivo';
+        $this->m_sort_field = 'cirg_cant_mon_realizados';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cirg_cierre_motivo", "Label"=>"Motivo de Cierre Forzado", "Size"=>200, "IsForDB"=>true, "Order"=>106, "Presentation"=>"TEXT", "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"cirg_cant_mon_realizados", "Label"=>"Realizados", "Type"=>"int", "IsForDB"=>true, "Order"=>106, "Presentation"=>"INT", "IsVisible"=>true, "total"=>true));
     }
 }
 
@@ -153,15 +151,15 @@ class col107 extends ccolumn
     function __construct($parent)
     {
         parent::__construct($parent);
-        $this->m_title = 'Pendientes';
+        $this->m_title = 'OK';
         $this->m_order = '107';
         $this->m_isvisible = true;
         $this->m_align = 'left';
-        $this->m_sort_field = 'cirg_cant_mon_pendientes';
+        $this->m_sort_field = 'cirg_cant_mon_ok';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cirg_cant_mon_pendientes", "Label"=>"Pendientes", "Type"=>"int", "IsForDB"=>true, "Order"=>107, "Presentation"=>"INT", "IsVisible"=>true, "total"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"cirg_cant_mon_ok", "Label"=>"OK", "Type"=>"int", "IsForDB"=>true, "Order"=>107, "Presentation"=>"INT", "IsVisible"=>true, "total"=>true));
     }
 }
 
@@ -170,15 +168,15 @@ class col108 extends ccolumn
     function __construct($parent)
     {
         parent::__construct($parent);
-        $this->m_title = 'Realizados';
+        $this->m_title = 'Mal';
         $this->m_order = '108';
         $this->m_isvisible = true;
         $this->m_align = 'left';
-        $this->m_sort_field = 'cirg_cant_mon_realizados';
+        $this->m_sort_field = 'cirg_cant_mon_mal';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cirg_cant_mon_realizados", "Label"=>"Realizados", "Type"=>"int", "IsForDB"=>true, "Order"=>108, "Presentation"=>"INT", "IsVisible"=>true, "total"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"cirg_cant_mon_mal", "Label"=>"Mal", "Type"=>"int", "IsForDB"=>true, "Order"=>108, "Presentation"=>"INT", "IsVisible"=>true, "total"=>true));
     }
 }
 
@@ -187,15 +185,15 @@ class col109 extends ccolumn
     function __construct($parent)
     {
         parent::__construct($parent);
-        $this->m_title = 'OK';
+        $this->m_title = '';
         $this->m_order = '109';
         $this->m_isvisible = true;
         $this->m_align = 'left';
-        $this->m_sort_field = 'cirg_cant_mon_ok';
+        $this->m_sort_field = 'cirg_cant_cap_pendientes';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cirg_cant_mon_ok", "Label"=>"OK", "Type"=>"int", "IsForDB"=>true, "Order"=>109, "Presentation"=>"INT", "IsVisible"=>true, "total"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"cirg_cant_cap_pendientes", "Type"=>"int", "IsForDB"=>true, "Order"=>109, "IsVisible"=>true, "total"=>true));
     }
 }
 
@@ -204,15 +202,49 @@ class col110 extends ccolumn
     function __construct($parent)
     {
         parent::__construct($parent);
-        $this->m_title = 'Mal';
+        $this->m_title = '';
         $this->m_order = '110';
         $this->m_isvisible = true;
         $this->m_align = 'left';
-        $this->m_sort_field = 'cirg_cant_mon_mal';
+        $this->m_sort_field = 'cirg_cant_cap_realizados';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cirg_cant_mon_mal", "Label"=>"Mal", "Type"=>"int", "IsForDB"=>true, "Order"=>110, "Presentation"=>"INT", "IsVisible"=>true, "total"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"cirg_cant_cap_realizados", "Type"=>"int", "IsForDB"=>true, "Order"=>110, "IsVisible"=>true, "total"=>true));
+    }
+}
+
+class col111 extends ccolumn
+{
+    function __construct($parent)
+    {
+        parent::__construct($parent);
+        $this->m_title = '';
+        $this->m_order = '111';
+        $this->m_isvisible = true;
+        $this->m_align = 'left';
+        $this->m_sort_field = 'cirg_cant_cap_ok';
+        $this->m_width = '';
+
+        //Campos de la columna
+         $this->m_fields[] = new CField(Array("Name"=>"cirg_cant_cap_ok", "Type"=>"int", "IsForDB"=>true, "Order"=>111, "IsVisible"=>true, "total"=>true));
+    }
+}
+
+class col112 extends ccolumn
+{
+    function __construct($parent)
+    {
+        parent::__construct($parent);
+        $this->m_title = '';
+        $this->m_order = '112';
+        $this->m_isvisible = true;
+        $this->m_align = 'left';
+        $this->m_sort_field = 'cirg_cant_cap_mal';
+        $this->m_width = '';
+
+        //Campos de la columna
+         $this->m_fields[] = new CField(Array("Name"=>"cirg_cant_cap_mal", "Type"=>"int", "IsForDB"=>true, "Order"=>112, "IsVisible"=>true, "total"=>true));
     }
 }
 
@@ -236,6 +268,8 @@ class ccir_groups_oper_table extends ctable
         $this->m_cols[108] = new col108($this);
         $this->m_cols[109] = new col109($this);
         $this->m_cols[110] = new col110($this);
+        $this->m_cols[111] = new col111($this);
+        $this->m_cols[112] = new col112($this);
     }
 
 }

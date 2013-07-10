@@ -25,6 +25,7 @@ class unico_gr extends cform_group {
         $this->m_fields[] = 'coper_status:use_code';
         $this->m_fields[] = 'coper_status:crit_status';
         $this->m_fields[] = 'coper_status:oper_nuevo';
+        $this->m_fields[] = 'coper_status:oper_grupo';
         $this->m_fields[] = 'coper_status:oper_hora_in';
         $this->m_fields[] = 'coper_status:oper_hora_out';
 
@@ -34,9 +35,10 @@ class unico_gr extends cform_group {
         //SetDisplayValues($attributes) 
         $this->getClass("coper_status")->GetField("use_code")->SetDisplayValues(Array("Name"=>"use_code", "Label"=>"Nro", "Size"=>50, "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"OPERADOR", "IsVisible"=>true, "Class"=>"coper_status"));
         $this->getClass("coper_status")->GetField("crit_status")->SetDisplayValues(Array("Name"=>"crit_status", "Label"=>"Estado Operador", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "IsMandatory"=>true, "Presentation"=>"CRIT_STATUS", "IsVisible"=>true, "Class"=>"coper_status"));
-        $this->getClass("coper_status")->GetField("oper_nuevo")->SetDisplayValues(Array("Name"=>"oper_nuevo", "Label"=>"Nuevo", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "IsMandatory"=>true, "Presentation"=>"SINO", "IsVisible"=>true, "Class"=>"coper_status"));
-        $this->getClass("coper_status")->GetField("oper_hora_in")->SetDisplayValues(Array("Name"=>"oper_hora_in", "Label"=>"Hora Ingreso", "Size"=>10, "IsForDB"=>true, "Order"=>104, "IsMandatory"=>true, "Presentation"=>"TEXT", "IsVisible"=>true, "Cols"=>8, "Class"=>"coper_status"));
-        $this->getClass("coper_status")->GetField("oper_hora_out")->SetDisplayValues(Array("Name"=>"oper_hora_out", "Label"=>"Hora Egreso", "Size"=>10, "IsForDB"=>true, "Order"=>105, "IsMandatory"=>true, "Presentation"=>"TEXT", "IsVisible"=>true, "Cols"=>8, "Class"=>"coper_status"));
+        $this->getClass("coper_status")->GetField("oper_nuevo")->SetDisplayValues(Array("Name"=>"oper_nuevo", "Label"=>"Nuevo", "Size"=>2, "IsForDB"=>true, "Order"=>104, "IsMandatory"=>true, "Presentation"=>"SINO", "IsVisible"=>true, "Class"=>"coper_status"));
+        $this->getClass("coper_status")->GetField("oper_grupo")->SetDisplayValues(Array("Name"=>"oper_grupo", "Label"=>"Grupo", "Size"=>50, "IsForDB"=>true, "Order"=>103, "IsMandatory"=>true, "ValueList"=>"oper_grupo", "Presentation"=>"SELECT", "IsVisible"=>true, "Class"=>"coper_status"));
+        $this->getClass("coper_status")->GetField("oper_hora_in")->SetDisplayValues(Array("Name"=>"oper_hora_in", "Label"=>"Hora Ingreso", "Size"=>10, "IsForDB"=>true, "Order"=>105, "IsMandatory"=>true, "Presentation"=>"TEXT", "IsVisible"=>true, "Cols"=>8, "Class"=>"coper_status"));
+        $this->getClass("coper_status")->GetField("oper_hora_out")->SetDisplayValues(Array("Name"=>"oper_hora_out", "Label"=>"Hora Egreso", "Size"=>10, "IsForDB"=>true, "Order"=>106, "IsMandatory"=>true, "Presentation"=>"TEXT", "IsVisible"=>true, "Cols"=>8, "Class"=>"coper_status"));
     }
 }
 }

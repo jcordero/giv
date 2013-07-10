@@ -14,17 +14,20 @@
 			<field name="it_name" label="Nombre del Item" presentation="TEXT" />
 			<field name="it_order" label="Orden" presentation="INT" />
 			<field name="it_importance" label="Importancia" presentation="INT" total="true" />
-			<field name="it_status" label="Estado" presentation="ESTADO" />			
+			<field name="it_status" label="Estado" presentation="ESTADO" />	
+			<field name="it_critico" label="Crítico" presentation="SINO" />				
 			<searchfield name="it_code"/>
 			<searchfield name="it_name"/>
 			<searchfield name="it_order"/>
 			<searchfield name="it_importance"/>
 			<searchfield name="it_status"/>
+			<searchfield name="it_critico"/>
 			<listfield name="it_code"/>
 			<listfield name="it_name"/>
 			<listfield name="it_order"/>
 			<listfield name="it_importance" total="true" />
 			<listfield name="it_status"/>
+			<listfield name="it_critico"/>
 			<action label="ver" target="items_maint.php?OP=V" operation="V" >
 				<sendfield classname="citems" name="it_code"/>
 			</action>
@@ -40,7 +43,8 @@
 		<field name="it_name" label="Nombre del Item" presentation="TEXT" ismandatory="true"/>
 		<field name="it_order" label="Orden" presentation="INT" ismandatory="true" />
 		<field name="it_importance" label="Importancia" presentation="INT" ismandatory="true" />	
-		<field name="it_status" label="Estado"  presentation="ESTADO"  initialvalue="ACTIVO" ismandatory="true" />		
+		<field name="it_status" label="Estado"  presentation="ESTADO"  initialvalue="ACTIVO" ismandatory="true" />	
+		<field name="it_critico" label="Crítico" presentation="SINO" ismandatory="true" />				
 	</build>
 </make>
 
@@ -140,15 +144,23 @@
 			<searchfield name="crit_oper_status_fin"/>			
 			<listfield name="crit_code" isvisible="false"/>
 			<listfield name="crit_oper_status_ini"/>
-			<listfield name="crit_cant_mal_desde"/>
-			<listfield name="crit_cant_mal_hasta"/>
+			<listfield name="crit_cant_mal_desde" initialvalue="0"/>	
+			<listfield name="crit_cant_mal_hasta" initialvalue="0"/>	
 			<listfield name="crit_oper_status_fin"/>
 			<action label="modificar" right="configuracion.criterios.actualizar" target="criterios_maint.php?OP=M" operation="M"  >
 				<sendfield classname="ccriterios" name="crit_code"/>
 			</action>						
 	</build>
 </make>
-
+<make object="table_maint"> 
+	<build out_file="criterios_maint.php" classname="ccriterios" title="Criterios" next="criterios.php?last=1&amp;OP=L">
+			<field name="crit_code" label="Nro" presentation="SEQUENCE" classparams="criterios" readonly="true"/>	
+			<field name="crit_oper_status_ini" label="Estado Inicial" presentation="CRIT_STATUS" ismandatory="true"/>
+			<field name="crit_cant_mal_desde" label="Mon. erróneos Desde" presentation="TEXT" ismandatory="true" initialvalue="0"/>	
+			<field name="crit_cant_mal_hasta" label="Mon. erróneos Hasta" presentation="TEXT" ismandatory="true" initialvalue="0"/>		
+			<field name="crit_oper_status_fin" label="Estado Final" presentation="CRIT_STATUS" ismandatory="true"/>	
+	</build>
+</make>
 <!-- oper_status -->
 <make object="class"> 
 	<build out_file="coper_status.php" classname="coper_status" classlabel="oper_status">
@@ -159,17 +171,26 @@
 	<build out_file="oper_status.php" classname="coper_status" title="Listado de Operadores">
 			<field name="use_code" label="Nro" presentation="OPERADOR" />
 			<field name="crit_status" label="Estado Operador" presentation="CRIT_STATUS" />
+			<field name="oper_grupo" label="Grupo" presentation="SELECT" valuelist="oper_grupo"/>	
 			<field name="oper_nuevo" label="Nuevo" presentation="SINO" />		
 			<field name="oper_hora_in" label="Hora Ingreso" presentation="TEXT" cols="8"/>				
 			<field name="oper_hora_out" label="Hora Egreso" presentation="TEXT" cols="8"/>	
 			<searchfield name="use_code"/>
 			<searchfield name="crit_status"/>
+			<searchfield name="oper_grupo"/>
 			<searchfield name="oper_nuevo"/>			
 			<listfield name="use_code"/>
 			<listfield name="crit_status"/>
+			<listfield name="oper_grupo"/>
 			<listfield name="oper_nuevo"/>
 			<listfield name="oper_hora_in"/>
 			<listfield name="oper_hora_out"/>
+			<action label="ver"  target="oper_status_maint.php?OP=V" operation="V"  >
+				<sendfield classname="coper_status" name="use_code"/>
+			</action>				
+			<action label="modificar"  target="oper_status_maint.php?OP=M" operation="M"  >
+				<sendfield classname="coper_status" name="use_code"/>
+			</action>			
 			<action label="usuario"  target="/modules/security/users_maint.php?OP=V" operation="V"  >
 				<sendfield classname="coper_status" name="use_code"/>
 			</action>						
@@ -181,6 +202,7 @@
 			<field name="use_code" label="Nro" presentation="OPERADOR" />
 			<field name="crit_status" label="Estado Operador" presentation="CRIT_STATUS" ismandatory="true"/>
 			<field name="oper_nuevo" label="Nuevo" presentation="SINO" ismandatory="true"/>		
+			<field name="oper_grupo" label="Grupo" presentation="SELECT" valuelist="oper_grupo" ismandatory="true"/>				
 			<field name="oper_hora_in" label="Hora Ingreso" presentation="TEXT" cols="8" ismandatory="true"/>			
 			<field name="oper_hora_out" label="Hora Egreso" presentation="TEXT" cols="8" ismandatory="true"/>	
 	</build>

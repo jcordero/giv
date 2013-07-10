@@ -6,7 +6,9 @@ CREATE TABLE monitoreos (
   use_code_supervisor int not null, 
   mon_date datetime  NULL,
   mon_status varchar(20) NULL,
-  mon_note varchar(200) NULL,  
+  mon_forzado  varchar(2) NULL, 
+  mon_motivo   varchar(200) NULL,    
+  mon_note varchar(400) NULL,  
   cli_call_code varchar(200) NULL,    
   mon_call_reference varchar(20) NULL,    
   mon_puntaje int NULL,    
@@ -14,6 +16,7 @@ CREATE TABLE monitoreos (
   mon_perjuicio_cliente varchar(2) NULL,
   mon_add_mon varchar(2) NULL,
   mon_add_cap varchar(2) NULL,
+  mon_use_code int null, 
   constraint pk_monitoreos primary key clustered (mon_code)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
@@ -24,6 +27,7 @@ CREATE TABLE mon_items (
   it_name varchar(200) NOT NULL,
   it_order int(10)  NULL,
   it_importance int NULL,
+  it_critico int NULL,
   it_puntaje int NULL,
   it_aprobo varchar(2)  NULL,
   it_perjuicio_cliente varchar(2)  NULL,

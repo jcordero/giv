@@ -23,16 +23,17 @@ class citems extends cobjbase {
         $this->m_fields['it_order'] = new CField(Array("Name"=>"it_order", "Type"=>"int", "IsForDB"=>true, "Order"=>103));
         $this->m_fields['it_importance'] = new CField(Array("Name"=>"it_importance", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "total"=>true));
         $this->m_fields['it_status'] = new CField(Array("Name"=>"it_status", "Size"=>20, "IsForDB"=>true, "Order"=>105));
+        $this->m_fields['it_critico'] = new CField(Array("Name"=>"it_critico", "Size"=>2, "IsForDB"=>true, "Order"=>106));
 
         //--Contenedores de Clases dependientes
         // No hay clases dependientes
 
         //Consultas particulares a la base de datos
-        $this->m_loaddb_sql = "SELECT it_code, it_name, it_order, it_importance, it_status FROM items  WHERE it_code= :it_code_key:";
-        $this->m_objfactory_sql = "SELECT it_code, it_name, it_order, it_importance, it_status FROM items";
+        $this->m_loaddb_sql = "SELECT it_code, it_name, it_order, it_importance, it_status, it_critico FROM items  WHERE it_code= :it_code_key:";
+        $this->m_objfactory_sql = "SELECT it_code, it_name, it_order, it_importance, it_status, it_critico FROM items";
         $this->m_objfactory_suffix_sql = " ORDER BY it_order";
-        $this->m_savedb_update_sql = "UPDATE items SET it_code= :it_code:, it_name= :it_name:, it_order= :it_order:, it_importance= :it_importance:, it_status= :it_status: WHERE it_code=:it_code_key:";
-        $this->m_savedb_insert_sql = "INSERT INTO items(it_code, it_name, it_order, it_importance, it_status) VALUES (:it_code:, :it_name:, :it_order:, :it_importance:, :it_status:)";
+        $this->m_savedb_update_sql = "UPDATE items SET it_code= :it_code:, it_name= :it_name:, it_order= :it_order:, it_importance= :it_importance:, it_status= :it_status:, it_critico= :it_critico: WHERE it_code=:it_code_key:";
+        $this->m_savedb_insert_sql = "INSERT INTO items(it_code, it_name, it_order, it_importance, it_status, it_critico) VALUES (:it_code:, :it_name:, :it_order:, :it_importance:, :it_status:, :it_critico:)";
         $this->m_savedb_delete_sql = "DELETE FROM items WHERE it_code=:it_code_key:";
         $this->m_savedb_purge_sql = "DELETE FROM items";
         $this->m_savedb_total_sql = "SELECT COUNT(*) as cant, SUM(it_importance) as it_importance FROM items ";

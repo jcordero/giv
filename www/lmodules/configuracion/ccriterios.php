@@ -21,8 +21,8 @@ class ccriterios extends cobjbase {
         $this->m_fields['crit_code'] = new CField(Array("Name"=>"crit_code", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "IsNullable"=>false, "Sequence"=>"criterios"));
         $this->m_fields['crit_oper_status_ini'] = new CField(Array("Name"=>"crit_oper_status_ini", "Type"=>"int", "IsForDB"=>true, "Order"=>102));
         $this->m_fields['crit_oper_status_fin'] = new CField(Array("Name"=>"crit_oper_status_fin", "Type"=>"int", "IsForDB"=>true, "Order"=>103));
-        $this->m_fields['crit_cant_mal_desde'] = new CField(Array("Name"=>"crit_cant_mal_desde", "Type"=>"int", "IsForDB"=>true, "Order"=>104));
-        $this->m_fields['crit_cant_mal_hasta'] = new CField(Array("Name"=>"crit_cant_mal_hasta", "Type"=>"int", "IsForDB"=>true, "Order"=>105));
+        $this->m_fields['crit_cant_mal_desde'] = new CField(Array("Name"=>"crit_cant_mal_desde", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "IsNullable"=>false));
+        $this->m_fields['crit_cant_mal_hasta'] = new CField(Array("Name"=>"crit_cant_mal_hasta", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "IsNullable"=>false));
 
         //--Contenedores de Clases dependientes
         // No hay clases dependientes

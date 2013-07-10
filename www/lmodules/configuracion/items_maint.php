@@ -27,6 +27,7 @@ class unico_gr extends cform_group {
         $this->m_fields[] = 'citems:it_order';
         $this->m_fields[] = 'citems:it_importance';
         $this->m_fields[] = 'citems:it_status';
+        $this->m_fields[] = 'citems:it_critico';
 
     }
 
@@ -37,6 +38,7 @@ class unico_gr extends cform_group {
         $this->getClass("citems")->GetField("it_order")->SetDisplayValues(Array("Name"=>"it_order", "Label"=>"Orden", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "IsMandatory"=>true, "Presentation"=>"INT", "IsVisible"=>true, "Class"=>"citems"));
         $this->getClass("citems")->GetField("it_importance")->SetDisplayValues(Array("Name"=>"it_importance", "Label"=>"Importancia", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "IsMandatory"=>true, "Presentation"=>"INT", "IsVisible"=>true, "Class"=>"citems", "total"=>true));
         $this->getClass("citems")->GetField("it_status")->SetDisplayValues(Array("Name"=>"it_status", "Label"=>"Estado", "Size"=>20, "IsForDB"=>true, "Order"=>105, "IsMandatory"=>true, "Presentation"=>"ESTADO", "IsVisible"=>true, "Class"=>"citems", "InitialValue"=>"ACTIVO"));
+        $this->getClass("citems")->GetField("it_critico")->SetDisplayValues(Array("Name"=>"it_critico", "Label"=>"Crítico", "Size"=>2, "IsForDB"=>true, "Order"=>106, "IsMandatory"=>true, "Presentation"=>"SINO", "IsVisible"=>true, "Class"=>"citems"));
     }
 }
 }

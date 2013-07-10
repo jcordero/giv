@@ -11,9 +11,10 @@
 			<field name="mon_code" label="Nro" presentation="INT" />
 			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" />
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" />
-			<field name="use_code_supervisor" label="Supervisor" presentation="SUPERVISOR"/>
+			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR"/>
 			<field name="mon_date" label="Fecha" presentation="DATERANGE" />
 			<field name="mon_status" label="Estado Monitoreo" presentation="MON_STATUS" />	
+			<field name="mon_forzado" label="Cierre Forzado" presentation="SINO" />				 
 			<field name="cli_call_code" label="Tipo LLamado" presentation="CLI_CALL" />	
 			<field name="mon_note" label="Nota" presentation="TEXT" />	
 			<field name="mon_call_reference" label="Ref LLamado" presentation="TEXT" />	
@@ -28,6 +29,7 @@
 			<searchfield name="use_code_supervisor"/>
 			<searchfield name="mon_date"/>
 			<searchfield name="mon_status"/>
+			<searchfield name="mon_forzado"/>
 			<searchfield name="cli_call_code"/>
 			<searchfield name="mon_call_reference"/>
 			<searchfield name="mon_aprobo"/>
@@ -41,6 +43,7 @@
 			<listfield name="use_code_supervisor"/>
 			<listfield name="mon_date"/>
 			<listfield name="mon_status"/>
+			<listfield name="mon_forzado"/>
 			<listfield name="cli_call_code"/>
 			<listfield name="mon_call_reference" isvisible="false"/>
 			<listfield name="mon_aprobo"/>
@@ -52,7 +55,14 @@
 			<action label="detalle" target="monitoreos_maint.php?OP=V" operation="V" next="monitoreos.php?last=1&amp;OP=L">
 				<sendfield classname="cmonitoreos" name="mon_code"/>
 			</action>
-					
+			<action label="capacitacion" target="/lmodules/capacitacion/capacitacion_oper.php?OP=L" right="capacitacion.operador"  operation="L" next="monitoreos.php?last=1&amp;OP=L">
+				<sendfield classname="cmonitoreos" name="mon_code"/>
+				<sendfield classname="cmonitoreos" name="mon_add_cap"/>
+			</action>	
+			<action label="capacitaciones" target="/lmodules/capacitacion/capacitacion_superv.php?OP=L" right="capacitacion.supervisor"  operation="L" next="monitoreos.php?last=1&amp;OP=L">
+				<sendfield classname="cmonitoreos" name="mon_code"/>
+				<sendfield classname="cmonitoreos" name="mon_add_cap"/>
+			</action>				
 	</build>
 </make>
 
@@ -62,12 +72,12 @@
 			<field name="mon_code" label="Nro" presentation="INT" />
 			<field name="cir_code" label="Circuito" presentation="CIRCUITO_ACTIVO" />
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" />
-			<field name="use_code_supervisor" label="Supervisor" presentation="CURRENTUSER"/>
+			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR"/>
 			<field name="mon_date" label="Fecha" presentation="DATERANGE" />
 			<field name="mon_status" label="Estado Monitoreo" presentation="MON_STATUS" initialvalue="PENDIENTE"/>	
 			<field name="cli_call_code" label="Tipo LLamado" presentation="CLI_CALL" />	
 			<field name="mon_note" label="Nota" presentation="TEXT" />	
-			<field name="mon_call_reference" label="Ref LLamado" presentation="TEXT" />	
+			<field name="mon_call_reference" label="Ref LLamado" presentation="AUDIO" />	
 			<field name="mon_puntaje" label="Puntaje" presentation="INT" />	
 			<field name="mon_aprobo" label="Aprobado" presentation="SINO" />	
 			<field name="mon_perjuicio_cliente" label="Perjuicio" presentation="SINO" />	
@@ -75,7 +85,7 @@
 			<field name="mon_add_cap" label="Agrega Capacitacion" presentation="SINO" />	
 			<searchfield name="cir_code"/>
 			<searchfield name="use_code_operador"/>
-			<searchfield name="use_code_supervisor" presentation="CURRENTUSER" classparams="force"/>
+			<searchfield name="use_code_supervisor" presentation="SUPERVISOR"/>
 			<searchfield name="mon_status" isvisible="false" initialvalue="PENDIENTE"/>	
 
 			<listfield name="mon_code" isvisible="false"/>
@@ -84,7 +94,10 @@
 			<listfield name="use_code_operador"/>
 			<action label="monitorear" right="monitoreos.supervisar" target="monitoreos_superv_maint.php?OP=M" operation="M"  >
 				<sendfield classname="cmonitoreos" name="mon_code"/>
-			</action>						
+			</action>		
+			<action label="cierre forzado" right="monitoreos.supervisar" target="monitoreos_superv_cierre_maint.php?OP=M" operation="M"  >
+				<sendfield classname="cmonitoreos" name="mon_code"/>
+			</action>					
 	</build>
 </make>
 <make object="class"> 
@@ -98,7 +111,7 @@
 	</build>
 </make>
 
-<!-- Consulta de monitoreos -->
+<!--  monitoreos -->
 <make object="table_maint"> 
 	<build out_file="monitoreos_superv_maint.php" classname="cmonitoreos_superv" title="Monitoreo" >
 		<group id="datos1" title="Datos Principales" order="1">
@@ -106,14 +119,17 @@
 			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" readonly="true"/>
 			<field name="cirg_code" label="Grupo Oper" presentation="INT" isvisible="false"/>
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" readonly="true"/>
-			<field name="use_code_supervisor" label="Supervisor" presentation="SUPERVISOR" readonly="true"/>
+			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" readonly="true"/>
+			<field name="mon_use_code" label="Supervisor Monitoreo" presentation="CURRENTUSER" readonly="true"/>	
 			<field name="mon_date" label="Fecha" presentation="DATETIME" classparams="force" readonly="true"/>
 			<field name="mon_status" label="Estado Monitoreo" presentation="MON_STATUS" readonly="true"/>
 		</group>
-		<group id="datos2" title="Datos a Completar en el Monitoreo" order="2" >		
+		<group id="datos2" title="Datos a Completar en el Monitoreo" order="2" >	
+		     <field name="mon_forzado" label="Cierre Forzado ?" presentation="SINO" initialvalue='NO' isvisible="false"/>
+		     <field name="mon_motivo" label="Motivo de Cierre Forzado" presentation="TEXT" isvisible="false"/>		 	
 			<field name="cli_call_code" label="Tipo LLamado" presentation="CLI_CALL" ismandatory="true"/>	
-			<field name="mon_note" label="Nota" presentation="TEXT" ismandatory="true" />	
-			<field name="mon_call_reference" label="Ref LLamado" presentation="TEXT" />	
+			<field name="mon_note" label="Nota" presentation="TEXTAREA" cols="100" rows="4" ismandatory="true" />	
+			<field name="mon_call_reference" label="Ref LLamado" presentation="AUDIO"  />	
 		</group>
 		<group id="datos3" title="Datos automaticos" order="4">
 			<field name="mon_puntaje" label="Puntaje" presentation="INT" readonly="true"/>
@@ -130,7 +146,8 @@
 				<field name="it_name" label="Item" presentation="TEXT" readonly="true"/>
 			</column>
 			<column title="Aprobado?" order="2">			
-				<field name="it_importance" label="Importancia" presentation="INT" isvisible="false"/>			
+				<field name="it_importance" label="Importancia" presentation="INT" isvisible="false"/>						
+				<field name="it_critico" label="Items Criticos" presentation="INT" isvisible="false"/>		
 				<field name="it_puntaje" label="Puntaje" presentation="INT" isvisible="false"/>		
 				<field name="it_aprobo" label="Aprobado?" presentation="SINO" direct_edit="true" ismandatory="true"/>		
 			</column>
@@ -144,6 +161,27 @@
 	</build>
 </make>
 
+<!--  Cierre Forzado monitoreos -->
+<make object="table_maint"> 
+	<build out_file="monitoreos_superv_cierre_maint.php" classname="cmonitoreos_superv" title="Cierre Forzado del Monitoreo" >
+		<group id="datos1" title="Datos Principales" order="1">
+			<field name="mon_code" label="Nro" presentation="INT" readonly="true"/>
+			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" readonly="true"/>
+			<field name="cirg_code" label="Grupo Oper" presentation="INT" isvisible="false"/>
+			<field name="use_code_operador" label="Operador" presentation="OPERADOR" readonly="true"/>
+			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" readonly="true"/>
+			<field name="mon_use_code" label="Supervisor Monitoreo" presentation="CURRENTUSER" readonly="true"/>	
+			<field name="mon_date" label="Fecha" presentation="DATETIME" classparams="force" readonly="true"/>
+			<field name="mon_status" label="Estado Monitoreo" presentation="MON_STATUS" readonly="true"/>
+		</group>
+		<group id="datos2" title="Datos a Completar en el Monitoreo" order="2" >	
+		    <field name="mon_forzado" label="Cierre Forzado ?" presentation="SINO" initialvalue='SI' readonly="true"/>
+		    <field name="mon_motivo" label="Motivo de Cierre Forzado" presentation="TEXT" ismandatory="true" />		 	
+			<field name="mon_aprobo" label="Aprobado" presentation="SINO" initialvalue='NO' readonly="true"/>
+		</group>
+	</build>
+</make>
+
 <!-- Consulta de monitoreos -->
 <make object="table_maint"> 
 	<build out_file="monitoreos_maint.php" classname="cmonitoreos_superv" title="Detalle de Monitoreo" >
@@ -152,14 +190,17 @@
 			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" readonly="true"/>
 			<field name="cirg_code" label="Grupo Oper" presentation="INT" isvisible="false"/>
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" readonly="true"/>
-			<field name="use_code_supervisor" label="Supervisor" presentation="SUPERVISOR" readonly="true"/>
+			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" readonly="true"/>
+			<field name="mon_use_code" label="Supervisor Monitoreo" presentation="CURRENTUSER" readonly="true"/>		
 			<field name="mon_date" label="Fecha" presentation="DATETIME"  readonly="true"/>
 			<field name="mon_status" label="Estado Monitoreo" presentation="TEXT" readonly="true"/>
 		</group>
-		<group id="datos2" title="Datos a Completar en el Monitoreo" order="2" >		
+		<group id="datos2" title="Datos del Monitoreo" order="2" >		
+		     <field name="mon_forzado" label="Cierre Forzado ?" presentation="SINO" readonly="true"/>
+		     <field name="mon_motivo" label="Motivo de Cierre Forzado" presentation="TEXT" readonly="true"/>	
 			<field name="cli_call_code" label="Tipo LLamado" presentation="CLI_CALL" readonly="true"/>
 			<field name="mon_note" label="Nota" presentation="TEXT" readonly="true"/>
-			<field name="mon_call_reference" label="Ref LLamado" presentation="TEXT" readonly="true"/>	
+			<field name="mon_call_reference" label="Ref LLamado" presentation="AUDIO"  readonly="true"/>	
 		</group>
 		<group id="datos3" title="Datos automaticos" order="4">
 			<field name="mon_puntaje" label="Puntaje" presentation="TEXT" readonly="true"/>
@@ -175,7 +216,8 @@
 				<field name="it_order" label="Orden" isvisible="false"/>	
 				<field name="it_name" label="Item" presentation="TEXT" readonly="true"/>
 			</column>
-			<column title="Aprobado?" order="2">			
+			<column title="Aprobado?" order="2">		
+				<field name="it_critico" label="Items Criticos" presentation="INT" />	
 				<field name="it_aprobo" label="Aprobado?" presentation="TEXT" />		
 			</column>
 			<column title="Perjuicio del Cliente" order="3">			
@@ -184,7 +226,7 @@
 			<column title="Nota" order="4">			
 				<field name="it_note" label="Nota" presentation="TEXT" direct_edit="true" ismandatory="true"/>		
 			</column>
-			<column title="Puntaje" order="5">			
+			<column title="Puntaje" order="5">				
 				<field name="it_importance" label="Importancia" presentation="INT" />			
 				<field name="it_puntaje" label="Puntaje" presentation="INT" />
 			</column>				

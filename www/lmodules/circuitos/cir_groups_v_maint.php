@@ -25,6 +25,7 @@ class grupo_gr extends cform_group {
         $this->m_fields[] = 'ccir_groups:cirg_code';
         $this->m_fields[] = 'ccir_groups:cir_code';
         $this->m_fields[] = 'ccir_groups:use_code_supervisor';
+        $this->m_fields[] = 'ccir_groups:oper_grupo';
 
     }
 
@@ -33,6 +34,7 @@ class grupo_gr extends cform_group {
         $this->getClass("ccir_groups")->GetField("cirg_code")->SetDisplayValues(Array("Name"=>"cirg_code", "Label"=>"Grupo Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Sequence"=>"cir_groups", "Class"=>"ccir_groups"));
         $this->getClass("ccir_groups")->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"CIRCUITOS", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccir_groups"));
         $this->getClass("ccir_groups")->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccir_groups"));
+        $this->getClass("ccir_groups")->GetField("oper_grupo")->SetDisplayValues(Array("Name"=>"oper_grupo", "Label"=>"Grupo", "Size"=>20, "IsForDB"=>true, "Order"=>104, "Presentation"=>"TEXT", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccir_groups"));
     }
 }
 }
@@ -67,18 +69,19 @@ class cir_groups_oper_th2 extends ctable_handler {
         $this->m_datafields['use_code_operador']=2;
         $this->m_datafields['crit_status_ini']=3;
         $this->m_datafields['crit_status_fin']=4;
-        $this->m_datafields['cirg_cierre_forzado']=5;
-        $this->m_datafields['cirg_cierre_motivo']=6;
-        $this->m_datafields['cirg_cant_mon_pendientes']=7;
-        $this->m_datafields['cirg_cant_mon_realizados']=8;
-        $this->m_datafields['cirg_cant_mon_ok']=9;
-        $this->m_datafields['cirg_cant_mon_mal']=10;
+        $this->m_datafields['cirg_cant_mon_pendientes']=5;
+        $this->m_datafields['cirg_cant_mon_realizados']=6;
+        $this->m_datafields['cirg_cant_mon_ok']=7;
+        $this->m_datafields['cirg_cant_mon_mal']=8;
+        $this->m_datafields['cirg_cant_cap_pendientes']=9;
+        $this->m_datafields['cirg_cant_cap_realizados']=10;
+        $this->m_datafields['cirg_cant_cap_ok']=11;
+        $this->m_datafields['cirg_cant_cap_mal']=12;
 
         $this->m_columns[1] = new ctable_column(1,'Operador',array('cirg_code','use_code_operador'));
         $this->m_columns[2] = new ctable_column(2,'Estados',array('crit_status_ini','crit_status_fin'));
-        $this->m_columns[3] = new ctable_column(3,'Cierre',array('cirg_cierre_forzado','cirg_cierre_motivo'));
-        $this->m_columns[4] = new ctable_column(4,'Monitoreos',array('cirg_cant_mon_pendientes','cirg_cant_mon_realizados'));
-        $this->m_columns[5] = new ctable_column(5,'Resultados',array('cirg_cant_mon_ok','cirg_cant_mon_mal'));
+        $this->m_columns[3] = new ctable_column(3,'Monitoreos',array('cirg_cant_mon_pendientes','cirg_cant_mon_realizados','cirg_cant_mon_ok','cirg_cant_mon_mal'));
+        $this->m_columns[4] = new ctable_column(4,'Capacitaciones',array('cirg_cant_cap_pendientes','cirg_cant_cap_realizados','cirg_cant_cap_ok','cirg_cant_cap_mal'));
     }
 
     public function getJsIncludes($obj) {
@@ -87,12 +90,14 @@ class cir_groups_oper_th2 extends ctable_handler {
         $r[]=$obj->GetField("use_code_operador")->getJsIncludes();
         $r[]=$obj->GetField("crit_status_ini")->getJsIncludes();
         $r[]=$obj->GetField("crit_status_fin")->getJsIncludes();
-        $r[]=$obj->GetField("cirg_cierre_forzado")->getJsIncludes();
-        $r[]=$obj->GetField("cirg_cierre_motivo")->getJsIncludes();
         $r[]=$obj->GetField("cirg_cant_mon_pendientes")->getJsIncludes();
         $r[]=$obj->GetField("cirg_cant_mon_realizados")->getJsIncludes();
         $r[]=$obj->GetField("cirg_cant_mon_ok")->getJsIncludes();
         $r[]=$obj->GetField("cirg_cant_mon_mal")->getJsIncludes();
+        $r[]=$obj->GetField("cirg_cant_cap_pendientes")->getJsIncludes();
+        $r[]=$obj->GetField("cirg_cant_cap_realizados")->getJsIncludes();
+        $r[]=$obj->GetField("cirg_cant_cap_ok")->getJsIncludes();
+        $r[]=$obj->GetField("cirg_cant_cap_mal")->getJsIncludes();
         return $r;
     }
 
@@ -102,12 +107,14 @@ class cir_groups_oper_th2 extends ctable_handler {
         $obj->GetField("use_code_operador")->SetDisplayValues(Array("Name"=>"use_code_operador", "Label"=>"Operador", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>102, "IsMandatory"=>true, "Presentation"=>"OPERADOR", "IsNullable"=>false, "IsVisible"=>true));
         $obj->GetField("crit_status_ini")->SetDisplayValues(Array("Name"=>"crit_status_ini", "Label"=>"Estado Inicial", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"CRIT_STATUS", "IsVisible"=>true, "IsReadOnly"=>true));
         $obj->GetField("crit_status_fin")->SetDisplayValues(Array("Name"=>"crit_status_fin", "Label"=>"Estado Final", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"CRIT_STATUS", "IsVisible"=>true, "IsReadOnly"=>true));
-        $obj->GetField("cirg_cierre_forzado")->SetDisplayValues(Array("Name"=>"cirg_cierre_forzado", "Label"=>"Cierre Forzado", "Size"=>2, "IsForDB"=>true, "Order"=>105, "Presentation"=>"SINO", "IsVisible"=>true, "IsReadOnly"=>true));
-        $obj->GetField("cirg_cierre_motivo")->SetDisplayValues(Array("Name"=>"cirg_cierre_motivo", "Label"=>"Motivo de Cierre Forzado", "Size"=>200, "IsForDB"=>true, "Order"=>106, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true));
-        $obj->GetField("cirg_cant_mon_pendientes")->SetDisplayValues(Array("Name"=>"cirg_cant_mon_pendientes", "Label"=>"Pendientes", "Type"=>"int", "IsForDB"=>true, "Order"=>107, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true));
-        $obj->GetField("cirg_cant_mon_realizados")->SetDisplayValues(Array("Name"=>"cirg_cant_mon_realizados", "Label"=>"Realizados", "Type"=>"int", "IsForDB"=>true, "Order"=>108, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true));
-        $obj->GetField("cirg_cant_mon_ok")->SetDisplayValues(Array("Name"=>"cirg_cant_mon_ok", "Label"=>"OK", "Type"=>"int", "IsForDB"=>true, "Order"=>109, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true));
-        $obj->GetField("cirg_cant_mon_mal")->SetDisplayValues(Array("Name"=>"cirg_cant_mon_mal", "Label"=>"Mal", "Type"=>"int", "IsForDB"=>true, "Order"=>110, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true));
+        $obj->GetField("cirg_cant_mon_pendientes")->SetDisplayValues(Array("Name"=>"cirg_cant_mon_pendientes", "Label"=>"Pendientes", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true));
+        $obj->GetField("cirg_cant_mon_realizados")->SetDisplayValues(Array("Name"=>"cirg_cant_mon_realizados", "Label"=>"Realizados", "Type"=>"int", "IsForDB"=>true, "Order"=>106, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true));
+        $obj->GetField("cirg_cant_mon_ok")->SetDisplayValues(Array("Name"=>"cirg_cant_mon_ok", "Label"=>"OK", "Type"=>"int", "IsForDB"=>true, "Order"=>107, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true));
+        $obj->GetField("cirg_cant_mon_mal")->SetDisplayValues(Array("Name"=>"cirg_cant_mon_mal", "Label"=>"Mal", "Type"=>"int", "IsForDB"=>true, "Order"=>108, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true));
+        $obj->GetField("cirg_cant_cap_pendientes")->SetDisplayValues(Array("Name"=>"cirg_cant_cap_pendientes", "Label"=>"Pendientes", "Type"=>"int", "IsForDB"=>true, "Order"=>109, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true));
+        $obj->GetField("cirg_cant_cap_realizados")->SetDisplayValues(Array("Name"=>"cirg_cant_cap_realizados", "Label"=>"Realizados", "Type"=>"int", "IsForDB"=>true, "Order"=>110, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true));
+        $obj->GetField("cirg_cant_cap_ok")->SetDisplayValues(Array("Name"=>"cirg_cant_cap_ok", "Label"=>"OK", "Type"=>"int", "IsForDB"=>true, "Order"=>111, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true));
+        $obj->GetField("cirg_cant_cap_mal")->SetDisplayValues(Array("Name"=>"cirg_cant_cap_mal", "Label"=>"Mal", "Type"=>"int", "IsForDB"=>true, "Order"=>112, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true));
     }
 
 }

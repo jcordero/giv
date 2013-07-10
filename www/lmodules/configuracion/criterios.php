@@ -90,7 +90,7 @@ class col104 extends ccolumn
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"crit_cant_mal_desde", "Label"=>"Mon. erróneos Desde", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"INT", "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"crit_cant_mal_desde", "Label"=>"Mon. erróneos Desde", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "InitialValue"=>"0"));
     }
 }
 
@@ -107,7 +107,7 @@ class col105 extends ccolumn
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"crit_cant_mal_hasta", "Label"=>"Mon. erróneos Hasta", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"INT", "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"crit_cant_mal_hasta", "Label"=>"Mon. erróneos Hasta", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "InitialValue"=>"0"));
     }
 }
 

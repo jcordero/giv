@@ -25,10 +25,10 @@ class citems_sl extends csearchandlist {
 		$this->m_render_html = 'BLOCK';
 		$this->m_render_pdml = 'BLOCK';
 
-        $this->m_search_fields = array('it_code','it_name','it_order','it_importance','it_status');
+        $this->m_search_fields = array('it_code','it_name','it_order','it_importance','it_status','it_critico');
 
-        $this->addAction(6,"items_maint.php?OP=V",array(new caction_param('it_code')),"","ver","V","","");
-        $this->addAction(6,"items_maint.php?OP=M",array(new caction_param('it_code')),"","modificar","M","configuracion.items.actualizar","");
+        $this->addAction(7,"items_maint.php?OP=V",array(new caction_param('it_code')),"","ver","V","","");
+        $this->addAction(7,"items_maint.php?OP=M",array(new caction_param('it_code')),"","modificar","M","configuracion.items.actualizar","");
     }
 
     //Inicializo la parte de busqueda
@@ -41,6 +41,7 @@ class citems_sl extends csearchandlist {
         $this->m_obj->GetField("it_order")->SetDisplayValues(Array("Name"=>"it_order", "Label"=>"Orden", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"INT", "IsVisible"=>true));
         $this->m_obj->GetField("it_importance")->SetDisplayValues(Array("Name"=>"it_importance", "Label"=>"Importancia", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"INT", "IsVisible"=>true, "total"=>true));
         $this->m_obj->GetField("it_status")->SetDisplayValues(Array("Name"=>"it_status", "Label"=>"Estado", "Size"=>20, "IsForDB"=>true, "Order"=>105, "Presentation"=>"ESTADO", "IsVisible"=>true));
+        $this->m_obj->GetField("it_critico")->SetDisplayValues(Array("Name"=>"it_critico", "Label"=>"Crítico", "Size"=>2, "IsForDB"=>true, "Order"=>106, "Presentation"=>"SINO", "IsVisible"=>true));
     }
 
 }
@@ -131,6 +132,23 @@ class col105 extends ccolumn
     }
 }
 
+class col106 extends ccolumn
+{
+    function __construct($parent)
+    {
+        parent::__construct($parent);
+        $this->m_title = 'Crítico';
+        $this->m_order = '106';
+        $this->m_isvisible = true;
+        $this->m_align = 'left';
+        $this->m_sort_field = 'it_critico';
+        $this->m_width = '';
+
+        //Campos de la columna
+         $this->m_fields[] = new CField(Array("Name"=>"it_critico", "Label"=>"Crítico", "Size"=>2, "IsForDB"=>true, "Order"=>106, "Presentation"=>"SINO", "IsVisible"=>true));
+    }
+}
+
 class citems_table extends ctable
 {
     function __construct($parent)
@@ -146,6 +164,7 @@ class citems_table extends ctable
         $this->m_cols[103] = new col103($this);
         $this->m_cols[104] = new col104($this);
         $this->m_cols[105] = new col105($this);
+        $this->m_cols[106] = new col106($this);
     }
 
 }

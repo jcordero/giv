@@ -25,9 +25,11 @@ class coper_status_sl extends csearchandlist {
 		$this->m_render_html = 'BLOCK';
 		$this->m_render_pdml = 'BLOCK';
 
-        $this->m_search_fields = array('use_code','crit_status','oper_nuevo');
+        $this->m_search_fields = array('use_code','crit_status','oper_grupo','oper_nuevo');
 
-        $this->addAction(4,"/modules/security/users_maint.php?OP=V",array(new caction_param('use_code')),"","usuario","V","","");
+        $this->addAction(5,"oper_status_maint.php?OP=V",array(new caction_param('use_code')),"","ver","V","","");
+        $this->addAction(5,"oper_status_maint.php?OP=M",array(new caction_param('use_code')),"","modificar","M","","");
+        $this->addAction(5,"/modules/security/users_maint.php?OP=V",array(new caction_param('use_code')),"","usuario","V","","");
     }
 
     //Inicializo la parte de busqueda
@@ -37,7 +39,8 @@ class coper_status_sl extends csearchandlist {
     /* Campos de busqueda */
         $this->m_obj->GetField("use_code")->SetDisplayValues(Array("Name"=>"use_code", "Label"=>"Nro", "Size"=>50, "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"OPERADOR", "IsVisible"=>true));
         $this->m_obj->GetField("crit_status")->SetDisplayValues(Array("Name"=>"crit_status", "Label"=>"Estado Operador", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"CRIT_STATUS", "IsVisible"=>true));
-        $this->m_obj->GetField("oper_nuevo")->SetDisplayValues(Array("Name"=>"oper_nuevo", "Label"=>"Nuevo", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"SINO", "IsVisible"=>true));
+        $this->m_obj->GetField("oper_grupo")->SetDisplayValues(Array("Name"=>"oper_grupo", "Label"=>"Grupo", "Size"=>50, "IsForDB"=>true, "Order"=>103, "ValueList"=>"oper_grupo", "Presentation"=>"SELECT", "IsVisible"=>true));
+        $this->m_obj->GetField("oper_nuevo")->SetDisplayValues(Array("Name"=>"oper_nuevo", "Label"=>"Nuevo", "Size"=>2, "IsForDB"=>true, "Order"=>104, "Presentation"=>"SINO", "IsVisible"=>true));
     }
 
 }
@@ -82,15 +85,15 @@ class col103 extends ccolumn
     function __construct($parent)
     {
         parent::__construct($parent);
-        $this->m_title = 'Nuevo';
+        $this->m_title = 'Grupo';
         $this->m_order = '103';
         $this->m_isvisible = true;
         $this->m_align = 'left';
-        $this->m_sort_field = 'oper_nuevo';
+        $this->m_sort_field = 'oper_grupo';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"oper_nuevo", "Label"=>"Nuevo", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"SINO", "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"oper_grupo", "Label"=>"Grupo", "Size"=>50, "IsForDB"=>true, "Order"=>103, "ValueList"=>"oper_grupo", "Presentation"=>"SELECT", "IsVisible"=>true));
     }
 }
 
@@ -99,15 +102,15 @@ class col104 extends ccolumn
     function __construct($parent)
     {
         parent::__construct($parent);
-        $this->m_title = 'Hora Ingreso';
+        $this->m_title = 'Nuevo';
         $this->m_order = '104';
         $this->m_isvisible = true;
         $this->m_align = 'left';
-        $this->m_sort_field = 'oper_hora_in';
+        $this->m_sort_field = 'oper_nuevo';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"oper_hora_in", "Label"=>"Hora Ingreso", "Size"=>10, "IsForDB"=>true, "Order"=>104, "Presentation"=>"TEXT", "IsVisible"=>true, "Cols"=>8));
+         $this->m_fields[] = new CField(Array("Name"=>"oper_nuevo", "Label"=>"Nuevo", "Size"=>2, "IsForDB"=>true, "Order"=>104, "Presentation"=>"SINO", "IsVisible"=>true));
     }
 }
 
@@ -116,15 +119,32 @@ class col105 extends ccolumn
     function __construct($parent)
     {
         parent::__construct($parent);
-        $this->m_title = 'Hora Egreso';
+        $this->m_title = 'Hora Ingreso';
         $this->m_order = '105';
+        $this->m_isvisible = true;
+        $this->m_align = 'left';
+        $this->m_sort_field = 'oper_hora_in';
+        $this->m_width = '';
+
+        //Campos de la columna
+         $this->m_fields[] = new CField(Array("Name"=>"oper_hora_in", "Label"=>"Hora Ingreso", "Size"=>10, "IsForDB"=>true, "Order"=>105, "Presentation"=>"TEXT", "IsVisible"=>true, "Cols"=>8));
+    }
+}
+
+class col106 extends ccolumn
+{
+    function __construct($parent)
+    {
+        parent::__construct($parent);
+        $this->m_title = 'Hora Egreso';
+        $this->m_order = '106';
         $this->m_isvisible = true;
         $this->m_align = 'left';
         $this->m_sort_field = 'oper_hora_out';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"oper_hora_out", "Label"=>"Hora Egreso", "Size"=>10, "IsForDB"=>true, "Order"=>105, "Presentation"=>"TEXT", "IsVisible"=>true, "Cols"=>8));
+         $this->m_fields[] = new CField(Array("Name"=>"oper_hora_out", "Label"=>"Hora Egreso", "Size"=>10, "IsForDB"=>true, "Order"=>106, "Presentation"=>"TEXT", "IsVisible"=>true, "Cols"=>8));
     }
 }
 
@@ -143,6 +163,7 @@ class coper_status_table extends ctable
         $this->m_cols[103] = new col103($this);
         $this->m_cols[104] = new col104($this);
         $this->m_cols[105] = new col105($this);
+        $this->m_cols[106] = new col106($this);
     }
 
 }

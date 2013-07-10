@@ -2,7 +2,7 @@
 	<right name="monitoreos.menu" note="Permiso para menu Monitoreo"/>
 	<right name="monitoreos.cerrar_circuito" note="Permiso para Cerrar Circuito"/>	
 	<right name="monitoreos.iniciar_circuito" note="Permiso para Iniciar Circuito"/>
-	<right name="monitoreos.supervisar" note="Permiso para ingresar un nuevo Tipo de Llamado"/>
+	<right name="monitoreos.supervisar" note="Permiso para ingresar un nuevo Monitoreo"/>
 	<right name="reportes.menu" note="Permiso para menu reportes"/>
 	<menu language="spa">
 		<menuitem name="monitoreos" order="4" right="monitoreos.menu" pda="true" >

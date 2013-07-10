@@ -27,6 +27,7 @@ class datos1_gr extends cform_group {
         $this->m_fields[] = 'cmonitoreos_superv:cirg_code';
         $this->m_fields[] = 'cmonitoreos_superv:use_code_operador';
         $this->m_fields[] = 'cmonitoreos_superv:use_code_supervisor';
+        $this->m_fields[] = 'cmonitoreos_superv:mon_use_code';
         $this->m_fields[] = 'cmonitoreos_superv:mon_date';
         $this->m_fields[] = 'cmonitoreos_superv:mon_status';
 
@@ -38,7 +39,8 @@ class datos1_gr extends cform_group {
         $this->getClass("cmonitoreos_superv")->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"CIRCUITOS", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("cirg_code")->SetDisplayValues(Array("Name"=>"cirg_code", "Label"=>"Grupo Oper", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"INT", "IsNullable"=>false, "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("use_code_operador")->SetDisplayValues(Array("Name"=>"use_code_operador", "Label"=>"Operador", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"OPERADOR", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
-        $this->getClass("cmonitoreos_superv")->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor Asignado", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_use_code")->SetDisplayValues(Array("Name"=>"mon_use_code", "Label"=>"Supervisor Monitoreo", "Type"=>"int", "IsForDB"=>true, "Order"=>118, "Presentation"=>"CURRENTUSER", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("mon_date")->SetDisplayValues(Array("Name"=>"mon_date", "Label"=>"Fecha", "Type"=>"datetime", "IsForDB"=>true, "Order"=>106, "Presentation"=>"DATETIME", "IsVisible"=>true, "IsReadOnly"=>true, "ClassParams"=>"force", "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("mon_status")->SetDisplayValues(Array("Name"=>"mon_status", "Label"=>"Estado Monitoreo", "Size"=>20, "IsForDB"=>true, "Order"=>107, "Presentation"=>"MON_STATUS", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
     }
@@ -61,6 +63,8 @@ class datos2_gr extends cform_group {
         $this->m_css_prefix = '';// Prefijo CSS
 
         //Campos del grupo
+        $this->m_fields[] = 'cmonitoreos_superv:mon_forzado';
+        $this->m_fields[] = 'cmonitoreos_superv:mon_motivo';
         $this->m_fields[] = 'cmonitoreos_superv:cli_call_code';
         $this->m_fields[] = 'cmonitoreos_superv:mon_note';
         $this->m_fields[] = 'cmonitoreos_superv:mon_call_reference';
@@ -69,9 +73,11 @@ class datos2_gr extends cform_group {
 
     public function InitializeInstance() {
         //SetDisplayValues($attributes) 
-        $this->getClass("cmonitoreos_superv")->GetField("cli_call_code")->SetDisplayValues(Array("Name"=>"cli_call_code", "Label"=>"Tipo LLamado", "Size"=>200, "IsForDB"=>true, "Order"=>109, "IsMandatory"=>true, "Presentation"=>"CLI_CALL", "IsVisible"=>true, "Class"=>"cmonitoreos_superv"));
-        $this->getClass("cmonitoreos_superv")->GetField("mon_note")->SetDisplayValues(Array("Name"=>"mon_note", "Label"=>"Nota", "Size"=>200, "IsForDB"=>true, "Order"=>108, "IsMandatory"=>true, "Presentation"=>"TEXT", "IsVisible"=>true, "Class"=>"cmonitoreos_superv"));
-        $this->getClass("cmonitoreos_superv")->GetField("mon_call_reference")->SetDisplayValues(Array("Name"=>"mon_call_reference", "Label"=>"Ref LLamado", "Size"=>20, "IsForDB"=>true, "Order"=>110, "Presentation"=>"TEXT", "IsVisible"=>true, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_forzado")->SetDisplayValues(Array("Name"=>"mon_forzado", "Label"=>"Cierre Forzado ?", "Size"=>2, "IsForDB"=>true, "Order"=>108, "Presentation"=>"SINO", "Class"=>"cmonitoreos_superv", "InitialValue"=>"NO"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_motivo")->SetDisplayValues(Array("Name"=>"mon_motivo", "Label"=>"Motivo de Cierre Forzado", "Size"=>200, "IsForDB"=>true, "Order"=>109, "Presentation"=>"TEXT", "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("cli_call_code")->SetDisplayValues(Array("Name"=>"cli_call_code", "Label"=>"Tipo LLamado", "Size"=>200, "IsForDB"=>true, "Order"=>111, "IsMandatory"=>true, "Presentation"=>"CLI_CALL", "IsVisible"=>true, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_note")->SetDisplayValues(Array("Name"=>"mon_note", "Label"=>"Nota", "Size"=>400, "IsForDB"=>true, "Order"=>110, "IsMandatory"=>true, "Presentation"=>"TEXTAREA", "IsVisible"=>true, "Rows"=>4, "Cols"=>100, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_call_reference")->SetDisplayValues(Array("Name"=>"mon_call_reference", "Label"=>"Ref LLamado", "Size"=>20, "IsForDB"=>true, "Order"=>112, "Presentation"=>"AUDIO", "IsVisible"=>true, "Class"=>"cmonitoreos_superv"));
     }
 }
 }
@@ -102,11 +108,11 @@ class datos3_gr extends cform_group {
 
     public function InitializeInstance() {
         //SetDisplayValues($attributes) 
-        $this->getClass("cmonitoreos_superv")->GetField("mon_puntaje")->SetDisplayValues(Array("Name"=>"mon_puntaje", "Label"=>"Puntaje", "Type"=>"int", "IsForDB"=>true, "Order"=>111, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
-        $this->getClass("cmonitoreos_superv")->GetField("mon_perjuicio_cliente")->SetDisplayValues(Array("Name"=>"mon_perjuicio_cliente", "Label"=>"Perjuicio del Cliente", "Size"=>2, "IsForDB"=>true, "Order"=>113, "Presentation"=>"SINO", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
-        $this->getClass("cmonitoreos_superv")->GetField("mon_aprobo")->SetDisplayValues(Array("Name"=>"mon_aprobo", "Label"=>"Aprobado", "Size"=>2, "IsForDB"=>true, "Order"=>112, "Presentation"=>"SINO", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
-        $this->getClass("cmonitoreos_superv")->GetField("mon_add_mon")->SetDisplayValues(Array("Name"=>"mon_add_mon", "Label"=>"Agrega Monitoreos?", "Size"=>2, "IsForDB"=>true, "Order"=>114, "Presentation"=>"SINO", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
-        $this->getClass("cmonitoreos_superv")->GetField("mon_add_cap")->SetDisplayValues(Array("Name"=>"mon_add_cap", "Label"=>"Agrega Capacitacion", "Size"=>2, "IsForDB"=>true, "Order"=>115, "Presentation"=>"SINO", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_puntaje")->SetDisplayValues(Array("Name"=>"mon_puntaje", "Label"=>"Puntaje", "Type"=>"int", "IsForDB"=>true, "Order"=>113, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_perjuicio_cliente")->SetDisplayValues(Array("Name"=>"mon_perjuicio_cliente", "Label"=>"Perjuicio del Cliente", "Size"=>2, "IsForDB"=>true, "Order"=>115, "Presentation"=>"SINO", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_aprobo")->SetDisplayValues(Array("Name"=>"mon_aprobo", "Label"=>"Aprobado", "Size"=>2, "IsForDB"=>true, "Order"=>114, "Presentation"=>"SINO", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_add_mon")->SetDisplayValues(Array("Name"=>"mon_add_mon", "Label"=>"Agrega Monitoreos?", "Size"=>2, "IsForDB"=>true, "Order"=>116, "Presentation"=>"SINO", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_add_cap")->SetDisplayValues(Array("Name"=>"mon_add_cap", "Label"=>"Agrega Capacitacion", "Size"=>2, "IsForDB"=>true, "Order"=>117, "Presentation"=>"SINO", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
     }
 }
 }
@@ -142,13 +148,14 @@ class mon_items_th3 extends ctable_handler {
         $this->m_datafields['it_order']=3;
         $this->m_datafields['it_name']=4;
         $this->m_datafields['it_importance']=5;
-        $this->m_datafields['it_puntaje']=6;
-        $this->m_datafields['it_aprobo']=7;
-        $this->m_datafields['it_perjuicio_cliente']=8;
-        $this->m_datafields['it_note']=9;
+        $this->m_datafields['it_critico']=6;
+        $this->m_datafields['it_puntaje']=7;
+        $this->m_datafields['it_aprobo']=8;
+        $this->m_datafields['it_perjuicio_cliente']=9;
+        $this->m_datafields['it_note']=10;
 
         $this->m_columns[1] = new ctable_column(1,'Item',array('mon_code','it_code','it_order','it_name'));
-        $this->m_columns[2] = new ctable_column(2,'Aprobado?',array('it_importance','it_puntaje','it_aprobo'));
+        $this->m_columns[2] = new ctable_column(2,'Aprobado?',array('it_importance','it_critico','it_puntaje','it_aprobo'));
         $this->m_columns[3] = new ctable_column(3,'Perjuicio del Cliente',array('it_perjuicio_cliente'));
         $this->m_columns[4] = new ctable_column(4,'Nota',array('it_note'));
     }
@@ -160,6 +167,7 @@ class mon_items_th3 extends ctable_handler {
         $r[]=$obj->GetField("it_order")->getJsIncludes();
         $r[]=$obj->GetField("it_name")->getJsIncludes();
         $r[]=$obj->GetField("it_importance")->getJsIncludes();
+        $r[]=$obj->GetField("it_critico")->getJsIncludes();
         $r[]=$obj->GetField("it_puntaje")->getJsIncludes();
         $r[]=$obj->GetField("it_aprobo")->getJsIncludes();
         $r[]=$obj->GetField("it_perjuicio_cliente")->getJsIncludes();
@@ -174,10 +182,11 @@ class mon_items_th3 extends ctable_handler {
         $obj->GetField("it_order")->SetDisplayValues(Array("Name"=>"it_order", "Label"=>"Orden", "Type"=>"int", "IsForDB"=>true, "Order"=>104));
         $obj->GetField("it_name")->SetDisplayValues(Array("Name"=>"it_name", "Label"=>"Item", "Size"=>200, "IsForDB"=>true, "Order"=>103, "Presentation"=>"TEXT", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true));
         $obj->GetField("it_importance")->SetDisplayValues(Array("Name"=>"it_importance", "Label"=>"Importancia", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"INT"));
-        $obj->GetField("it_puntaje")->SetDisplayValues(Array("Name"=>"it_puntaje", "Label"=>"Puntaje", "Type"=>"int", "IsForDB"=>true, "Order"=>106, "Presentation"=>"INT"));
-        $obj->GetField("it_aprobo")->SetDisplayValues(Array("Name"=>"it_aprobo", "Label"=>"Aprobado?", "Size"=>2, "IsForDB"=>true, "Order"=>107, "IsMandatory"=>true, "Presentation"=>"SINO", "IsVisible"=>true, "direct_edit"=>true));
-        $obj->GetField("it_perjuicio_cliente")->SetDisplayValues(Array("Name"=>"it_perjuicio_cliente", "Label"=>"Perjuicio?", "Size"=>2, "IsForDB"=>true, "Order"=>108, "IsMandatory"=>true, "Presentation"=>"SINON", "IsVisible"=>true, "direct_edit"=>true));
-        $obj->GetField("it_note")->SetDisplayValues(Array("Name"=>"it_note", "Label"=>"Nota", "Size"=>200, "IsForDB"=>true, "Order"=>109, "IsMandatory"=>true, "Presentation"=>"TEXT", "IsVisible"=>true, "direct_edit"=>true));
+        $obj->GetField("it_critico")->SetDisplayValues(Array("Name"=>"it_critico", "Label"=>"Items Criticos", "Type"=>"int", "IsForDB"=>true, "Order"=>106, "Presentation"=>"INT"));
+        $obj->GetField("it_puntaje")->SetDisplayValues(Array("Name"=>"it_puntaje", "Label"=>"Puntaje", "Type"=>"int", "IsForDB"=>true, "Order"=>107, "Presentation"=>"INT"));
+        $obj->GetField("it_aprobo")->SetDisplayValues(Array("Name"=>"it_aprobo", "Label"=>"Aprobado?", "Size"=>2, "IsForDB"=>true, "Order"=>108, "IsMandatory"=>true, "Presentation"=>"SINO", "IsVisible"=>true, "direct_edit"=>true));
+        $obj->GetField("it_perjuicio_cliente")->SetDisplayValues(Array("Name"=>"it_perjuicio_cliente", "Label"=>"Perjuicio?", "Size"=>2, "IsForDB"=>true, "Order"=>109, "IsMandatory"=>true, "Presentation"=>"SINON", "IsVisible"=>true, "direct_edit"=>true));
+        $obj->GetField("it_note")->SetDisplayValues(Array("Name"=>"it_note", "Label"=>"Nota", "Size"=>200, "IsForDB"=>true, "Order"=>110, "IsMandatory"=>true, "Presentation"=>"TEXT", "IsVisible"=>true, "direct_edit"=>true));
     }
 
 }
