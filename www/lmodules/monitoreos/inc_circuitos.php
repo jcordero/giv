@@ -1,8 +1,10 @@
 <?php
 set_time_limit(3600);
 error_log("ENTRO A:".__FILE__);
-function iniciarCircuito($cir_code)
-{
+include_once "funciones/validar.php";
+
+function iniciarCircuito($cir_code,$cir_date_ini,$cir_date_fin)
+{ 
 		global $primary_db, $sess;
 		$res = array();
 		$sql = "select * from cir_groups where cir_code=".$cir_code;
@@ -32,19 +34,32 @@ function iniciarCircuito($cir_code)
 					$crit_status =  $primary_db->QueryString("SELECT crit_status FROM oper_status where use_code='".$use_code_operador."' limit 1");
 					$crit_status_mon_sem =  $primary_db->QueryString("SELECT crit_status_mon_sem FROM crit_status where crit_status='".$crit_status."' limit 1");
 					$sql3 = "insert into cir_groups_oper (cirg_code,cir_code,use_code_operador,crit_status_ini,crit_status_fin,cirg_cant_mon_pendientes,";
-					$sql3.= "cirg_cant_mon_realizados,cirg_cant_mon_ok,cirg_cant_mon_mal,cirg_cant_cap_pendientes,cirg_cant_cap_realizados,cirg_cant_cap_ok,cirg_cant_cap_mal) ";
+					$sql3.= "cirg_cant_mon_realizados,cirg_cant_mon_ok,cirg_cant_mon_mal,cirg_cant_cap_pendientes,cirg_cant_cap_realizados,cirg_cant_cap_ok,cirg_cant_cap_mal,cirg_cant_mon_cierre_forz) ";
 					$sql3.= " values ($cirg_code,$cir_code,$use_code_operador,'".$crit_status."','',".intval($crit_status_mon_sem).",";
-					$sql3.= "0,0,0,0,0,0,0) ";
+					$sql3.= "0,0,0,0,0,0,0,0) ";
 					$primary_db->do_execute($sql3, $err3);
 					if (count($err3) > 0) {
 						$res[]= "MENSAJE: Error al insertar el operador del grupo ($use_code_operador).";
 					}
 					else
 					{
-					    for ($i=0;$i<$crit_status_mon_sem;$i++)
+					    // Analizar Fechas
+						error_log("Analizar Fechas $cir_date_ini,$cir_date_fin");
+						$v = new validar();
+						$dias = $v->diffFecha($cir_date_fin,$cir_date_ini);
+						$d = 0;
+						error_log("Analizar Fechas $dias");
+						$cir_date = $cir_date_ini;
+						while ($d < $dias)
 						{
-                              $error = insertar_monitoreo($cir_code,$cirg_code,$use_code_supervisor,$use_code_operador); 	
-							  if ($error != '') { $res[] = "MENSAJE: Error al insertar monitoreo"; break; }
+							for ($i=0;$i<$crit_status_mon_sem;$i++)
+							{
+								  error_log("insertar_monitoreo($cir_code,$cirg_code,$use_code_supervisor,$use_code_operador,$cir_date)");
+								  $error = insertar_monitoreo($cir_code,$cirg_code,$use_code_supervisor,$use_code_operador,$cir_date); 	
+								  if ($error != '') { $res[] = "MENSAJE: Error al insertar monitoreo"; break; }
+							}
+							$d = $d + 7;
+							$cir_date = $cir_date_ini + $d;
 						}
 					}
  				
@@ -67,19 +82,19 @@ function iniciarCircuito($cir_code)
 		return $res;
 }
 	
-function insertar_monitoreo($cir_code,$cirg_code,$use_code_supervisor,$use_code_operador)
+function insertar_monitoreo($cir_code,$cirg_code,$use_code_supervisor,$use_code_operador,$mon_date_aprox)
 {
 		global $primary_db,$sess;
 		$error = "";
 		$mon_code = $primary_db->Sequence("monitoreos");
-		$sql = "insert into monitoreos (mon_code,cirg_code,cir_code,use_code_operador,use_code_supervisor,mon_date,mon_status)";
-		$sql.= " values ($mon_code,$cirg_code,$cir_code,$use_code_operador,$use_code_supervisor,null,'PENDIENTE')";
+		$sql = "insert into monitoreos (mon_code,cirg_code,cir_code,use_code_operador,use_code_supervisor,mon_date_aprox,mon_date,mon_status)";
+		$sql.= " values ($mon_code,$cirg_code,$cir_code,$use_code_operador,$use_code_supervisor,STR_TO_DATE('$mon_date_aprox','%d/%m/%Y'),null,'PENDIENTE')";
 		$primary_db->do_execute($sql, $err);
 		if (count($err) > 0) {
 			$error= "MENSAJE: Error en el alta del monitoreo.";
 		}else{
 			$sql = "insert into mon_items (mon_code,it_code,it_name,it_order,it_importance,it_puntaje,it_aprobo,it_perjuicio_cliente,it_critico)";
-			$sql.= " select $mon_code,it_code,it_name,it_order,it_importance,it_importance,'NO','SI',it_critico from items where it_status='ACTIVO' order by it_order";
+			$sql.= " select $mon_code,it_code,it_name,it_order,it_importance,it_importance,'SI','NO',it_critico from items where it_status='ACTIVO' order by it_order";
 			$primary_db->do_execute($sql, $err2);
 			if (count($err2) > 0) 
 				$error= "MENSAJE: Error en el alta de items de monitoreo.";  

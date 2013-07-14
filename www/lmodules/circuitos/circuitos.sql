@@ -32,7 +32,8 @@ CREATE TABLE cir_groups_oper (
   cirg_cant_cap_pendientes int NULL,  
   cirg_cant_cap_realizados int NULL,   
   cirg_cant_cap_ok int NULL,  
-  cirg_cant_cap_mal int NULL,   
+  cirg_cant_cap_mal int NULL,  
+  cirg_cant_mon_cierre_forz  int NULL,  
   constraint pk_cir_groups_oper primary key clustered 
    (cirg_code, use_code_operador)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;  

@@ -141,6 +141,27 @@
         	$buff.='</li>';
         	$buff.='</ul>';
         }
+        if($this->haveRight($primary_db,'capacitacion.menu')) { 
+        	$buff.="<li>capacitacion";
+        	$buff.='<ul>';
+            if($this->haveRight($primary_db,'capacitacion.supervisor')) { 
+            	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/capacitacion/capacitacion_superv.php?OP=L')."\">Capacitaciones</a>";
+            	$buff.='</li>';
+            }
+            if($this->haveRight($primary_db,'capacitacion.supervisar.pend')) { 
+            	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/capacitacion/capacitacion_superv_pend.php?OP=L')."\">Capacitaciones Pendientes</a>";
+            	$buff.='</li>';
+            }
+            if($this->haveRight($primary_db,'capacitacion.operador')) { 
+            	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/capacitacion/capacitacion_oper.php?OP=L')."\">Mis Capacitaciones</a>";
+            	$buff.='</li>';
+            }
+            if($this->haveRight($primary_db,'capacitacion.operador.pendOK')) { 
+            	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/capacitacion/capacitacion_oper_pend.php?OP=L')."\">Mis Capacitaciones Pendientes</a>";
+            	$buff.='</li>';
+            }
+        	$buff.='</ul>';
+        }
         if($this->haveRight($primary_db,'menu.archivo.administracion')) { 
         	$buff.="<li>Administración";
         	$buff.='<ul>';

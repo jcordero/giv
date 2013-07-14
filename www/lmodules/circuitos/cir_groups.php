@@ -30,7 +30,8 @@ class ccir_groups_sl extends csearchandlist {
         $this->addAction(5,"cir_groups_v_maint.php?OP=V",array(new caction_param('cirg_code')),"","ver","V","","");
         $this->addAction(5,"cir_groups_maint.php?OP=M",array(new caction_param('cirg_code')),"","modificar","M","circuitos.cir_groups.actualizar","");
         $this->addAction(5,"cir_groups_maint.php?OP=B",array(new caction_param('cirg_code')),"","eliminar","B","circuitos.cir_groups.actualizar","");
-        $this->addAction(5,"cir_groups_oper.php?OP=L",array(new caction_param('cirg_code')),"","operadores","L","circuitos.cir_groups","");
+        $this->addAction(5,"/lmodules/configuracion/oper_status.php?OP=L",array(new caction_param('cirg_code')),"","operadores","L","circuitos.cir_groups","");
+        $this->addAction(5,"cir_groups_oper.php?OP=L",array(new caction_param('cirg_code')),"","desempeño","L","circuitos.cir_groups","");
     }
 
     //Inicializo la parte de busqueda

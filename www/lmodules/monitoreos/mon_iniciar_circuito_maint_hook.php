@@ -83,13 +83,31 @@ class cmon_iniciar_circuito_hooks extends cclass_maint_hooks
 		$frm = $obj->m_parent;
 
 		$cir_code = $obj->getField("cir_code")->getValue();
-		$cir_status =  $primary_db->QueryString("SELECT cir_status FROM circuitos where cir_code='".$cir_code."' limit 1");
-		if ($cir_status != 'PENDIENTE')
+		$sql = "select cir_status,DATE_FORMAT(cir_date_ini,'%d/%m/%Y') as cir_date_ini,DATE_FORMAT(cir_date_fin,'%d/%m/%Y') as cir_date_fin FROM circuitos 
+		              where cir_code=".$cir_code;
+		
+		$out = $primary_db->do_execute($sql, $err);
+		if (count($err) != 0)
 		{
-				$res[] = "MENSAJE: Solo se pueden actualizar circuitos con estado PENDIENTE.";
+				$res[] = "MENSAJE: Error al buscar un circuitos.";
 				return $res;
+		}	
+		if ($row = $primary_db->_fetch_row($out))
+		{	
+			$cir_status =  $row["cir_status"];
+			if ($cir_status != 'PENDIENTE')
+			{
+				$res[] = "MENSAJE: Solo se pueden actualizar circuitos con estado PENDIENTE.";
+			}
+			else
+			{
+			   $res = iniciarCircuito($cir_code,$row["cir_date_ini"],$row["cir_date_fin"]);
+			}
 		}
-		$res = iniciarCircuito($cir_code);
+		else
+		{
+			$res[] = "MENSAJE: Error al buscar un circuitos.";
+		}
 		return $res;
 	}	
 	

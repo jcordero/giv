@@ -17,18 +17,21 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
             $res[] = $msg;
             return $res;
         }
-		// Controlar si el circuito esta OK
+		// Controlar si el circuito esta OKç
+		$mon_code = $obj->getField("mon_code")->getValue();
 		$cir_code = $obj->getField("cir_code")->getValue();
 		$cirg_code = $obj->getField("cirg_code")->getValue();
 		$use_code_supervisor = $obj->getField("use_code_supervisor")->getValue();
 		$use_code_operador = $obj->getField("use_code_operador")->getValue();
 		$mon_call_reference = $obj->getField("mon_call_reference")->getValue();
+		$doc_code = "mon_code:".$mon_code;
+
 		$mon_call_path =$primary_db->QueryString("SELECT par_value FROM sec_parameters where par_code='path_calls' limit 1")."/".date("Y").date("m")."/".$mon_call_reference;
-		if (!file_exists($nombre_fichero)) {
+		if (!file_exists($mon_call_path)) {
 			$res[] = "MENSAJE: No se encuentra el archivo de audio $mon_call_path";	
 			return $res;
 		}
-		
+
 		$cir_code1 =  $primary_db->QueryString("SELECT cir_code FROM circuitos where cir_date_ini <=date(now()) and cir_date_fin >=date(now()) and cir_status='ACTIVO' and cir_code='".$cir_code."' limit 1");
 		if ($cir_code1 != $cir_code) {
 			$res[] = "MENSAJE: El circuito $cir_code no corresponde a la fecha actual o no se encuentra ACTIVO. Inicie un nuevo circuito";			
@@ -102,7 +105,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		     
             for ($i=0;$i<$mon_no_aprobo;$i++)
 			{
- 			  $error = insertar_monitoreo($cir_code,$use_code_supervisor,$use_code_operador); 	
+ 			  $error = insertar_monitoreo($cir_code,$cirg_code,$use_code_supervisor,$use_code_operador,date("d/m/Y")); 	
 			  if ($error != "") $res[] = "MENSAJE: Error al insertar nuevo monitoreo";
 			}
           }
@@ -133,7 +136,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 					if (count($err3) > 0) 
 						$res[]= "MENSAJE: Error al actualizar el operador del grupo ($use_code_operador).";
 							
-		$error =  $this->saveDoc($mon_call_reference,$mon_call_reference,$mon_call_path,"") ;
+		$error =  $this->saveDoc($mon_call_reference,$doc_code,$mon_call_path,"") ;
 		
 		return $res;
 	}	
@@ -144,20 +147,17 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		$obj = $this->m_data;
 		//Datos del archivo original
 		$arch = new _CFile();			
-		$new_name = md5($name.time()).".mp3";
-		$final_path = $arch->get_path($new_name);
-		$archivo =  $final_path.$new_name;
+		$doc_storage = md5($name.time()).".vox";
+		$final_path = $arch->get_path($doc_storage);
+		$archivo =  $final_path.$doc_storage;
 		if (!copy ($path_file , $archivo ))
 		    return "MENSAJE: No se pudo copiar $path_file a $archivo ";
-
-		$arch->m_size = filesize($archivo);
-
-		$obj->getField("doc_storage")->setValue($new_name);
-		
+		$obj->getField("doc_storage")->setValue($doc_storage);
+		$arch->m_size = filesize($archivo);		
 		$sql = "INSERT INTO doc_documents(doc_code,doc_name,doc_tstamp,doc_mime,doc_size,";
 		$sql.= "acl_code, use_code, doc_storage, doc_extension, doc_version, doc_note)";
-		$sql.= " VALUES('".$doc_code."','".$name."',now() ,'mp3',";
-		$sql.= intval(filesize($archivo)).",0,".$sess->user_id.",'".$new_name."','.mp3','1','".$nota."')";
+		$sql.= " VALUES('".$doc_code."','".$name."',now() ,'vox',";
+		$sql.= intval(filesize($archivo)).",0,".$sess->user_id.",'".$doc_storage."','.vox','1','".$nota."')";
 		$rs = $primary_db->do_execute($sql,$res);
 		if (count($res) > 0) return "MENSAJE: ERROR al guardar el archivo";
 		return "";

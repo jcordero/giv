@@ -108,6 +108,17 @@ if(!class_exists('validar'))
 			return $dias;
 		}
 		
+		public function addDays($fec1,$dias)
+		{
+			$f1 = $this->fmtFechaVal($fec1);
+			$datetime1 = new DateTime($f1);
+			$i = 'P'.intval($dias).'D'; // P1D means a period of 1 day
+			$datetime1->add(new DateInterval($i)); 
+			$fec2 = $datetime1->format('d/m/Y');
+			error_log("validar::addDays ($fec1,$dias) ".$i." ".$fec2);
+			return $fec2;
+		}		
+		
 		public function fmtFecha($fecha)
 		{
 			if (!$this->valFecha($fecha)) return "";

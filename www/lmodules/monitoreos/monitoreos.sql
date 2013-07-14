@@ -11,16 +11,17 @@ CREATE TABLE monitoreos (
   mon_note varchar(400) NULL,  
   cli_call_code varchar(200) NULL,    
   mon_call_reference varchar(20) NULL,    
+  doc_storage varchar(200) NULL,  
   mon_puntaje int NULL,    
   mon_aprobo varchar(2) NULL, 
   mon_perjuicio_cliente varchar(2) NULL,
   mon_add_mon varchar(2) NULL,
   mon_add_cap varchar(2) NULL,
   mon_use_code int null, 
+  mon_date_aprox datetime  NULL, 
   constraint pk_monitoreos primary key clustered (mon_code)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS mon_items;
 CREATE TABLE mon_items (
   mon_code int(10) NOT NULL,
   it_code int(10) NOT NULL,  

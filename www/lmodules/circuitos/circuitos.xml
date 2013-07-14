@@ -155,6 +155,7 @@
 		<field name="cirg_cant_cap_realizados" total="true" />
 		<field name="cirg_cant_cap_ok" total="true" />
 		<field name="cirg_cant_cap_mal" total="true" />		
+		<field name="cirg_cant_mon_cierre_forz" total="true" />			
 	</build>
 </make>
 <make object="search_and_list"> 
@@ -164,10 +165,15 @@
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" />
 			<field name="crit_status_ini" label="Estado Inicial" presentation="CRIT_STATUS" />
 			<field name="crit_status_fin" label="Estado Final" presentation="CRIT_STATUS" />
-			<field name="cirg_cant_mon_pendientes" label="Pendientes" presentation="INT" total="true"/>
-			<field name="cirg_cant_mon_realizados" label="Realizados" presentation="INT" total="true"/>	
-			<field name="cirg_cant_mon_ok" label="OK" presentation="INT" total="true"/>
-			<field name="cirg_cant_mon_mal" label="Mal" presentation="INT" total="true"/>							
+			<field name="cirg_cant_mon_pendientes" label="Monitoreos Pendientes" presentation="INT" total="true"/>
+			<field name="cirg_cant_mon_realizados" label="Monitoreos Realizados" presentation="INT" total="true"/>	
+			<field name="cirg_cant_mon_ok" label="Monitoreos Aprobados" presentation="INT" total="true"/>
+			<field name="cirg_cant_mon_mal" label="Monitoreos No Aprob." presentation="INT" total="true"/>	
+			<field name="cirg_cant_mon_cierre_forz" label="Cierre Forzado" presentation="INT" total="true"/>				
+			<field name="cirg_cant_cap_pendientes" label="Capac. Pendientes" presentation="INT" total="true"/>
+			<field name="cirg_cant_cap_realizados" label="Capac. Realizadas" presentation="INT" total="true"/>	
+			<field name="cirg_cant_cap_ok" label="Capac. Aprob." presentation="INT" total="true"/>
+			<field name="cirg_cant_cap_mal" label="Capac. No Aprob." presentation="INT" total="true"/>			
 			<searchfield name="cirg_code"/>
 			<searchfield name="cir_code"/>
 			<searchfield name="use_code_operador"/>
@@ -181,14 +187,17 @@
 			<listfield name="cirg_cant_mon_pendientes" total="true"/>
 			<listfield name="cirg_cant_mon_realizados" total="true"/>
 			<listfield name="cirg_cant_mon_ok" total="true"/>
-			<listfield name="cirg_cant_mon_mal" total="true"/>			
+			<listfield name="cirg_cant_mon_mal" total="true"/>				
+			<listfield name="cirg_cant_mon_cierre_forz" total="true"/>	
 			<listfield name="cirg_cant_cap_pendientes" total="true"/>
 			<listfield name="cirg_cant_cap_realizados" total="true"/>
 			<listfield name="cirg_cant_cap_ok" total="true"/>
-			<listfield name="cirg_cant_cap_mal" total="true"/>			
+			<listfield name="cirg_cant_cap_mal" total="true"/>	
 
-			<action label="ver asignacion" target="cir_groups_v_maint.php?OP=V" operation="V" >
+			<action label="monitoreos" target="/lmodules/monitoreos/monitoreos.php?OP=L" operation="L" next="/lmodules/circuitos/cir_groups_oper.php?last=1&amp;OP=L" >
 				<sendfield classname="ccir_groups_oper" name="cirg_code"/>
+				<sendfield classname="ccir_groups_oper" name="cir_code"/>
+				<sendfield classname="ccir_groups_oper" name="use_code_operador"/>				
 			</action>
 	</build>
 </make>
