@@ -66,6 +66,9 @@ class ccir_groups_m extends cclass_maint {
     	$this->m_event_p = '';// Evento al imprimir
     	$this->m_css_prefix = '';// Prefijo CSS
 
+        //Acciones
+		$this->m_action[] = new CAction('N','Asignar Grupo de Operadores','','','cir_groups_maint.php?OP=N','','','');
+
         //Grupos
 		$this->m_handler[1] = new grupo_gr($this);
 

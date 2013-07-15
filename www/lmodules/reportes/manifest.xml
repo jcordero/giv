@@ -1,0 +1,14 @@
+<module name="reportes" version="1.0" release="30/06/2013">
+	<right name="reportes.menu" note="Permiso para menu reportes"/>
+	<menu language="spa">
+		<menuitem name="reportes" order="10" right="reportes.menu" pda="true" >
+		   <menuitem name="Estado Circuitos" right="circuitos.cir_groups_oper"  action="/lmodules/reportes/des_circuito.php?OP=L" tooltip="Listar desempeño de Operadores totalizado por circuito" order="1" pda="true"/>
+		   <menuitem name="Listado de Monitoreos" right="monitoreos.menu" action="/lmodules/monitoreos/monitoreos.php?OP=L" tooltip="Listar y consultar Monitoreos" order="3" pda="true"/>
+		   <menuitem name="Mis Monitoreos Operador" right="monitoreos.operador" action="/lmodules/monitoreos/monitoreos_operador.php?OP=L" tooltip="Listar y consultar mis Monitoreos" order="4" pda="true"/>			
+		   <menuitem name="Desempeño" order="5" right="circuitos.cir_groups_oper" >
+			<menuitem name="Desempeño por Grupo"  action="/lmodules/reportes/des_circuito_group.php?OP=L" tooltip="Listar desempeño de Operadores totalizado por grupo" order="2" pda="true"/>
+			<menuitem name="Desempeño por Operadores" action="/lmodules/circuitos/cir_groups_oper.php?OP=L" tooltip="Listar desempeño de Operadores" order="3" pda="true"/>
+		  </menuitem>
+		</menuitem>
+	</menu>	
+</module>

@@ -10,10 +10,10 @@ include_once "cmonitoreos_rep.php";
 class cmonitoreos_rep_sl extends csearchandlist {
     function __construct() {
         parent::__construct();
-        $this->m_title = "Listado de monitoreos";
+        $this->m_title = "Listado de Mis Monitoreos";
         $this->m_classname = "cmonitoreos_rep_sl";
         $this->m_obj = new cmonitoreos_rep();
-        $this->m_page_name = "monitoreos.php";
+        $this->m_page_name = "monitoreos_operador.php";
         $this->m_result = new ctable($this->m_title);
         $this->m_print_orientation = 'P';
         $this->m_print_size = 'A4';
@@ -27,8 +27,8 @@ class cmonitoreos_rep_sl extends csearchandlist {
 
         $this->m_search_fields = array('mon_code','cir_code','use_code_operador','use_code_supervisor','mon_date','mon_status','mon_forzado','cli_call_code','mon_aprobo','mon_perjuicio_cliente');
 
-        $this->addAction(11,"monitoreos_maint.php?OP=V",array(new caction_param('mon_code')),"","detalle","V","","monitoreos.php?last=1&OP=L");
-        $this->addAction(11,"/lmodules/capacitacion/capacitacion_superv.php?OP=L",array(new caction_param('mon_code'),new caction_param('mon_add_cap')),"","capac. sup","L","capacitacion.supervisor","monitoreos.php?last=1&OP=L");
+        $this->addAction(11,"monitoreos_maint.php?OP=V",array(new caction_param('mon_code')),"","detalle","V","","monitoreos_operador.php?last=1&OP=L");
+        $this->addAction(11,"/lmodules/capacitacion/capacitacion_oper.php?OP=L",array(new caction_param('mon_code'),new caction_param('mon_add_cap')),"","capacitacion","L","capacitacion.operador","monitoreos_operador.php?last=1&OP=L");
         $this->addAction(11,"/common/download.php?OP=V",array(new caction_param('doc_storage')),"","llamada","D","","");
     }
 
@@ -39,7 +39,7 @@ class cmonitoreos_rep_sl extends csearchandlist {
     /* Campos de busqueda */
         $this->m_obj->GetField("mon_code")->SetDisplayValues(Array("Name"=>"mon_code", "Label"=>"Mon. Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circ. Nro", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"CIRCUITOS", "IsNullable"=>false, "IsVisible"=>true));
-        $this->m_obj->GetField("use_code_operador")->SetDisplayValues(Array("Name"=>"use_code_operador", "Label"=>"Oper.", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"OPERADOR", "IsNullable"=>false, "IsVisible"=>true));
+        $this->m_obj->GetField("use_code_operador")->SetDisplayValues(Array("Name"=>"use_code_operador", "Label"=>"Oper.", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"CURRENTUSER", "IsNullable"=>false, "ClassParams"=>"force"));
         $this->m_obj->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Superv. Asignado", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("mon_date")->SetDisplayValues(Array("Name"=>"mon_date", "Label"=>"Fecha", "Type"=>"datetime", "IsForDB"=>true, "Order"=>106, "Presentation"=>"DATERANGE", "IsVisible"=>true));
         $this->m_obj->GetField("mon_status")->SetDisplayValues(Array("Name"=>"mon_status", "Label"=>"Estado", "Size"=>20, "IsForDB"=>true, "Order"=>107, "Presentation"=>"MON_STATUS", "IsVisible"=>true));
@@ -93,13 +93,13 @@ class col104 extends ccolumn
         parent::__construct($parent);
         $this->m_title = 'Oper.';
         $this->m_order = '104';
-        $this->m_isvisible = true;
+        $this->m_isvisible = false;
         $this->m_align = 'left';
         $this->m_sort_field = 'use_code_operador';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"use_code_operador", "Label"=>"Oper.", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"OPERADOR", "IsNullable"=>false, "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"use_code_operador", "Label"=>"Oper.", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"CURRENTUSER", "IsNullable"=>false, "ClassParams"=>"force"));
     }
 }
 
@@ -312,7 +312,7 @@ class cmonitoreos_rep_table extends ctable
     function __construct($parent)
     {
         parent::__construct($parent);
-        $this->m_title = 'Listado de monitoreos'; //Titulo de la tabla
+        $this->m_title = 'Listado de Mis Monitoreos'; //Titulo de la tabla
         $this->m_classname = 'cmonitoreos_rep'; //Clase contenedora de datos
         $this->m_total = false; //Incluir ultima fila de totales
 

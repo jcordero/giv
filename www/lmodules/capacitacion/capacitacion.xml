@@ -1,0 +1,252 @@
+<ayaxphpclass>
+
+<make object="class"> 
+	<build out_file="ccapacitacion.php" classname="ccapacitacion" classlabel="capacitacion">
+		<parse in_file="capacitacion.sql" tablename="capacitacion" />	
+		<method ObjFactoryQuerySuffix=" ORDER BY cap_code desc"/>		
+	</build>
+</make>
+<!-- Del Supervisor -->
+<make object="search_and_list"> 
+	<build out_file="capacitacion_superv.php" classname="ccapacitacion" title="Listado de Capacitaciones">
+			<field name="cap_code" label="Capacitación Nro" presentation="INT" />
+			<field name="mon_code" label="Monitoreo Nro" presentation="INT" />
+			<field name="cir_code" label="Circuito" presentation="CIRCUITO_ACTIVO" />
+			<field name="use_code_operador" label="Operador" presentation="OPERADOR" />
+			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" />
+			<field name="cap_status" label="Estado" presentation="CAP_STATUS"/>
+			<field name="cap_date" label="Fecha" presentation="DATERANGE" />
+			<field name="cap_use_code" label="Capacitado por"  presentation="SUPERVISOR" />
+			<field name="cap_origen" label="Origen" presentation="SELECT" valuelist="cap_origen" />	
+			<field name="cap_habilidad" label="Habilidad" presentation="SELECT" valuelist="cap_habilidad" />	
+			<field name="cap_rol_play_aprobado" label="Rol Play Aprobado" presentation="SINO" />	
+			<field name="cap_visto_oper" label="Visto" presentation="SINO" />	
+			<field name="doc_storage" label="Llamada" presentation="FILE"/>
+			<searchfield name="cap_code" />			
+			<searchfield name="mon_code" />
+			<searchfield name="cir_code"/>
+			<searchfield name="use_code_operador"/>
+			<searchfield name="cap_use_code" />
+			<searchfield name="cap_status" />	
+			<searchfield name="cap_date" />
+			<searchfield name="cap_origen" />
+			<searchfield name="cap_habilidad" />
+			<searchfield name="cap_rol_play_aprobado" />
+			<searchfield name="cap_visto_oper" />
+			
+			<listfield name="cap_code"/>
+			<listfield name="mon_code"/>
+			<listfield name="cir_code"/>
+			<listfield name="cap_status" />	
+			<listfield name="cap_date" />			
+			<listfield name="cap_use_code"/>
+			<listfield name="use_code_operador"/>
+			<listfield name="cap_origen" />
+			<listfield name="cap_habilidad" />
+			<listfield name="cap_rol_play_aprobado" />
+			<listfield name="cap_visto_oper" />
+			<listfield name="doc_storage" isvisible="false" />
+			<action label="ver capacitacion" right="capacitacion.supervisor.pend"  target="capacitacion_superv_maint.php?OP=V" operation="V" next="capacitacion_superv.php?last=1&amp;OP=L">
+				<sendfield classname="ccapacitacion" name="cap_code"/>
+			</action>
+			<action label="ver monitoreo"  target="/lmodules/monitoreos/monitoreos_superv_maint.php?OP=V" operation="V"  next="/lmodules/capacitacion/capacitacion_superv.php?last=1&amp;OP=L">
+				<sendfield classname="ccapacitacion" name="mon_code"/>
+			</action>		
+		    <action label="llamada" target="/common/download.php?OP=V" operation="D">
+				<sendfield classname="ccapacitacion" name="doc_storage"  />
+		    </action>			
+	</build>
+</make>
+		
+
+<make object="search_and_list"> 
+	<build out_file="capacitacion_superv_pend.php" classname="ccapacitacion" title="Listar Capacitaciones Pendientes">
+			<field name="cap_code" label="Capacitación Nro" presentation="INT" />
+			<field name="mon_code" label="Monitoreo Nro" presentation="INT" />
+			<field name="cir_code" label="Circuito" presentation="CIRCUITO_ACTIVO" />
+			<field name="use_code_operador" label="Operador" presentation="OPERADOR" />
+			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" />
+			<field name="cap_status" label="Estado" presentation="CAP_STATUS"/>
+			<field name="doc_storage" label="Llamada" presentation="FILE"/>
+			<searchfield name="cap_code" isvisible="false" />			
+			<searchfield name="mon_code" isvisible="false" />
+			<searchfield name="cir_code"/>
+			<searchfield name="use_code_operador"/>
+			<searchfield name="use_code_supervisor" />
+			<searchfield name="cap_status" isvisible="false" initialvalue="PENDIENTE"/>	
+			<listfield name="cap_code" />
+			<listfield name="mon_code" />
+			<listfield name="cir_code"/>
+			<listfield name="use_code_supervisor"/>
+			<listfield name="use_code_operador"/>
+			<listfield name="doc_storage" isvisible="false" />
+			<action label="capacitar" right="capacitacion.supervisor.pend" target="capacitacion_superv_maint.php?OP=M" operation="M"   next="/lmodules/capacitacion/capacitacion_superv_pend.php?last=1&amp;OP=L">
+				<sendfield classname="ccapacitacion" name="cap_code"/>
+			</action>	
+			<action label="ver monitoreo"  target="/lmodules/monitoreos/monitoreos_superv_maint.php?OP=V" operation="V"   next="/lmodules/capacitacion/capacitacion_superv_pend.php?last=1&amp;OP=L">
+				<sendfield classname="ccapacitacion" name="mon_code"/>
+			</action>					
+		    <action label="llamada" target="/common/download.php?OP=V" operation="D">
+			<sendfield classname="ccapacitacion" name="doc_storage"  />
+		    </action>					
+	</build>
+</make>
+
+
+<make object="table_maint"> 
+	<build out_file="capacitacion_superv_maint.php" classname="ccapacitacion" title="Capacitación" >
+		<group id="datos1" title="Datos Principales" order="1">
+			<field name="cap_code" label="Capacitación Nro" presentation="INT" readonly="true"/>
+			<field name="mon_code" label="Monitoreo Nro" presentation="INT" readonly="true"/>
+			<field name="doc_storage" label="Llamada" presentation="FILE"  isvisible="false"/>
+			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" readonly="true"/>
+			<field name="cirg_code" label="Grupo Oper" presentation="INT" isvisible="false"/>
+			<field name="use_code_operador" label="Operador" presentation="OPERADOR" readonly="true"/>
+			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" readonly="true"/>
+			<field name="cap_status" label="Estado" presentation="CAP_STATUS" readonly="true"/>
+		</group>
+		<group id="datos2" title="Datos a Completar" order="2" >	
+			<field name="cap_date" label="Fecha" presentation="DATETIME" classparams="force" readonly="true"/>		
+			<field name="cap_use_code" label="Capacitado por" presentation="CURRENTUSER" classparams="force" readonly="true"/>			
+			<field name="cap_origen" label="Origen" presentation="SELECT" valuelist="cap_origen" ismandatory="true"/>	
+			<field name="cap_motivo" label="Motivo" presentation="TEXTAREA" cols="100" rows="2" ismandatory="true" />	
+			<field name="cap_habilidad" label="Habilidad" presentation="SELECT" valuelist="cap_habilidad" ismandatory="true"/>	
+			<field name="cap_tipo_tramite" label="Tipo Trámite" presentation="TEXTAREA" cols="100" rows="2" ismandatory="true" />	
+			<field name="cap_rol_play_aprobado" label="Rol Play Aprobado" presentation="SINO" ismandatory="true"/>	
+		</group>
+		<group id="datos3" title="Observaciones / Procedimiento" order="4">
+		    <field name="cap_observaciones" label="Observaciones" presentation="TEXTAREA" cols="100" rows="4" ismandatory="true" />	
+		</group>
+		<group id="datos4" title="Visto Operador" order="5">
+			<field name="cap_visto_oper" label="Visto" presentation="TEXT"  initialvalue="NO"  readonly="true"/>			
+			<field name="cap_date_visto_oper" label="Fecha" presentation="DATETIME" readonly="true"/>			
+		</group>		
+		<action label="llamada" target="/common/download.php?OP=V" operation="D">
+			<sendfield classname="ccapacitacion" name="doc_storage"  />
+		</action>			
+	</build>
+</make>
+
+<!-- Del Operador -->
+<make object="search_and_list"> 
+	<build out_file="capacitacion_oper.php" classname="ccapacitacion" title="Listado de Mis Capacitaciones">
+			<field name="cap_code" label="Capacitación Nro" presentation="INT" />
+			<field name="mon_code" label="Monitoreo Nro" presentation="INT" />
+			<field name="cir_code" label="Circuito" presentation="CIRCUITO_ACTIVO" />
+			<field name="use_code_operador" label="Operador" presentation="CURRENTUSER" classparams="force"/>
+			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" />
+			<field name="cap_status" label="Estado" presentation="CAP_STATUS"/>
+			<field name="cap_date" label="Fecha" presentation="DATERANGE" />
+			<field name="cap_use_code" label="Capacitado por"  presentation="SUPERVISOR" />
+			<field name="cap_origen" label="Origen" presentation="SELECT" valuelist="cap_origen" />	
+			<field name="cap_habilidad" label="Habilidad" presentation="SELECT" valuelist="cap_habilidad" />	
+			<field name="cap_rol_play_aprobado" label="Rol Play Aprobado" presentation="SINO" />	
+			<field name="cap_visto_oper" label="Visto" presentation="SINO" />	
+			<field name="doc_storage" label="Llamada" presentation="FILE"/>
+			<searchfield name="cap_code" />			
+			<searchfield name="mon_code" />
+			<searchfield name="cir_code"/>
+			<searchfield name="use_code_operador" presentation="CURRENTUSER" classparams="force" isvisible="false" />		
+			<searchfield name="cap_use_code" />
+			<searchfield name="cap_status" isvisible="false" initialvalue="REALIZADO"/>	
+			<searchfield name="cap_date" />
+			<searchfield name="cap_origen" />
+			<searchfield name="cap_habilidad" />
+			<searchfield name="cap_rol_play_aprobado" />
+			<searchfield name="cap_visto_oper" />
+			
+			<listfield name="cap_code"/>
+			<listfield name="mon_code"/>
+			<listfield name="cir_code"/>
+			<listfield name="cap_status" />	
+			<listfield name="cap_date" />			
+			<listfield name="cap_use_code"/>
+			<listfield name="use_code_operador"/>
+			<listfield name="cap_origen" />
+			<listfield name="cap_habilidad" />
+			<listfield name="cap_rol_play_aprobado" />
+			<listfield name="cap_visto_oper" />
+			<listfield name="doc_storage" isvisible="false"/>
+			<action label="ver capacitacion" right="capacitacion.operador" target="capacitacion_superv_maint.php?OP=V" operation="V" next="capacitacion_oper.php?last=1&amp;OP=L">
+				<sendfield classname="ccapacitacion" name="cap_code"/>
+			</action>
+			<action label="ver monitoreo"  target="/lmodules/monitoreos/monitoreos_superv_maint.php?OP=V" operation="V"  next="/lmodules/capacitacion/capacitacion_oper.php?last=1&amp;OP=L">
+				<sendfield classname="ccapacitacion" name="mon_code"/>
+			</action>		
+			<action label="llamada" target="/common/download.php?OP=V" operation="D">
+				<sendfield classname="ccapacitacion" name="doc_storage"  />
+			</action>					
+	</build>
+</make>
+		
+
+<make object="search_and_list"> 
+	<build out_file="capacitacion_oper_pend.php" classname="ccapacitacion" title="Listar Capacitaciones Pendientes">
+			<field name="cap_code" label="Capacitación Nro" presentation="INT" />
+			<field name="mon_code" label="Monitoreo Nro" presentation="INT" />
+			<field name="cir_code" label="Circuito" presentation="CIRCUITO_ACTIVO" />
+			<field name="use_code_operador" label="Operador" presentation="CURRENTUSER" classparams="force"/>
+			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" />
+			<field name="cap_status" label="Estado" presentation="CAP_STATUS"/>
+			<field name="cap_visto_oper" label="Visto" presentation="TEXT"/>
+			<field name="doc_storage" label="Llamada" presentation="FILE"/>
+			<searchfield name="cap_code" isvisible="false" />			
+			<searchfield name="mon_code" isvisible="false" />
+			<searchfield name="cir_code"/>
+			<searchfield name="use_code_operador" isvisible="false" presentation="CURRENTUSER" classparams="force"/>
+			<searchfield name="use_code_supervisor" />
+			<searchfield name="cap_status" isvisible="false" initialvalue="REALIZADO"/>	
+			<searchfield name="cap_visto_oper" isvisible="false" initialvalue="NO"/>	
+			<listfield name="cap_code"/>
+			<listfield name="mon_code"/>
+			<listfield name="cir_code"/>
+			<listfield name="use_code_supervisor"/>
+			<listfield name="use_code_operador"/>
+			<listfield name="doc_storage" isvisible="false"/>
+			<action label="dar visto" right="capacitacion.operador.pendOK" target="capacitacion_oper_maint.php?OP=M" operation="M" next="/lmodules/capacitacion/capacitacion_oper_pend.php?last=1&amp;OP=L">
+				<sendfield classname="ccapacitacion" name="cap_code"/>
+			</action>	
+			<action label="ver monitoreo"  target="/lmodules/monitoreos/monitoreos_superv_maint.php?OP=V" operation="V"   next="/lmodules/capacitacion/capacitacion_oper_pend.php?last=1&amp;OP=L">
+				<sendfield classname="ccapacitacion" name="mon_code"/>
+			</action>		
+			<action label="llamada" target="/common/download.php?OP=V" operation="D">
+				<sendfield classname="ccapacitacion" name="doc_storage"  />
+			</action>					
+	</build>
+</make>
+
+
+<make object="table_maint"> 
+	<build out_file="capacitacion_oper_maint.php" classname="ccapacitacion" title="Dar Visto a La Capacitación" >
+		<group id="datos1" title="Datos Principales" order="1">
+			<field name="cap_code" label="Capacitación Nro" presentation="INT" readonly="true"/>
+			<field name="mon_code" label="Monitoreo Nro" presentation="INT" readonly="true"/>
+			<field name="doc_storage" label="Llamada" presentation="FILE"  isvisible="false"/>
+			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" readonly="true"/>
+			<field name="cirg_code" label="Grupo Oper" presentation="INT" isvisible="false"/>
+			<field name="use_code_operador" label="Operador" presentation="OPERADOR" readonly="true"/>
+			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" readonly="true"/>
+			<field name="cap_status" label="Estado" presentation="TEXT" readonly="true"/>
+		</group>
+		<group id="datos2" title="Datos a Completar" order="2" >	
+			<field name="cap_date" label="Fecha" presentation="DATETIME"  readonly="true"/>
+			<field name="cap_use_code" label="Capacitado por" presentation="CURRENTUSER" readonly="true"/>			
+			<field name="cap_origen" label="Origen" presentation="TEXT" readonly="true"/>	
+			<field name="cap_motivo" label="Motivo" presentation="TEXTAREA" cols="100" rows="2" readonly="true"/>	
+			<field name="cap_habilidad" label="Habilidad" presentation="TEXT"  readonly="true"/>	
+			<field name="cap_tipo_tramite" label="Tipo Trámite" presentation="TEXTAREA" cols="100" rows="2"  readonly="true"/>	
+			<field name="cap_rol_play_aprobado" label="Rol Play Aprobado" presentation="TEXT"  readonly="true"/>
+		</group>
+		<group id="datos3" title="Observaciones / Procedimiento" order="4">
+			<field name="cap_observaciones" label="Observaciones" presentation="TEXTAREA" cols="100" rows="4"  readonly="true"/>
+		</group>
+		<group id="datos4" title="Visto por el Operador" order="5">
+			<field name="cap_visto_oper" label="Visto" presentation="SINO" ismandatory="true"/>	
+			<field name="cap_date_visto_oper" label="Fecha" presentation="DATETIME" classparams="force" readonly="true"	/>	
+		</group>	
+		<action label="llamada" target="/common/download.php?OP=V" operation="D">
+			<sendfield classname="ccapacitacion" name="doc_storage"  />
+		</action>				
+	</build>
+</make>
+</ayaxphpclass>

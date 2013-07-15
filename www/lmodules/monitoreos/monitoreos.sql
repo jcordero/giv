@@ -15,8 +15,8 @@ CREATE TABLE monitoreos (
   mon_puntaje int NULL,    
   mon_aprobo varchar(2) NULL, 
   mon_perjuicio_cliente varchar(2) NULL,
-  mon_add_mon varchar(2) NULL,
-  mon_add_cap varchar(2) NULL,
+  mon_add_mon int NULL,
+  mon_add_cap int NULL,
   mon_use_code int null, 
   mon_date_aprox datetime  NULL, 
   constraint pk_monitoreos primary key clustered (mon_code)

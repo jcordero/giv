@@ -1,0 +1,144 @@
+<ayaxphpclass>
+<!-- Desemp. por Circuito -->
+<make object="class"> 
+	<build out_file="cdes_circuito.php" classname="cdes_circuito" classlabel="Desemp. Circuito">
+	    <parse tablename="des_circuito"/>
+		<method SaveDBTotalQuery="select 
+				sum(cirg_cant_mon_pendientes) as cirg_cant_mon_pendientes, sum(cirg_cant_mon_realizados) as cirg_cant_mon_realizados, 
+				sum(cirg_cant_mon_ok) as cirg_cant_mon_ok, 
+				sum(cirg_cant_mon_mal) as cirg_cant_mon_mal, sum(cirg_cant_cap_pendientes) as cirg_cant_cap_pendientes, 
+				sum(cirg_cant_cap_realizados) as cirg_cant_cap_realizados, sum(cirg_cant_cap_ok) as cirg_cant_cap_ok,
+				sum(cirg_cant_cap_mal) as cirg_cant_cap_mal, sum(cirg_cant_mon_cierre_forz) as cirg_cant_mon_cierre_forz,
+				round(avg(ifnull(cirg_puntaje_prom,0)),2) as cirg_puntaje_prom
+				FROM cir_groups_oper "/>	
+         <method ObjFactoryQuery="SELECT cir_code,
+				sum(cirg_cant_mon_pendientes) as cirg_cant_mon_pendientes, sum(cirg_cant_mon_realizados) as cirg_cant_mon_realizados, 
+				sum(cirg_cant_mon_ok) as cirg_cant_mon_ok, 
+				sum(cirg_cant_mon_mal) as cirg_cant_mon_mal, sum(cirg_cant_cap_pendientes) as cirg_cant_cap_pendientes, 
+				sum(cirg_cant_cap_realizados) as cirg_cant_cap_realizados, sum(cirg_cant_cap_ok) as cirg_cant_cap_ok,
+				sum(cirg_cant_cap_mal) as cirg_cant_cap_mal, sum(cirg_cant_mon_cierre_forz) as cirg_cant_mon_cierre_forz,
+				round(avg(ifnull(cirg_puntaje_prom,0)),2) as cirg_puntaje_prom
+				FROM cir_groups_oper "/>
+         <method ObjFactoryQuerySuffix=" group by cir_code	ORDER BY cir_code desc "/>				
+
+        <field name="cir_code" label="circuito" type="INT" isfordb="true" ispk="false"/>
+		<field name="cirg_cant_mon_pendientes" total="true"  type="INT" isfordb="true" ispk="false"/>
+		<field name="cirg_cant_mon_realizados" total="true"  type="INT" isfordb="true" ispk="false"/>
+		<field name="cirg_cant_mon_ok" total="true"  type="INT" isfordb="true" ispk="false"/>
+		<field name="cirg_cant_mon_mal" total="true"  type="INT" isfordb="true" ispk="false"/>
+		<field name="cirg_cant_cap_pendientes" total="true"  type="INT" isfordb="true" ispk="false"/>
+		<field name="cirg_cant_cap_realizados" total="true"  type="INT" isfordb="true" ispk="false"/>
+		<field name="cirg_cant_cap_ok" total="true"  type="INT" isfordb="true" ispk="false"/>
+		<field name="cirg_cant_cap_mal" total="true"  type="INT" isfordb="true" ispk="false"/>	
+		<field name="cirg_cant_mon_cierre_forz" total="true"  type="INT" isfordb="true" ispk="false"/>		
+		<field name="cirg_puntaje_prom" type="FLOAT" isfordb="true" ispk="false"/>		 
+   </build>
+</make>
+
+<make object="search_and_list"> 
+	<build out_file="des_circuito.php" classname="cdes_circuito" title="Desempeño por Circuito">
+		    <field name="cir_code" label="Circuito"  presentation="CIRCUITOS" />	
+			<field name="cirg_puntaje_prom" label="Promedio" presentation="FLOAT"/>
+			<field name="cirg_cant_mon_pendientes" label="Mon. Pend." presentation="INT" total="true"/>
+			<field name="cirg_cant_mon_realizados" label="Mon. Realiz" presentation="INT" total="true"/>	
+			<field name="cirg_cant_mon_ok" label="Mon. OK" presentation="INT" total="true"/>
+			<field name="cirg_cant_mon_mal" label="Mon. Mal" presentation="INT" total="true"/>	
+			<field name="cirg_cant_mon_cierre_forz" label="Cierre Forzado" presentation="INT" total="true"/>				
+			<field name="cirg_cant_cap_pendientes" label="Capac. Pend." presentation="INT" total="true"/>
+			<field name="cirg_cant_cap_realizados" label="Capac. Realiz" presentation="INT" total="true"/>	
+			<field name="cirg_cant_cap_ok" label="Capac. OK" presentation="INT" total="true"/>
+			<field name="cirg_cant_cap_mal" label="Capac. Mal" presentation="INT" total="true"/>			
+			<searchfield name="cir_code"/>
+			<listfield name="cir_code"/>
+			<listfield name="cirg_puntaje_prom"/>
+			<listfield name="cirg_cant_mon_pendientes" total="true"/>
+			<listfield name="cirg_cant_mon_realizados" total="true"/>
+			<listfield name="cirg_cant_mon_ok" total="true"/>
+			<listfield name="cirg_cant_mon_mal" total="true"/>				
+			<listfield name="cirg_cant_mon_cierre_forz" total="true"/>	
+			<listfield name="cirg_cant_cap_pendientes" total="true"/>
+			<listfield name="cirg_cant_cap_realizados" total="true"/>
+			<listfield name="cirg_cant_cap_ok" total="true"/>
+			<listfield name="cirg_cant_cap_mal" total="true"/>	
+			<action label="por grupo" target="/lmodules/reportes/des_circuito_group.php?OP=L" operation="L" next="/lmodules/reportes/des_circuito.php?last=1&amp;OP=L" >
+				<sendfield classname="cdes_circuito" name="cir_code"/>
+			</action>
+			<action label="por operador" target="/lmodules/circuitos/cir_groups_oper.php?OP=L" operation="L" next="/lmodules/reportes/des_circuito.php?last=1&amp;OP=L" >
+				<sendfield classname="cdes_circuito" name="cir_code"/>
+			</action>
+	</build>
+</make>
+<!-- Desemp por group de Operadores -->
+<make object="class"> 
+	<build out_file="cdes_circuito_group.php" classname="cdes_circuito_group" classlabel="Desemp. Circuito">
+	     <parse tablename="des_circuito_group"/>
+		 <method SaveDBTotalQuery="select CIRG_CODE,cir_code
+				sum(cirg_cant_mon_pendientes) as cirg_cant_mon_pendientes, sum(cirg_cant_mon_realizados) as cirg_cant_mon_realizados, 
+				sum(cirg_cant_mon_ok) as cirg_cant_mon_ok, 
+				sum(cirg_cant_mon_mal) as cirg_cant_mon_mal, sum(cirg_cant_cap_pendientes) as cirg_cant_cap_pendientes, 
+				sum(cirg_cant_cap_realizados) as cirg_cant_cap_realizados, sum(cirg_cant_cap_ok) as cirg_cant_cap_ok,
+				sum(cirg_cant_cap_mal) as cirg_cant_cap_mal, sum(cirg_cant_mon_cierre_forz) as cirg_cant_mon_cierre_forz,
+				round(avg(ifnull(cirg_puntaje_prom,0)),2) as cirg_puntaje_prom
+				FROM cir_groups_oper "/>		 
+        <method ObjFactoryQuery="SELECT cir_code,cirg_code,
+				sum(cirg_cant_mon_pendientes) as cirg_cant_mon_pendientes, sum(cirg_cant_mon_realizados) as cirg_cant_mon_realizados, 
+				sum(cirg_cant_mon_ok) as cirg_cant_mon_ok, 
+				sum(cirg_cant_mon_mal) as cirg_cant_mon_mal, sum(cirg_cant_cap_pendientes) as cirg_cant_cap_pendientes, 
+				sum(cirg_cant_cap_realizados) as cirg_cant_cap_realizados, sum(cirg_cant_cap_ok) as cirg_cant_cap_ok,
+				sum(cirg_cant_cap_mal) as cirg_cant_cap_mal, sum(cirg_cant_mon_cierre_forz) as cirg_cant_mon_cierre_forz,
+				round(avg(ifnull(cirg_puntaje_prom,0)),2) as cirg_puntaje_prom
+				FROM cir_groups_oper "/>
+        <method ObjFactoryQuerySuffix=" group by cir_code,cirg_code	ORDER BY cir_code,cirg_code desc "/>
+         <field name="cir_code" label="circuito" type="INT" isfordb="true" ispk="false"/>
+		<field name="cirg_code" label="grupo" type="INT" isfordb="true" ispk="false"/>
+		<field name="cirg_cant_mon_pendientes" total="true"  type="INT" isfordb="true" ispk="false"/>
+		<field name="cirg_cant_mon_realizados" total="true"  type="INT" isfordb="true" ispk="false"/>
+		<field name="cirg_cant_mon_ok" total="true"  type="INT" isfordb="true" ispk="false"/>
+		<field name="cirg_cant_mon_mal" total="true"  type="INT" isfordb="true" ispk="false"/>
+		<field name="cirg_cant_cap_pendientes" total="true"  type="INT" isfordb="true" ispk="false"/>
+		<field name="cirg_cant_cap_realizados" total="true"  type="INT" isfordb="true" ispk="false"/>
+		<field name="cirg_cant_cap_ok" total="true"  type="INT" isfordb="true" ispk="false"/>
+		<field name="cirg_cant_cap_mal" total="true"  type="INT" isfordb="true" ispk="false"/>	
+		<field name="cirg_cant_mon_cierre_forz" total="true"  type="INT" isfordb="true" ispk="false"/>		
+		<field name="cirg_puntaje_prom" type="FLOAT" isfordb="true" ispk="false"/>		 
+   </build>
+</make>
+
+<make object="search_and_list"> 
+	<build out_file="des_circuito_group.php" classname="cdes_circuito_group" title="Desempeño por Grupo de Operadores">
+		    <field name="cir_code" label="Circuito"  presentation="CIRCUITOS" />	
+			<field name="cirg_code" label="Grupo"  presentation="CIRG_CODE" />		
+			<field name="cirg_puntaje_prom" label="Promedio" presentation="FLOAT"/>
+			<field name="cirg_cant_mon_pendientes" label="Mon. Pend." presentation="INT" total="true"/>
+			<field name="cirg_cant_mon_realizados" label="Mon. Realiz" presentation="INT" total="true"/>	
+			<field name="cirg_cant_mon_ok" label="Mon. OK" presentation="INT" total="true"/>
+			<field name="cirg_cant_mon_mal" label="Mon. Mal" presentation="INT" total="true"/>	
+			<field name="cirg_cant_mon_cierre_forz" label="Cierre Forzado" presentation="INT" total="true"/>				
+			<field name="cirg_cant_cap_pendientes" label="Capac. Pend." presentation="INT" total="true"/>
+			<field name="cirg_cant_cap_realizados" label="Capac. Realiz" presentation="INT" total="true"/>	
+			<field name="cirg_cant_cap_ok" label="Capac. OK" presentation="INT" total="true"/>
+			<field name="cirg_cant_cap_mal" label="Capac. Mal" presentation="INT" total="true"/>			
+			<searchfield name="cir_code"/>
+			<searchfield name="cirg_code"/>
+			<listfield name="cir_code" isvisible="false" />
+			<listfield name="cirg_code"/>
+			<listfield name="cirg_puntaje_prom"/>
+			<listfield name="cirg_cant_mon_pendientes" total="true"/>
+			<listfield name="cirg_cant_mon_realizados" total="true"/>
+			<listfield name="cirg_cant_mon_ok" total="true"/>
+			<listfield name="cirg_cant_mon_mal" total="true"/>				
+			<listfield name="cirg_cant_mon_cierre_forz" total="true"/>	
+			<listfield name="cirg_cant_cap_pendientes" total="true"/>
+			<listfield name="cirg_cant_cap_realizados" total="true"/>
+			<listfield name="cirg_cant_cap_ok" total="true"/>
+			<listfield name="cirg_cant_cap_mal" total="true"/>	
+
+			<action label="por operador" target="/lmodules/circuitos/cir_groups_oper.php?OP=L" operation="L" next="/lmodules/reportes/des_circuito.php?last=1&amp;OP=L" >
+				<sendfield classname="cdes_circuito_group" name="cir_code"/>
+				<sendfield classname="cdes_circuito_group" name="cirg_code"/>
+			</action>
+	</build>
+</make>
+
+
+</ayaxphpclass>

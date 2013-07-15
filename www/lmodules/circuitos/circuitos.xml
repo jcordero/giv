@@ -53,33 +53,39 @@
 <!-- ABM DE CIRCUITOS -->
 <make object="table_maint"> 
 	<build out_file="circuitos_maint.php" classname="ccircuitos" title="Circuitos a Monitorear" next="circuitos.php?last=1&amp;OP=L">
+	<group title="Datos Principales" id="grupo" order="1">		
 		<field name="cir_code" label="Circuito Nro"  presentation="SEQUENCE" classparams="circuitos" readonly="true"/>	
 		<field name="cir_name" label="Nombre" presentation="TEXT"  ismandatory="true" />		
 		<field name="cir_date_ini" label="Fecha Inicio" presentation="DATE"  ismandatory="true" />		
 		<field name="cir_date_fin" label="Fecha Final" presentation="DATE"  ismandatory="true" />		
 		<field name="cir_importance_min" label="Importancia Min" presentation="INT"  ismandatory="true" />		
 		<field name="cir_status" label="Estado" presentation="ESTADO_CIRCUITOS" initialvalue="PENDIENTE" readonly="true" />	
+	</group>
 		<action label="Asignar Grupo de Operadores" target="cir_groups_maint.php?OP=N"  operation="N" />		
 	</build>
 </make>
 <make object="table_maint"> 
 	<build out_file="circuitos_fecha_maint.php" classname="ccircuitos" title="Circuitos a Monitorear" next="circuitos.php?last=1&amp;OP=L">
+	<group title="Datos Principales" id="grupo" order="1">	
 		<field name="cir_code" label="Circuito Nro"  presentation="INT"  readonly="true"/>	
 		<field name="cir_name" label="Nombre" presentation="TEXT"  readonly="true"/>		
 		<field name="cir_date_ini" label="Fecha Inicio" presentation="DATE"   readonly="true"/>	
 		<field name="cir_date_fin" label="Fecha Final" presentation="DATE"  ismandatory="true" />		
 		<field name="cir_importance_min" label="Importancia Min" presentation="INT"  readonly="true"/>	
 		<field name="cir_status" label="Estado" presentation="ESTADO_CIRCUITOS"  readonly="true"/>	
+	</group>	
 	</build>
 </make>
 <make object="table_maint"> 
 	<build out_file="circuitos_baja_maint.php" classname="ccircuitos" title="Anular un Circuito">
+	<group title="Datos Principales" id="grupo" order="1">	
 		<field name="cir_code" label="Circuito Nro"  presentation="SEQUENCE" classparams="circuitos" readonly="true"/>	
 		<field name="cir_name" label="Nombre" presentation="TEXT"  readonly="true"/>
 		<field name="cir_date_ini" label="Fecha Inicio" presentation="DATE"  readonly="true"/>		
 		<field name="cir_date_fin" label="Fecha Final" presentation="DATE"  readonly="true"/>	
 		<field name="cir_importance_min" label="Importancia Min" presentation="INT"  readonly="true"/>		
 		<field name="cir_status" label="Estado" presentation="ESTADO_CIRCUITOS" readonly="true"/>	
+	</group>	
 	</build>
 </make>
 
@@ -111,14 +117,18 @@
 				<sendfield classname="ccir_groups" name="cirg_code"/>
 			</action>	
 			
-			<action label="eliminar" right="circuitos.cir_groups.actualizar" target="cir_groups_maint.php?OP=B" operation="B"  >
+			<action label="eliminar" right="circuitos.cir_groups.actualizar" target="cir_groups_maint.php?OP=B" operation="B"  >			
 				<sendfield classname="ccir_groups" name="cirg_code"/>
 			</action>		
 			<action label="operadores" right="circuitos.cir_groups" target="/lmodules/configuracion/oper_status.php?OP=L" operation="L"  >
+				<sendfield classname="ccir_groups" name="cir_code"/>			
 				<sendfield classname="ccir_groups" name="cirg_code"/>
+				<sendfield classname="ccir_groups" name="oper_grupo"/>
 			</action>			
 			<action label="desempeño" right="circuitos.cir_groups" target="cir_groups_oper.php?OP=L" operation="L"  >
+				<sendfield classname="ccir_groups" name="cir_code"/>
 				<sendfield classname="ccir_groups" name="cirg_code"/>
+				<sendfield classname="ccir_groups" name="oper_grupo"/>
 			</action>				
 	</build>
 </make>
@@ -140,6 +150,7 @@
 			<field name="use_code_supervisor" label="Supervisor" presentation="SUPERVISOR"  ismandatory="true" />	
 			<field name="oper_grupo" label="Grupo" presentation="SELECT" valuelist="oper_grupo" ismandatory="true"/>		
 		</group>	
+		<action label="Asignar Grupo de Operadores" target="cir_groups_maint.php?OP=N"  operation="N" />		
 	</build>
 </make>
 
@@ -161,19 +172,20 @@
 <make object="search_and_list"> 
 	<build out_file="cir_groups_oper.php" classname="ccir_groups_oper" title="Desempeño">
 		    <field name="cirg_code" label="Grupo Nro"  presentation="INT" />	
-			 <field name="cir_code" label="Circuito Nro"  presentation="INT" />	
+			 <field name="cir_code" label="Circ. Nro"  presentation="CIRCUITOS" />	
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" />
-			<field name="crit_status_ini" label="Estado Inicial" presentation="CRIT_STATUS" />
-			<field name="crit_status_fin" label="Estado Final" presentation="CRIT_STATUS" />
-			<field name="cirg_cant_mon_pendientes" label="Monitoreos Pendientes" presentation="INT" total="true"/>
-			<field name="cirg_cant_mon_realizados" label="Monitoreos Realizados" presentation="INT" total="true"/>	
-			<field name="cirg_cant_mon_ok" label="Monitoreos Aprobados" presentation="INT" total="true"/>
-			<field name="cirg_cant_mon_mal" label="Monitoreos No Aprob." presentation="INT" total="true"/>	
-			<field name="cirg_cant_mon_cierre_forz" label="Cierre Forzado" presentation="INT" total="true"/>				
-			<field name="cirg_cant_cap_pendientes" label="Capac. Pendientes" presentation="INT" total="true"/>
-			<field name="cirg_cant_cap_realizados" label="Capac. Realizadas" presentation="INT" total="true"/>	
-			<field name="cirg_cant_cap_ok" label="Capac. Aprob." presentation="INT" total="true"/>
-			<field name="cirg_cant_cap_mal" label="Capac. No Aprob." presentation="INT" total="true"/>			
+			<field name="crit_status_ini" label="Estado Ini" presentation="CRIT_STATUS" />
+			<field name="crit_status_fin" label="Estado Fin" presentation="CRIT_STATUS" />
+			<field name="cirg_puntaje_prom" label="Promedio" presentation="FLOAT"/>
+			<field name="cirg_cant_mon_pendientes" label="Mon. Pend." presentation="INT" total="true"/>
+			<field name="cirg_cant_mon_realizados" label="Mon. Realiz" presentation="INT" total="true"/>	
+			<field name="cirg_cant_mon_ok" label="Mon. OK" presentation="INT" total="true"/>
+			<field name="cirg_cant_mon_mal" label="Mon. Mal" presentation="INT" total="true"/>	
+			<field name="cirg_cant_mon_cierre_forz" label="C. Forzado" presentation="INT" total="true"/>				
+			<field name="cirg_cant_cap_pendientes" label="Capac. Pend." presentation="INT" total="true"/>
+			<field name="cirg_cant_cap_realizados" label="Capac. Realiz" presentation="INT" total="true"/>	
+			<field name="cirg_cant_cap_ok" label="Capac. OK" presentation="INT" total="true"/>
+			<field name="cirg_cant_cap_mal" label="Capac. Mal" presentation="INT" total="true"/>			
 			<searchfield name="cirg_code"/>
 			<searchfield name="cir_code"/>
 			<searchfield name="use_code_operador"/>
@@ -184,6 +196,7 @@
 			<listfield name="use_code_operador"/>
 			<listfield name="crit_status_ini"/>
 			<listfield name="crit_status_fin"/>
+			<listfield name="cirg_puntaje_prom"/>
 			<listfield name="cirg_cant_mon_pendientes" total="true"/>
 			<listfield name="cirg_cant_mon_realizados" total="true"/>
 			<listfield name="cirg_cant_mon_ok" total="true"/>

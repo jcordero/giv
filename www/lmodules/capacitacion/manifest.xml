@@ -1,0 +1,17 @@
+<module name="capacitacion" version="1.0" release="30/06/2013">
+	<right name="capacitacion.menu" note="Permiso para menu Monitoreo"/>
+	<right name="capacitacion.supervisor" note="Permiso para listar Capacitaciones"/>
+	<right name="capacitacion.supervisor.pend" note="Permiso para ingresar una nueva Capacitacion"/>	
+	<right name="capacitacion.operador" note="Permiso para listar Capacitaciones del Operador"/>	
+	<right name="capacitacion.operador.pendOK" note="Permiso para dar el visto a Capacitaciones del Operador"/>		
+	<right name="reportes.menu" note="Permiso para menu reportes"/>
+	<menu language="spa">
+		<menuitem name="capacitacion" order="8" right="capacitacion.menu" pda="true" >
+			<menuitem name="Capacitaciones" right="capacitacion.supervisor" action="/lmodules/capacitacion/capacitacion_superv.php?OP=L" tooltip="Listar Capacitaciones " order="1" pda="true"/>
+			<menuitem name="Capacitaciones Pendientes" right="capacitacion.supervisor.pend" action="/lmodules/capacitacion/capacitacion_superv_pend.php?OP=L" tooltip="Listar Capacitaciones Pendientes " order="2" pda="true"/>
+
+			<menuitem name="Mis Capacitaciones" right="capacitacion.operador" action="/lmodules/capacitacion/capacitacion_oper.php?OP=L" tooltip="Listar Capacitaciones del Operador" order="3" pda="true"/>
+			<menuitem name="Mis Capacitaciones Pendientes" right="capacitacion.operador.pendOK" action="/lmodules/capacitacion/capacitacion_oper_pend.php?OP=L" tooltip="Listar Capacitaciones Pendientes de Visto del Operador" order="4" pda="true"/>			
+		</menuitem>
+	</menu>	
+</module>

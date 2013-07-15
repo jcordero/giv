@@ -7,13 +7,13 @@ include_once "ccircuitos.php";
 
 //Genero las clases de los handlers
 
-if( !class_exists('unico_gr') ) {
-class unico_gr extends cform_group {
+if( !class_exists('grupo_gr') ) {
+class grupo_gr extends cform_group {
     function __construct($parent) {
         parent::__construct($parent);
-        $this->m_title = 'Formulario'; //Titulo del grupo
+        $this->m_title = 'Datos Principales'; //Titulo del grupo
         $this->m_order = 1; //Orden de presentacion de este grupo
-        $this->m_id = 'unico'; //Id para los wizards
+        $this->m_id = 'grupo'; //Id para los wizards
         $this->m_note = ''; //Nota
         $this->m_image = ''; //Imagen
         $this->m_render_html = 'PARENT'; //Forma de generar el contenido HTML
@@ -74,7 +74,7 @@ class ccircuitos_m extends cclass_maint {
 		$this->m_action[] = new CAction('N','Asignar Grupo de Operadores','','','cir_groups_maint.php?OP=N','','','');
 
         //Grupos
-		$this->m_handler[1] = new unico_gr($this);
+		$this->m_handler[1] = new grupo_gr($this);
 
     }
 

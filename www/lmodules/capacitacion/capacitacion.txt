@@ -1,0 +1,30 @@
+Fecha de Capacitacion
+El monitoreo 
+Nro de Referencia (llamado)
+Operador
+Capacitador (Supervisor)
+
+
+Origen (combo abm para darlas de alta, lista: Monitoreo Diario, Agregar Habilidad, etc)
+
+Motivo : (texto libre)
+
+Habilidad: Combo ( abm Registro Civil)
+
+Tipo de Tramite: Texto libre
+
+Rol Play Aprobado: SI/NO
+
+Plan de Mejoras: TextArea
+
+Observaciones / Procedimiento: TextArea
+
+Visto por el Supervisor
+
+Capacitacion como para ver el Operador
+
+El operador ingresa con su usuario y clave y lo autoriza !
+Ve la capacitacion y escucha la llamada (del monitoreo), le de el ok y el sistema tiene que registrar que lo vio
+
+
+

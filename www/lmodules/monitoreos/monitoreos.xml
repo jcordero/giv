@@ -1,28 +1,28 @@
 <ayaxphpclass>
 <make object="class"> 
-	<build out_file="cmonitoreos.php" classname="cmonitoreos" classlabel="monitoreos">
+	<build out_file="cmonitoreos_rep.php" classname="cmonitoreos_rep" classlabel="monitoreos">
 		<parse in_file="monitoreos.sql" tablename="monitoreos" />	
-		<method ObjFactoryQuerySuffix=" ORDER BY mon_date_aprox desc"/>		
+		<method ObjFactoryQuerySuffix=" ORDER BY mon_date desc"/>		
 	</build>
 </make>
 
 <make object="search_and_list"> 
-	<build out_file="monitoreos.php" classname="cmonitoreos" title="Listado de monitoreos">
-			<field name="mon_code" label="Nro" presentation="INT" />
-			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" />
-			<field name="use_code_operador" label="Operador" presentation="OPERADOR" />
-			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR"/>
+	<build out_file="monitoreos.php" classname="cmonitoreos_rep" title="Listado de monitoreos">
+			<field name="mon_status" label="Estado" presentation="MON_STATUS" />	
+			<field name="mon_code" label="Mon. Nro" presentation="INT" />
+			<field name="cir_code" label="Circ. Nro" presentation="CIRCUITOS" />
+			<field name="use_code_operador" label="Oper." presentation="OPERADOR" />
+			<field name="use_code_supervisor" label="Superv. Asignado" presentation="SUPERVISOR"/>
 			<field name="mon_date" label="Fecha" presentation="DATERANGE" />
-			<field name="mon_status" label="Estado Monitoreo" presentation="MON_STATUS" />	
-			<field name="mon_forzado" label="Cierre Forzado" presentation="SINO" />				 
-			<field name="cli_call_code" label="Tipo LLamado" presentation="CLI_CALL" />	
+			<field name="mon_forzado" label="Cierre" presentation="SINO" />				 
+			<field name="cli_call_code" label="Tipo" presentation="CLI_CALL" />	
 			<field name="mon_note" label="Nota" presentation="TEXT" />	
 			<field name="mon_call_reference" label="Ref LLamado" presentation="TEXT" />	
 			<field name="mon_puntaje" label="Puntaje" presentation="INT" />	
 			<field name="mon_aprobo" label="Aprobado" presentation="SINO" />	
 			<field name="mon_perjuicio_cliente" label="Perjuicio" presentation="SINO" />	
-			<field name="mon_add_mon" label="Agrega Monitoreos?" presentation="SINO" />	
-			<field name="mon_add_cap" label="Agrega Capacitacion" presentation="SINO" />	
+			<field name="mon_add_mon" label="Mon. Agregados" presentation="INT" />	
+			<field name="mon_add_cap" label="Capac. Agregadas" presentation="INT" />	
 			<field name="doc_storage" label="Llamada" presentation="FILE"/>
 			<searchfield name="mon_code"/>
 			<searchfield name="cir_code"/>
@@ -34,8 +34,6 @@
 			<searchfield name="cli_call_code"/>
 			<searchfield name="mon_aprobo"/>
 			<searchfield name="mon_perjuicio_cliente"/>
-			<searchfield name="mon_add_mon"/>
-			<searchfield name="mon_add_cap"/>
 
 			<listfield name="mon_code"/>
 			<listfield name="cir_code"/>
@@ -49,28 +47,84 @@
 			<listfield name="mon_aprobo"/>
 			<listfield name="mon_puntaje" />
 			<listfield name="mon_perjuicio_cliente"/>
-			<listfield name="mon_add_mon" isvisible="false"/>
-			<listfield name="mon_add_cap" isvisible="false"/>
+			<listfield name="mon_add_mon" />
+			<listfield name="mon_add_cap"/>
 			<listfield name="mon_note"/>			
-			<action label="detalle" target="monitoreos_maint.php?OP=V" operation="V" next="monitoreos.php?last=1&amp;OP=L">
-				<sendfield classname="cmonitoreos" name="mon_code"/>
+			<action label="detalle" target="monitoreos_maint.php?OP=V" operation="V"  next="monitoreos.php?last=1&amp;OP=L">
+				<sendfield classname="cmonitoreos_rep" name="mon_code"/>
 			</action>
-			<action label="capac. op" target="/lmodules/capacitacion/capacitacion_oper.php?OP=L" right="capacitacion.operador"  operation="L" next="monitoreos.php?last=1&amp;OP=L">
-				<sendfield classname="cmonitoreos" name="mon_code"/>
-				<sendfield classname="cmonitoreos" name="mon_add_cap"/>
-			</action>	
 			<action label="capac. sup" target="/lmodules/capacitacion/capacitacion_superv.php?OP=L" right="capacitacion.supervisor"  operation="L" next="monitoreos.php?last=1&amp;OP=L">
-				<sendfield classname="cmonitoreos" name="mon_code"/>
-				<sendfield classname="cmonitoreos" name="mon_add_cap"/>
+				<sendfield classname="cmonitoreos_rep" name="mon_code"/>
+				<sendfield classname="cmonitoreos_rep" name="mon_add_cap"/>
 			</action>	
 			<action label="llamada" target="/common/download.php?OP=V" operation="D">
-			<sendfield classname="cmonitoreos" name="doc_storage"  />
+			<sendfield classname="cmonitoreos_rep" name="doc_storage"  />
 			</action>			
-
-			
 	</build>
 </make>
 
+<make object="search_and_list"> 
+	<build out_file="monitoreos_operador.php" classname="cmonitoreos_rep" title="Listado de Mis Monitoreos">
+			<field name="mon_status" label="Estado" presentation="MON_STATUS" />	
+			<field name="mon_code" label="Mon. Nro" presentation="INT" />
+			<field name="cir_code" label="Circ. Nro" presentation="CIRCUITOS" />
+			<field name="use_code_operador" label="Oper."  presentation="CURRENTUSER" classparams="force"/>
+			<field name="use_code_supervisor" label="Superv. Asignado" presentation="SUPERVISOR"/>
+			<field name="mon_date" label="Fecha" presentation="DATERANGE" />
+			<field name="mon_forzado" label="Cierre" presentation="SINO" />				 
+			<field name="cli_call_code" label="Tipo" presentation="CLI_CALL" />	
+			<field name="mon_note" label="Nota" presentation="TEXT" />	
+			<field name="mon_call_reference" label="Ref LLamado" presentation="TEXT" />	
+			<field name="mon_puntaje" label="Puntaje" presentation="INT" />	
+			<field name="mon_aprobo" label="Aprobado" presentation="SINO" />	
+			<field name="mon_perjuicio_cliente" label="Perjuicio" presentation="SINO" />	
+			<field name="mon_add_mon" label="Mon. Agregados" presentation="INT" />	
+			<field name="mon_add_cap" label="Capac. Agregadas" presentation="INT" />	
+			<field name="doc_storage" label="Llamada" presentation="FILE"/>
+			<searchfield name="mon_code"/>
+			<searchfield name="cir_code"/>
+			<searchfield name="use_code_operador" presentation="CURRENTUSER" classparams="force" isvisible="false" />
+			<searchfield name="use_code_supervisor"/>
+			<searchfield name="mon_date"/>
+			<searchfield name="mon_status"/>
+			<searchfield name="mon_forzado"/>
+			<searchfield name="cli_call_code"/>
+			<searchfield name="mon_aprobo"/>
+			<searchfield name="mon_perjuicio_cliente"/>
+
+			<listfield name="mon_code"/>
+			<listfield name="cir_code"/>
+			<listfield name="use_code_operador" isvisible="false" />
+			<listfield name="use_code_supervisor"/>
+			<listfield name="mon_date"/>
+			<listfield name="mon_status"/>
+			<listfield name="mon_forzado"/>
+			<listfield name="cli_call_code"/>
+			<listfield name="doc_storage" isvisible="false"/>
+			<listfield name="mon_aprobo"/>
+			<listfield name="mon_puntaje" />
+			<listfield name="mon_perjuicio_cliente"/>
+			<listfield name="mon_add_mon" />
+			<listfield name="mon_add_cap"/>
+			<listfield name="mon_note"/>			
+			<action label="detalle" target="monitoreos_maint.php?OP=V" operation="V"  next="monitoreos_operador.php?last=1&amp;OP=L">
+				<sendfield classname="cmonitoreos_rep" name="mon_code"/>
+			</action>
+			<action label="capacitacion" target="/lmodules/capacitacion/capacitacion_oper.php?OP=L" right="capacitacion.operador"  operation="L" next="monitoreos_operador.php?last=1&amp;OP=L">
+				<sendfield classname="cmonitoreos_rep" name="mon_code"/>
+				<sendfield classname="cmonitoreos_rep" name="mon_add_cap"/>
+			</action>	
+			<action label="llamada" target="/common/download.php?OP=V" operation="D">
+			<sendfield classname="cmonitoreos_rep" name="doc_storage"  />
+			</action>			
+	</build>
+</make>
+<make object="class"> 
+	<build out_file="cmonitoreos.php" classname="cmonitoreos" classlabel="monitoreos">
+		<parse in_file="monitoreos.sql" tablename="monitoreos" />	
+		<method ObjFactoryQuerySuffix=" ORDER BY mon_date_aprox asc"/>		
+	</build>
+</make>
 
 <make object="search_and_list"> 
 	<build out_file="monitoreos_superv.php" classname="cmonitoreos" title="Monitorear">
@@ -78,16 +132,9 @@
 			<field name="cir_code" label="Circuito" presentation="CIRCUITO_ACTIVO" />
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" />
 			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR"/>
-			<field name="mon_date_aprox" label="Fecha" presentation="DATERANGE" />
+			<field name="mon_date_aprox" label="Fecha Aproximada" presentation="DATERANGE" />
 			<field name="mon_status" label="Estado Monitoreo" presentation="MON_STATUS" initialvalue="PENDIENTE"/>	
-			<field name="cli_call_code" label="Tipo LLamado" presentation="CLI_CALL" />	
-			<field name="mon_note" label="Nota" presentation="TEXT" />	
-			<field name="mon_call_reference" label="Ref LLamado" presentation="FILE" />	
-			<field name="mon_puntaje" label="Puntaje" presentation="INT" />	
-			<field name="mon_aprobo" label="Aprobado" presentation="SINO" />	
-			<field name="mon_perjuicio_cliente" label="Perjuicio" presentation="SINO" />	
-			<field name="mon_add_mon" label="Agrega Monitoreos?" presentation="SINO" />	
-			<field name="mon_add_cap" label="Agrega Capacitacion" presentation="SINO" />	
+
 			<searchfield name="cir_code"/>
 			<searchfield name="use_code_operador"/>
 			<searchfield name="mon_date_aprox"/>
@@ -99,10 +146,10 @@
 			<listfield name="cir_code"/>
 			<listfield name="use_code_supervisor"/>
 			<listfield name="use_code_operador"/>
-			<action label="monitorear" right="monitoreos.supervisar" target="monitoreos_superv_maint.php?OP=M" operation="M"  >
+			<action label="monitorear" right="monitoreos.supervisar" target="monitoreos_superv_maint.php?OP=M" operation="M" next="monitoreos_superv.php?last=1&amp;OP=L">
 				<sendfield classname="cmonitoreos" name="mon_code"/>
 			</action>		
-			<action label="cierre forzado" right="monitoreos.supervisar" target="monitoreos_superv_cierre_maint.php?OP=M" operation="M"  >
+			<action label="cierre forzado" right="monitoreos.supervisar" target="monitoreos_superv_cierre_maint.php?OP=M" operation="M"  next="monitoreos_superv.php?last=1&amp;OP=L">
 				<sendfield classname="cmonitoreos" name="mon_code"/>
 			</action>					
 	</build>
@@ -136,15 +183,15 @@
 		    <field name="mon_motivo" label="Motivo de Cierre Forzado" presentation="TEXT" isvisible="false"/>		 	
 			<field name="cli_call_code" label="Tipo LLamado" presentation="CLI_CALL" ismandatory="true"/>	
 			<field name="mon_note" label="Nota" presentation="TEXTAREA" cols="100" rows="4" ismandatory="true" />	
-			<field name="mon_call_reference" label="Ref LLamado" presentation="TEXT"  />	
+			<field name="mon_call_reference" label="Ref LLamado" presentation="TEXT" ismandatory="true" />	
 			<field name="doc_storage" label="Archivo Call" presentation="TEXT" isvisible="false"/>	
 		</group>
 		<group id="datos3" title="Datos automaticos" order="4">
 			<field name="mon_puntaje" label="Puntaje" presentation="INT" readonly="true"/>
 			<field name="mon_perjuicio_cliente" label="Perjuicio del Cliente" presentation="SINO" readonly="true"/>
 			<field name="mon_aprobo" label="Aprobado" presentation="SINO" readonly="true"/>
-			<field name="mon_add_mon" label="Agrega Monitoreos?" presentation="SINO" readonly="true"/>
-			<field name="mon_add_cap" label="Agrega Capacitacion" presentation="SINO" readonly="true"/>
+			<field name="mon_add_mon" label="Monitoreos Agregados" presentation="INT" readonly="true"/>
+			<field name="mon_add_cap" label="Capacitaciones Agregadas" presentation="INT" readonly="true"/>
 		</group>
 		<table relationclass="" classname="mon_items" title="Items" order="3" add="false" delete="false"  update="true">
 			<column title="Item" order="1">
@@ -204,19 +251,19 @@
 			<field name="mon_status" label="Estado Monitoreo" presentation="TEXT" readonly="true"/>
 		</group>
 		<group id="datos2" title="Datos del Monitoreo" order="2" >		
-		     <field name="mon_forzado" label="Cierre Forzado ?" presentation="SINO" readonly="true"/>
-		     <field name="mon_motivo" label="Motivo de Cierre Forzado" presentation="TEXT" readonly="true"/>	
+		    <field name="mon_forzado" label="Cierre Forzado ?" presentation="SINO" readonly="true"/>
+		    <field name="mon_motivo" label="Motivo de Cierre Forzado" presentation="TEXT" readonly="true"/>	
 			<field name="cli_call_code" label="Tipo LLamado" presentation="CLI_CALL" readonly="true"/>
 			<field name="mon_note" label="Nota" presentation="TEXT" readonly="true"/>
 			<field name="mon_call_reference" label="Ref LLamado" presentation="TEXT"  readonly="true"/>	
-			<field name="doc_storage" label="Archivo Call" presentation="FILE"/>	
+			<field name="doc_storage" label="Archivo Call" presentation="CALLS_AUDIO" isvisible="false"/>	
 		</group>
 		<group id="datos3" title="Datos automaticos" order="4">
 			<field name="mon_puntaje" label="Puntaje" presentation="TEXT" readonly="true"/>
 			<field name="mon_perjuicio_cliente" label="Perjuicio del Cliente" presentation="TEXT" readonly="true"/>
 			<field name="mon_aprobo" label="Aprobado" presentation="TEXT" readonly="true"/>
-			<field name="mon_add_mon" label="Agrega Monitoreos?" presentation="TEXT" readonly="true"/>
-			<field name="mon_add_cap" label="Agrega Capacitacion" presentation="TEXT" readonly="true"/>
+			<field name="mon_add_mon" label="Monitoreos Agregados" presentation="INT" readonly="true"/>
+			<field name="mon_add_cap" label="Capacitaciones Agregados" presentation="INT" readonly="true"/>
 		</group>
 		<table relationclass="" classname="mon_items" title="Items" order="3" add="false" delete="false" update="false">
 			<column title="Item" order="1">
@@ -240,6 +287,9 @@
 				<field name="it_puntaje" label="Puntaje" presentation="INT" />
 			</column>				
 		</table>	
+		<action label="llamada" target="/common/download.php?OP=V" operation="D">
+			<sendfield classname="cmonitoreos_superv" name="doc_storage"  />
+		</action>			
 	</build>
 </make>
 <make object="class"> 
@@ -259,4 +309,6 @@
 	</group>	
 	</build>	
 </make>
+
+
 </ayaxphpclass>

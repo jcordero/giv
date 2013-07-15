@@ -135,10 +135,28 @@
         if($this->haveRight($primary_db,'reportes.menu')) { 
         	$buff.="<li>reportes";
         	$buff.='<ul>';
-        	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/monitoreos/monitoreos.php?OP=L')."\">Listado de Monitoreos</a>";
-        	$buff.='</li>';
-        	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/circuitos/cir_groups_oper.php?OP=L')."\">Desempeño de Operadores</a>";
-        	$buff.='</li>';
+            if($this->haveRight($primary_db,'circuitos.cir_groups_oper')) { 
+            	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/reportes/des_circuito.php?OP=L')."\">Estado Circuitos</a>";
+            	$buff.='</li>';
+            }
+            if($this->haveRight($primary_db,'monitoreos.menu')) { 
+            	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/monitoreos/monitoreos.php?OP=L')."\">Listado de Monitoreos</a>";
+            	$buff.='</li>';
+            }
+            if($this->haveRight($primary_db,'monitoreos.operador')) { 
+            	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/monitoreos/monitoreos_operador.php?OP=L')."\">Mis Monitoreos Operador</a>";
+            	$buff.='</li>';
+            }
+            if($this->haveRight($primary_db,'circuitos.cir_groups_oper')) { 
+            	$buff.="<li>Desempeño";
+            	$buff.='<ul>';
+            	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/reportes/des_circuito_group.php?OP=L')."\">Desempeño por Grupo</a>";
+            	$buff.='</li>';
+            	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/circuitos/cir_groups_oper.php?OP=L')."\">Desempeño por Operadores</a>";
+            	$buff.='</li>';
+            	$buff.='</ul>';
+            	$buff.='</li>';
+            }
         	$buff.='</ul>';
         }
         if($this->haveRight($primary_db,'capacitacion.menu')) { 
@@ -148,7 +166,7 @@
             	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/capacitacion/capacitacion_superv.php?OP=L')."\">Capacitaciones</a>";
             	$buff.='</li>';
             }
-            if($this->haveRight($primary_db,'capacitacion.supervisar.pend')) { 
+            if($this->haveRight($primary_db,'capacitacion.supervisor.pend')) { 
             	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/capacitacion/capacitacion_superv_pend.php?OP=L')."\">Capacitaciones Pendientes</a>";
             	$buff.='</li>';
             }
