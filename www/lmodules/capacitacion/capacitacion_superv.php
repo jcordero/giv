@@ -25,11 +25,11 @@ class ccapacitacion_sl extends csearchandlist {
 		$this->m_render_html = 'BLOCK';
 		$this->m_render_pdml = 'BLOCK';
 
-        $this->m_search_fields = array('cap_code','mon_code','cir_code','use_code_operador','cap_use_code','cap_status','cap_date','cap_origen','cap_habilidad','cap_rol_play_aprobado','cap_visto_oper');
+        $this->m_search_fields = array('cap_code','mon_code','cir_code','cirg_code','use_code_operador','use_code_supervisor','cap_use_code','cap_status','cap_date','cap_origen','cap_habilidad','cap_rol_play_aprobado','cap_visto_oper');
 
-        $this->addAction(12,"capacitacion_superv_maint.php?OP=V",array(new caction_param('cap_code')),"","ver capacitacion","V","capacitacion.supervisor.pend","capacitacion_superv.php?last=1&OP=L");
-        $this->addAction(12,"/lmodules/monitoreos/monitoreos_superv_maint.php?OP=V",array(new caction_param('mon_code')),"","ver monitoreo","V","","/lmodules/capacitacion/capacitacion_superv.php?last=1&OP=L");
-        $this->addAction(12,"/common/download.php?OP=V",array(new caction_param('doc_storage')),"","llamada","D","","");
+        $this->addAction(14,"capacitacion_superv_maint.php?OP=V",array(new caction_param('cap_code')),"","ver capacitacion","V","capacitacion.supervisor.pend","capacitacion_superv.php?last=1&OP=L");
+        $this->addAction(14,"/lmodules/monitoreos/monitoreos_superv_maint.php?OP=V",array(new caction_param('mon_code')),"","ver monitoreo","V","","/lmodules/capacitacion/capacitacion_superv.php?last=1&OP=L");
+        $this->addAction(14,"/common/download.php?OP=V",array(new caction_param('doc_storage')),"","llamada","D","","");
     }
 
     //Inicializo la parte de busqueda
@@ -40,8 +40,10 @@ class ccapacitacion_sl extends csearchandlist {
         $this->m_obj->GetField("cap_code")->SetDisplayValues(Array("Name"=>"cap_code", "Label"=>"Capacitación Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("mon_code")->SetDisplayValues(Array("Name"=>"mon_code", "Label"=>"Monitoreo Nro", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"CIRCUITO_ACTIVO", "IsNullable"=>false, "IsVisible"=>true));
+        $this->m_obj->GetField("cirg_code")->SetDisplayValues(Array("Name"=>"cirg_code", "Label"=>"Grupo", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"INT", "IsNullable"=>false));
         $this->m_obj->GetField("use_code_operador")->SetDisplayValues(Array("Name"=>"use_code_operador", "Label"=>"Operador", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"OPERADOR", "IsNullable"=>false, "IsVisible"=>true));
-        $this->m_obj->GetField("cap_use_code")->SetDisplayValues(Array("Name"=>"cap_use_code", "Label"=>"Capacitado por", "Type"=>"int", "IsForDB"=>true, "Order"=>111, "Presentation"=>"SUPERVISOR", "IsVisible"=>true));
+        $this->m_obj->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor Asignado", "Type"=>"int", "IsForDB"=>true, "Order"=>106, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true));
+        $this->m_obj->GetField("cap_use_code")->SetDisplayValues(Array("Name"=>"cap_use_code", "Label"=>"Capacitado por", "Type"=>"int", "IsForDB"=>true, "Order"=>111, "Presentation"=>"USER", "IsVisible"=>true));
         $this->m_obj->GetField("cap_status")->SetDisplayValues(Array("Name"=>"cap_status", "Label"=>"Estado", "Size"=>20, "IsForDB"=>true, "Order"=>108, "Presentation"=>"CAP_STATUS", "IsVisible"=>true));
         $this->m_obj->GetField("cap_date")->SetDisplayValues(Array("Name"=>"cap_date", "Label"=>"Fecha", "Type"=>"datetime", "IsForDB"=>true, "Order"=>107, "Presentation"=>"DATERANGE", "IsVisible"=>true));
         $this->m_obj->GetField("cap_origen")->SetDisplayValues(Array("Name"=>"cap_origen", "Label"=>"Origen", "Size"=>20, "IsForDB"=>true, "Order"=>112, "ValueList"=>"cap_origen", "Presentation"=>"SELECT", "IsVisible"=>true));
@@ -138,6 +140,23 @@ class col107 extends ccolumn
     }
 }
 
+class col106 extends ccolumn
+{
+    function __construct($parent)
+    {
+        parent::__construct($parent);
+        $this->m_title = 'Supervisor Asignado';
+        $this->m_order = '106';
+        $this->m_isvisible = true;
+        $this->m_align = 'left';
+        $this->m_sort_field = 'use_code_supervisor';
+        $this->m_width = '';
+
+        //Campos de la columna
+         $this->m_fields[] = new CField(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor Asignado", "Type"=>"int", "IsForDB"=>true, "Order"=>106, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true));
+    }
+}
+
 class col111 extends ccolumn
 {
     function __construct($parent)
@@ -151,7 +170,7 @@ class col111 extends ccolumn
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cap_use_code", "Label"=>"Capacitado por", "Type"=>"int", "IsForDB"=>true, "Order"=>111, "Presentation"=>"SUPERVISOR", "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"cap_use_code", "Label"=>"Capacitado por", "Type"=>"int", "IsForDB"=>true, "Order"=>111, "Presentation"=>"USER", "IsVisible"=>true));
     }
 }
 
@@ -272,6 +291,7 @@ class ccapacitacion_table extends ctable
         $this->m_cols[103] = new col103($this);
         $this->m_cols[108] = new col108($this);
         $this->m_cols[107] = new col107($this);
+        $this->m_cols[106] = new col106($this);
         $this->m_cols[111] = new col111($this);
         $this->m_cols[105] = new col105($this);
         $this->m_cols[112] = new col112($this);

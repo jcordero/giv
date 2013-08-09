@@ -25,10 +25,10 @@ class cmonitoreos_sl extends csearchandlist {
 		$this->m_render_html = 'BLOCK';
 		$this->m_render_pdml = 'BLOCK';
 
-        $this->m_search_fields = array('cir_code','use_code_operador','mon_date_aprox','use_code_supervisor','mon_status');
+        $this->m_search_fields = array('cir_code','cirg_code','use_code_operador','mon_date_aprox','use_code_supervisor','mon_status');
 
-        $this->addAction(6,"monitoreos_superv_maint.php?OP=M",array(new caction_param('mon_code')),"","monitorear","M","monitoreos.supervisar","monitoreos_superv.php?last=1&OP=L");
-        $this->addAction(6,"monitoreos_superv_cierre_maint.php?OP=M",array(new caction_param('mon_code')),"","cierre forzado","M","monitoreos.supervisar","monitoreos_superv.php?last=1&OP=L");
+        $this->addAction(7,"monitoreos_superv_maint.php?OP=M",array(new caction_param('mon_code')),"","monitorear","M","monitoreos.supervisar","monitoreos_superv.php?last=1&OP=L");
+        $this->addAction(7,"monitoreos_superv_cierre_maint.php?OP=M",array(new caction_param('mon_code')),"","cierre forzado","M","monitoreos.supervisar","monitoreos_superv.php?last=1&OP=L");
     }
 
     //Inicializo la parte de busqueda
@@ -37,14 +37,49 @@ class cmonitoreos_sl extends csearchandlist {
 
     /* Campos de busqueda */
         $this->m_obj->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"CIRCUITO_ACTIVO", "IsNullable"=>false, "IsVisible"=>true));
+        $this->m_obj->GetField("cirg_code")->SetDisplayValues(Array("Name"=>"cirg_code", "Label"=>"Grupo", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"INT", "IsNullable"=>false));
         $this->m_obj->GetField("use_code_operador")->SetDisplayValues(Array("Name"=>"use_code_operador", "Label"=>"Operador", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"OPERADOR", "IsNullable"=>false, "IsVisible"=>true));
-        $this->m_obj->GetField("mon_date_aprox")->SetDisplayValues(Array("Name"=>"mon_date_aprox", "Label"=>"Fecha Aproximada", "Type"=>"datetime", "IsForDB"=>true, "Order"=>120, "Presentation"=>"DATERANGE", "IsVisible"=>true));
+        $this->m_obj->GetField("mon_date_aprox")->SetDisplayValues(Array("Name"=>"mon_date_aprox", "Label"=>"Fecha Aproximada", "Type"=>"datetime", "IsForDB"=>true, "Order"=>121, "Presentation"=>"DATERANGE", "IsVisible"=>true));
         $this->m_obj->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor Asignado", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("mon_status")->SetDisplayValues(Array("Name"=>"mon_status", "Label"=>"Estado Monitoreo", "Size"=>20, "IsForDB"=>true, "Order"=>107, "Presentation"=>"MON_STATUS", "InitialValue"=>"PENDIENTE"));
     }
 
 }
 
+
+class col102 extends ccolumn
+{
+    function __construct($parent)
+    {
+        parent::__construct($parent);
+        $this->m_title = 'Circuito';
+        $this->m_order = '102';
+        $this->m_isvisible = true;
+        $this->m_align = 'left';
+        $this->m_sort_field = 'cir_code';
+        $this->m_width = '';
+
+        //Campos de la columna
+         $this->m_fields[] = new CField(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"CIRCUITO_ACTIVO", "IsNullable"=>false, "IsVisible"=>true));
+    }
+}
+
+class col103 extends ccolumn
+{
+    function __construct($parent)
+    {
+        parent::__construct($parent);
+        $this->m_title = 'Grupo';
+        $this->m_order = '103';
+        $this->m_isvisible = false;
+        $this->m_align = 'left';
+        $this->m_sort_field = 'cirg_code';
+        $this->m_width = '';
+
+        //Campos de la columna
+         $this->m_fields[] = new CField(Array("Name"=>"cirg_code", "Label"=>"Grupo", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"INT", "IsNullable"=>false));
+    }
+}
 
 class col101 extends ccolumn
 {
@@ -63,37 +98,37 @@ class col101 extends ccolumn
     }
 }
 
-class col120 extends ccolumn
+class col121 extends ccolumn
 {
     function __construct($parent)
     {
         parent::__construct($parent);
         $this->m_title = 'Fecha Aproximada';
-        $this->m_order = '120';
+        $this->m_order = '121';
         $this->m_isvisible = true;
         $this->m_align = 'left';
         $this->m_sort_field = 'mon_date_aprox';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"mon_date_aprox", "Label"=>"Fecha Aproximada", "Type"=>"datetime", "IsForDB"=>true, "Order"=>120, "Presentation"=>"DATERANGE", "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"mon_date_aprox", "Label"=>"Fecha Aproximada", "Type"=>"datetime", "IsForDB"=>true, "Order"=>121, "Presentation"=>"DATERANGE", "IsVisible"=>true));
     }
 }
 
-class col102 extends ccolumn
+class col107 extends ccolumn
 {
     function __construct($parent)
     {
         parent::__construct($parent);
-        $this->m_title = 'Circuito';
-        $this->m_order = '102';
-        $this->m_isvisible = true;
+        $this->m_title = 'Estado Monitoreo';
+        $this->m_order = '107';
+        $this->m_isvisible = false;
         $this->m_align = 'left';
-        $this->m_sort_field = 'cir_code';
+        $this->m_sort_field = 'mon_status';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"CIRCUITO_ACTIVO", "IsNullable"=>false, "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"mon_status", "Label"=>"Estado Monitoreo", "Size"=>20, "IsForDB"=>true, "Order"=>107, "Presentation"=>"MON_STATUS", "InitialValue"=>"PENDIENTE"));
     }
 }
 
@@ -141,9 +176,11 @@ class cmonitoreos_table extends ctable
         $this->m_total = false; //Incluir ultima fila de totales
 
         //Agrego las columnas a la tabla
-        $this->m_cols[101] = new col101($this);
-        $this->m_cols[120] = new col120($this);
         $this->m_cols[102] = new col102($this);
+        $this->m_cols[103] = new col103($this);
+        $this->m_cols[101] = new col101($this);
+        $this->m_cols[121] = new col121($this);
+        $this->m_cols[107] = new col107($this);
         $this->m_cols[105] = new col105($this);
         $this->m_cols[104] = new col104($this);
     }

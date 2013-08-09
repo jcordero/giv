@@ -33,9 +33,8 @@ class ccircuitos_hooks extends cclass_maint_hooks
 		$dias =  $validar->compararFechas($cir_date_ini, date("d/m/Y"));
 	    if ($validar->error!="")
 		    $res[] =   "MENSAJE: Fecha de Inicio no valida.".$validar->error;						
-		 if ($dias < 0)
-			 $res[]= "MENSAJE: Fecha de Inicio debe ser mayor o igual a hoy.";	
-			$dias =  $validar->compararFechas($cir_date_fin, $cir_date_ini);
+		// if ($dias < 0)   $res[]= "MENSAJE: Fecha de Inicio debe ser mayor o igual a hoy.";	
+		$dias =  $validar->compararFechas($cir_date_fin, $cir_date_ini);
 	    if ($validar->error!="")
 		    $res[] =   "MENSAJE: Fecha de Finalizacion no valida.".$validar->error;						
 		 if ($dias <= 0)

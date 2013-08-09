@@ -11,6 +11,7 @@
 			<field name="mon_status" label="Estado" presentation="MON_STATUS" />	
 			<field name="mon_code" label="Mon. Nro" presentation="INT" />
 			<field name="cir_code" label="Circ. Nro" presentation="CIRCUITOS" />
+			<field name="cirg_code" label="Grupo" presentation="INT" />
 			<field name="use_code_operador" label="Oper." presentation="OPERADOR" />
 			<field name="use_code_supervisor" label="Superv. Asignado" presentation="SUPERVISOR"/>
 			<field name="mon_date" label="Fecha" presentation="DATERANGE" />
@@ -24,8 +25,11 @@
 			<field name="mon_add_mon" label="Mon. Agregados" presentation="INT" />	
 			<field name="mon_add_cap" label="Capac. Agregadas" presentation="INT" />	
 			<field name="doc_storage" label="Llamada" presentation="FILE"/>
+			<field name="mon_date_aprox" label="Fecha Aprox" presentation="DATETIME" />
+			 
 			<searchfield name="mon_code"/>
 			<searchfield name="cir_code"/>
+			<searchfield name="cirg_code"/>
 			<searchfield name="use_code_operador"/>
 			<searchfield name="use_code_supervisor"/>
 			<searchfield name="mon_date"/>
@@ -34,7 +38,7 @@
 			<searchfield name="cli_call_code"/>
 			<searchfield name="mon_aprobo"/>
 			<searchfield name="mon_perjuicio_cliente"/>
-
+			<searchfield name="mon_date_aprox" isvisible="false"/>
 			<listfield name="mon_code"/>
 			<listfield name="cir_code"/>
 			<listfield name="use_code_operador"/>
@@ -49,7 +53,8 @@
 			<listfield name="mon_perjuicio_cliente"/>
 			<listfield name="mon_add_mon" />
 			<listfield name="mon_add_cap"/>
-			<listfield name="mon_note"/>			
+			<listfield name="mon_note"/>		
+			<listfield name="mon_date_aprox" presentation="DATE" isvisible="false"/>		
 			<action label="detalle" target="monitoreos_maint.php?OP=V" operation="V"  next="monitoreos.php?last=1&amp;OP=L">
 				<sendfield classname="cmonitoreos_rep" name="mon_code"/>
 			</action>
@@ -68,6 +73,7 @@
 			<field name="mon_status" label="Estado" presentation="MON_STATUS" />	
 			<field name="mon_code" label="Mon. Nro" presentation="INT" />
 			<field name="cir_code" label="Circ. Nro" presentation="CIRCUITOS" />
+			
 			<field name="use_code_operador" label="Oper."  presentation="CURRENTUSER" classparams="force"/>
 			<field name="use_code_supervisor" label="Superv. Asignado" presentation="SUPERVISOR"/>
 			<field name="mon_date" label="Fecha" presentation="DATERANGE" />
@@ -130,20 +136,23 @@
 	<build out_file="monitoreos_superv.php" classname="cmonitoreos" title="Monitorear">
 			<field name="mon_code" label="Nro" presentation="INT" />
 			<field name="cir_code" label="Circuito" presentation="CIRCUITO_ACTIVO" />
+			<field name="cirg_code" label="Grupo" presentation="INT" />
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" />
 			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR"/>
 			<field name="mon_date_aprox" label="Fecha Aproximada" presentation="DATERANGE" />
 			<field name="mon_status" label="Estado Monitoreo" presentation="MON_STATUS" initialvalue="PENDIENTE"/>	
 
 			<searchfield name="cir_code"/>
+			<searchfield name="cirg_code" isvisible="false" />
 			<searchfield name="use_code_operador"/>
 			<searchfield name="mon_date_aprox"/>
 			<searchfield name="use_code_supervisor" presentation="SUPERVISOR"/>
 			<searchfield name="mon_status" isvisible="false" initialvalue="PENDIENTE"/>	
-
+			<listfield name="cir_code"/>
+			<listfield name="cirg_code" isvisible="false" />
 			<listfield name="mon_code" />
 			<listfield name="mon_date_aprox"/>
-			<listfield name="cir_code"/>
+			<listfield name="mon_status" isvisible="false" />	
 			<listfield name="use_code_supervisor"/>
 			<listfield name="use_code_operador"/>
 			<action label="monitorear" right="monitoreos.supervisar" target="monitoreos_superv_maint.php?OP=M" operation="M" next="monitoreos_superv.php?last=1&amp;OP=L">
@@ -176,13 +185,15 @@
 			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" readonly="true"/>
 			<field name="mon_use_code" label="Supervisor Monitoreo" presentation="CURRENTUSER" classparams="force" />
 			<field name="mon_date" label="Fecha" presentation="DATETIME" classparams="force" readonly="true"/>
+			<field name="mon_date_aprox" label="Fecha Aprox" presentation="DATETIME" readonly="true" isvisible="false"/>			
 			<field name="mon_status" label="Estado Monitoreo" presentation="MON_STATUS" readonly="true"/>
 		</group>
 		<group id="datos2" title="Datos a Completar en el Monitoreo" order="2" >	
-		    <field name="mon_forzado" label="Cierre Forzado ?" presentation="SINO" initialvalue='NO' isvisible="false"/>
+		    <field name="mon_forzado" label="Cierre Forzado ?" presentation="TEXT" initialvalue='NO' isvisible="false"/>
 		    <field name="mon_motivo" label="Motivo de Cierre Forzado" presentation="TEXT" isvisible="false"/>		 	
 			<field name="cli_call_code" label="Tipo LLamado" presentation="CLI_CALL" ismandatory="true"/>	
 			<field name="mon_note" label="Nota" presentation="TEXTAREA" cols="100" rows="4" ismandatory="true" />	
+			<field name="mon_call_date" label="Fecha Llamada" presentation="DATE" ismandatory="true" />	
 			<field name="mon_call_reference" label="Ref LLamado" presentation="TEXT" ismandatory="true" />	
 			<field name="doc_storage" label="Archivo Call" presentation="TEXT" isvisible="false"/>	
 		</group>
@@ -255,6 +266,7 @@
 		    <field name="mon_motivo" label="Motivo de Cierre Forzado" presentation="TEXT" readonly="true"/>	
 			<field name="cli_call_code" label="Tipo LLamado" presentation="CLI_CALL" readonly="true"/>
 			<field name="mon_note" label="Nota" presentation="TEXT" readonly="true"/>
+			<field name="mon_call_date" label="Fecha Llamada" presentation="DATE" readonly="true"/>	
 			<field name="mon_call_reference" label="Ref LLamado" presentation="TEXT"  readonly="true"/>	
 			<field name="doc_storage" label="Archivo Call" presentation="CALLS_AUDIO" isvisible="false"/>	
 		</group>

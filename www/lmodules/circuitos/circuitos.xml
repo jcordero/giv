@@ -39,10 +39,10 @@
 			<action label="anular" right="circuitos.circuitos.actualizar" target="circuitos_baja_maint.php?OP=M" operation="M"  >
 				<sendfield classname="ccircuitos" name="cir_code"/>
 			</action>		
-			<action label="desempeño" right="circuitos.cir_groups" target="cir_groups_oper.php?OP=L" operation="L"  >
+			<action label="desempeño" right="circuitos.cir_groups" target="cir_oper.php?OP=L" operation="L"  >
 				<sendfield classname="ccircuitos" name="cir_code"/>
 			</action>				
-			<action label="asignar grupo" right="circuitos.cir_groups.nuevo" target="cir_groups_maint.php?OP=N" operation="N"  >
+			<action label="asignar grupo" right="circuitos.cir_groups.nuevo" target="cir_groups_n_maint.php?OP=N" operation="N"  >
 				<sendfield classname="ccircuitos" name="cir_code"/>
 			</action>	
 			<action label="grupos" right="circuitos.cir_groups" target="cir_groups.php?OP=L" operation="L"  >
@@ -61,7 +61,7 @@
 		<field name="cir_importance_min" label="Importancia Min" presentation="INT"  ismandatory="true" />		
 		<field name="cir_status" label="Estado" presentation="ESTADO_CIRCUITOS" initialvalue="PENDIENTE" readonly="true" />	
 	</group>
-		<action label="Asignar Grupo de Operadores" target="cir_groups_maint.php?OP=N"  operation="N" />		
+		<action label="Asignar Grupo de Operadores" target="cir_groups_n_maint.php?OP=N"  operation="N" />		
 	</build>
 </make>
 <make object="table_maint"> 
@@ -93,7 +93,6 @@
 <make object="class"> 
 	<build out_file="ccir_groups.php" classname="ccir_groups" classlabel="Grupos">
 		<parse in_file="circuitos.sql" tablename="cir_groups" />
-		<field name="cirg_code" sequence="cir_groups"/>		
 	</build>
 </make>
 <make object="search_and_list"> 
@@ -122,12 +121,10 @@
 			</action>		
 			<action label="operadores" right="circuitos.cir_groups" target="/lmodules/configuracion/oper_status.php?OP=L" operation="L"  >
 				<sendfield classname="ccir_groups" name="cir_code"/>			
-				<sendfield classname="ccir_groups" name="cirg_code"/>
 				<sendfield classname="ccir_groups" name="oper_grupo"/>
 			</action>			
-			<action label="desempeño" right="circuitos.cir_groups" target="cir_groups_oper.php?OP=L" operation="L"  >
+			<action label="desempeño" right="circuitos.cir_groups" target="cir_oper.php?OP=L" operation="L"  >
 				<sendfield classname="ccir_groups" name="cir_code"/>
-				<sendfield classname="ccir_groups" name="cirg_code"/>
 				<sendfield classname="ccir_groups" name="oper_grupo"/>
 			</action>				
 	</build>
@@ -142,22 +139,85 @@
 		</group>
 	</build>
 </make>
+<make object="class"> 
+	<build out_file="ccir_groups_n.php" classname="ccir_groups_n" classlabel="Nuevo Grupos">
+		<parse in_file="circuitos.sql" tablename="cir_groups" />
+		<field name="cirg_code" sequence="cir_groups"/>		
+		<build classname="oper_status" classlabel="Operadores del Grupo">
+			<parse in_file="../configuracion/configuracion.sql" tablename="oper_status"/>
+			<key parent="oper_grupo" child="oper_grupo"/>
+		</build>			
+	</build>
+</make>
+<make object="table_maint"> 
+	<build out_file="cir_groups_n_maint.php" classname="ccir_groups_n" title="Nueva Asignación de Grupos a Circuitos" next="cir_groups.php?last=1&amp;OP=L">
+	 	<include file="/common/presentation/generic.js" />
+		<include file="buscar_grupo.js"/>	
+		<group title="Seleccione el Grupo" id="grupo1" order="1">	
+					<field name="oper_grupo" label="Grupo" presentation="SELECT" valuelist="oper_grupo" ismandatory="true"/>	
+		</group>				
+	    <group title="Datos Principales" id="grupo2" order="2">	
+			<field name="cirg_code" label="Grupo Nro"  presentation="SEQUENCE" classparams="cir_groups" readonly="true"/>	
+			<field name="cir_code" label="Circuito"  presentation="SELECTTABLE"  classparams="SELECT  cir_name,cir_code FROM circuitos where cir_status in ('PENDIENTE','ACTIVO') order by cir_name" ismandatory="true" />		
+			<field name="use_code_supervisor" label="Supervisor" presentation="SUPERVISOR"  ismandatory="true" />	
+		</group>	
+		<table relationclass="" classname="oper_status" title="Operadores Asignados" order="3" add="false" delete="false"  update="false">
+			<column title="Operador" order="1">
+			<field name="oper_grupo" label="Grupo" presentation="TEXT"  isvisible="false"/>				
+			<field name="use_code" label="Nro" presentation="OPERADOR" />
+			</column>			
+			<column title="Estado" order="2">
+			<field name="crit_status" label="Estado Operador" presentation="TEXT" />
+			</column>			
+			<column title="Nuevo" order="3">			
+			<field name="oper_nuevo" label="Nuevo" presentation="TEXT" ismandatory="true"/>		
+			</column>			
+			<column title="Hora Ingreso" order="4">			
+			<field name="oper_hora_in" label="Hora Ingreso" presentation="TEXT" />			
+			</column>			
+			<column title="Hora Egreso" order="5">			
+			<field name="oper_hora_out" label="Hora Egreso" presentation="TEXT"/>	
+			</column>
+		</table>				
+		<action label="Asignar Grupo de Operadores" target="cir_groups_n_maint.php?OP=N"  operation="N" >
+				<sendfield classname="ccir_groups_n" name="cir_code"/>
+				<sendfield classname="ccir_groups_n" name="oper_grupo"/>			
+		</action>
+	</build>
+</make>
 <make object="table_maint"> 
 	<build out_file="cir_groups_maint.php" classname="ccir_groups" title="Asignación de Grupos a Circuitos" next="cir_groups.php?last=1&amp;OP=L">
-	    <group title="Datos Principales" id="grupo" order="1">	
-			<field name="cirg_code" label="Grupo Nro"  presentation="SEQUENCE" classparams="cir_groups" readonly="true"/>	
-			<field name="cir_code" label="Circuito"  presentation="SELECTTABLE"  classparams="SELECT  cir_name,cir_code FROM circuitos where cir_status in ('PENDIENTE') order by cir_name" ismandatory="true" />		
+	    <group title="Datos Principales" id="grupo2" order="2">	
+			<field name="cirg_code" label="Grupo Nro"  presentation="INT"  readonly="true"/>	
+			<field name="cir_code" label="Circuito"  presentation="CIRCUITO" readonly="true"/>			
+			<field name="oper_grupo" label="Grupo" presentation="TEXT" readonly="true"/>	
 			<field name="use_code_supervisor" label="Supervisor" presentation="SUPERVISOR"  ismandatory="true" />	
-			<field name="oper_grupo" label="Grupo" presentation="SELECT" valuelist="oper_grupo" ismandatory="true"/>		
 		</group>	
-		<action label="Asignar Grupo de Operadores" target="cir_groups_maint.php?OP=N"  operation="N" />		
+		<table relationclass="" classname="oper_status" title="Operadores Asignados" order="3" add="false" delete="false"  update="false">
+			<column title="Operador" order="1">
+			<field name="oper_grupo" label="Grupo" presentation="TEXT"  isvisible="false"/>				
+			<field name="use_code" label="Nro" presentation="OPERADOR" />
+			</column>			
+			<column title="Estado" order="2">
+			<field name="crit_status" label="Estado Operador" presentation="TEXT" />
+			</column>			
+			<column title="Nuevo" order="3">			
+			<field name="oper_nuevo" label="Nuevo" presentation="TEXT" ismandatory="true"/>		
+			</column>			
+			<column title="Hora Ingreso" order="4">			
+			<field name="oper_hora_in" label="Hora Ingreso" presentation="TEXT" />			
+			</column>			
+			<column title="Hora Egreso" order="5">			
+			<field name="oper_hora_out" label="Hora Egreso" presentation="TEXT"/>	
+			</column>
+		</table>				
 	</build>
 </make>
 
 <!-- OEPRADORES POR GRUPOS  -->
 <make object="class"> 
-	<build out_file="ccir_groups_oper.php" classname="ccir_groups_oper" classlabel="Operadores por Grupos">
-		<parse in_file="circuitos.sql" tablename="cir_groups_oper" />			
+	<build out_file="ccir_oper.php" classname="ccir_oper" classlabel="Operadores por Grupos">
+		<parse in_file="circuitos.sql" tablename="cir_oper" />			
 		<field name="cirg_cant_mon_pendientes" total="true" />
 		<field name="cirg_cant_mon_realizados" total="true" />
 		<field name="cirg_cant_mon_ok" total="true" />
@@ -170,8 +230,7 @@
 	</build>
 </make>
 <make object="search_and_list"> 
-	<build out_file="cir_groups_oper.php" classname="ccir_groups_oper" title="Desempeño">
-		    <field name="cirg_code" label="Grupo Nro"  presentation="INT" />	
+	<build out_file="cir_oper.php" classname="ccir_oper" title="Desempeño">
 			 <field name="cir_code" label="Circ. Nro"  presentation="CIRCUITOS" />	
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" />
 			<field name="crit_status_ini" label="Estado Ini" presentation="CRIT_STATUS" />
@@ -186,12 +245,10 @@
 			<field name="cirg_cant_cap_realizados" label="Capac. Realiz" presentation="INT" total="true"/>	
 			<field name="cirg_cant_cap_ok" label="Capac. OK" presentation="INT" total="true"/>
 			<field name="cirg_cant_cap_mal" label="Capac. Mal" presentation="INT" total="true"/>			
-			<searchfield name="cirg_code"/>
 			<searchfield name="cir_code"/>
 			<searchfield name="use_code_operador"/>
 			<searchfield name="crit_status_ini"/>
 			<searchfield name="crit_status_fin"/>
-			<listfield name="cirg_code"/>
 			<listfield name="cir_code"/>
 			<listfield name="use_code_operador"/>
 			<listfield name="crit_status_ini"/>
@@ -207,19 +264,18 @@
 			<listfield name="cirg_cant_cap_ok" total="true"/>
 			<listfield name="cirg_cant_cap_mal" total="true"/>	
 
-			<action label="monitoreos" target="/lmodules/monitoreos/monitoreos.php?OP=L" operation="L" next="/lmodules/circuitos/cir_groups_oper.php?last=1&amp;OP=L" >
-				<sendfield classname="ccir_groups_oper" name="cirg_code"/>
-				<sendfield classname="ccir_groups_oper" name="cir_code"/>
-				<sendfield classname="ccir_groups_oper" name="use_code_operador"/>				
+			<action label="monitoreos" target="/lmodules/monitoreos/monitoreos.php?OP=L" operation="L" next="/lmodules/circuitos/cir_oper.php?last=1&amp;OP=L" >
+				<sendfield classname="ccir_oper" name="cir_code"/>
+				<sendfield classname="ccir_oper" name="use_code_operador"/>				
 			</action>
 	</build>
 </make>
 <!--
 <make object="class"> 
 	<build out_file="coper_desemp.php" classname="coper_desemp" classlabel="Estado de Operadores por Circuitos">
-		<parse in_file="circuitos.sql" tablename="cir_groups_oper" />		
+		<parse in_file="circuitos.sql" tablename="cir_oper" />		
 		<method SaveDBTotalQuery="select sum(cirg_cant_mon_pendientes) as cirg_cant_mon_pendientes,round(avg(pro_indice),2) as pro_indice , sum(pro_encontrados) as pro_encontrados from prod_agotados"/>
-         <method ObjFactoryQuery="select * from cir_groups_oper g join circuitos c on g. "/>
+         <method ObjFactoryQuery="select * from cir_oper g join circuitos c on g. "/>
          <method ObjFactoryQuerySuffix=" ORDER BY anio desc, mes desc,pro_indice asc"/>
  		
 		<field name="cirg_cant_mon_pendientes" total="true" />

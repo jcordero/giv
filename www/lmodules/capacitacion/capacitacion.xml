@@ -16,7 +16,7 @@
 			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" />
 			<field name="cap_status" label="Estado" presentation="CAP_STATUS"/>
 			<field name="cap_date" label="Fecha" presentation="DATERANGE" />
-			<field name="cap_use_code" label="Capacitado por"  presentation="SUPERVISOR" />
+			<field name="cap_use_code" label="Capacitado por"  presentation="USER" />
 			<field name="cap_origen" label="Origen" presentation="SELECT" valuelist="cap_origen" />	
 			<field name="cap_habilidad" label="Habilidad" presentation="SELECT" valuelist="cap_habilidad" />	
 			<field name="cap_rol_play_aprobado" label="Rol Play Aprobado" presentation="SINO" />	
@@ -26,6 +26,7 @@
 			<searchfield name="mon_code" />
 			<searchfield name="cir_code"/>
 			<searchfield name="use_code_operador"/>
+			<searchfield name="use_code_supervisor"/>
 			<searchfield name="cap_use_code" />
 			<searchfield name="cap_status" />	
 			<searchfield name="cap_date" />
@@ -38,7 +39,8 @@
 			<listfield name="mon_code"/>
 			<listfield name="cir_code"/>
 			<listfield name="cap_status" />	
-			<listfield name="cap_date" />			
+			<listfield name="cap_date" />
+			<listfield name="use_code_supervisor"/>			
 			<listfield name="cap_use_code"/>
 			<listfield name="use_code_operador"/>
 			<listfield name="cap_origen" />
@@ -100,7 +102,6 @@
 			<field name="mon_code" label="Monitoreo Nro" presentation="INT" readonly="true"/>
 			<field name="doc_storage" label="Llamada" presentation="FILE"  isvisible="false"/>
 			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" readonly="true"/>
-			<field name="cirg_code" label="Grupo Oper" presentation="INT" isvisible="false"/>
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" readonly="true"/>
 			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" readonly="true"/>
 			<field name="cap_status" label="Estado" presentation="CAP_STATUS" readonly="true"/>
@@ -223,7 +224,6 @@
 			<field name="mon_code" label="Monitoreo Nro" presentation="INT" readonly="true"/>
 			<field name="doc_storage" label="Llamada" presentation="FILE"  isvisible="false"/>
 			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" readonly="true"/>
-			<field name="cirg_code" label="Grupo Oper" presentation="INT" isvisible="false"/>
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" readonly="true"/>
 			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" readonly="true"/>
 			<field name="cap_status" label="Estado" presentation="TEXT" readonly="true"/>

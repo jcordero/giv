@@ -6,14 +6,14 @@
 	<right name="circuitos.cir_groups" note="Permiso para consultar grupos de Monitoreo"/>
 	<right name="circuitos.cir_groups.nuevo" note="Permiso para ingresar un nuevo grupo"/>
 	<right name="circuitos.cir_groups.actualizar" note="Permiso para actualizar un grupo"/>
-	<right name="circuitos.cir_groups_oper" note="Permiso para reporte de operadores de un grupo"/>
+	<right name="circuitos.cir_oper" note="Permiso para reporte de operadores de un circuito"/>
 	<menu language="spa">
 		<menuitem name="circuitos" order="3" right="circuitos.menu" pda="true" >
 				<menuitem name="Listado de Circuitos de Monitoreo" right="circuitos.circuitos" action="/lmodules/circuitos/circuitos.php?OP=L" tooltip="Listar y consultar circuitos a monitorear" order="1" pda="true"/>
 				<menuitem name="Nuevo Circuito de Monitoreo" right="circuitos.circuitos.nuevo" action="/lmodules/circuitos/circuitos_maint.php?OP=N" tooltip="Ingresar nuevo circuito a monitorear" order="2" pda="true"/>
 				<menuitem name="Asignacion de Grupos" order="3" right="circuitos.cir_groups" pda="true" >
 					<menuitem name="Listado de Grupos de Asignados" right="circuitos.cir_groups" action="/lmodules/circuitos/cir_groups.php?OP=L" tooltip="Listar y consultar grupos asignados a circuitos a monitorear" order="1" pda="true"/>
-					<menuitem name="Nueva Asignacion de Grupos" right="circuitos.cir_groups.nuevo" action="/lmodules/circuitos/cir_groups_maint.php?OP=N" tooltip="Asignar un grupo a un circuito a monitorear" order="2" pda="true"/>
+					<menuitem name="Nueva Asignacion de Grupos" right="circuitos.cir_groups.nuevo" action="/lmodules/circuitos/cir_groups_n_maint.php?OP=N" tooltip="Asignar un grupo a un circuito a monitorear" order="2" pda="true"/>
 				</menuitem>	
 		</menuitem>	
 	</menu>	

@@ -10,6 +10,7 @@ CREATE TABLE monitoreos (
   mon_motivo   varchar(200) NULL,    
   mon_note varchar(400) NULL,  
   cli_call_code varchar(200) NULL,    
+  mon_call_date datetime NULL, 
   mon_call_reference varchar(20) NULL,    
   doc_storage varchar(200) NULL,  
   mon_puntaje int NULL,    

@@ -19,8 +19,7 @@ CREATE TABLE cir_groups (
   (	cirg_code asc)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;  
 
-CREATE TABLE cir_groups_oper (
-  cirg_code int(10) NOT NULL,
+CREATE TABLE cir_oper (
   cir_code int(10) NOT NULL,  
   use_code_operador int not null,
   crit_status_ini int NULL,  
@@ -35,8 +34,8 @@ CREATE TABLE cir_groups_oper (
   cirg_cant_cap_ok int NULL,  
   cirg_cant_cap_mal int NULL,  
   cirg_cant_mon_cierre_forz  int NULL,  
-  constraint pk_cir_groups_oper primary key clustered 
-   (cirg_code, use_code_operador)
+  constraint pk_cir_oper primary key clustered 
+   (cir_code, use_code_operador)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;  
 
 

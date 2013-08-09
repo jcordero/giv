@@ -31,14 +31,32 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 			return $res;
 		}			
 		// resguardar llamada
+		$mon_call_date = $obj->getField("mon_call_date")->getValue();
+		$f = explode ('/',$mon_call_date);
+		$y = $f[2];
+		$m = substr('0'.$f[1],-2);
+		$d = substr('0'.$f[0],-2);
+		
 		$mon_call_reference = $obj->getField("mon_call_reference")->getValue();
 		$doc_code = "mon_code:".$mon_code;
 
-		$mon_call_path =$primary_db->QueryString("SELECT par_value FROM sec_parameters where par_code='path_calls' limit 1")."/".date("Y").date("m")."/".$mon_call_reference;
-		if (!file_exists($mon_call_path)) {
-			$res[] = "MENSAJE: No se encuentra el archivo de audio $mon_call_path";	
-			return $res;
+		$path =$primary_db->QueryString("SELECT par_value FROM sec_parameters where par_code='path_calls_1' limit 1");
+		$mon_call_path=$path."/".$m."-".$y."/".$y.$m.$d."/".$mon_call_reference;
+		$path_validar =$primary_db->QueryString("SELECT par_value FROM sec_parameters where par_code='path_validar' limit 1");
+		
+		if (($mon_call_path=="") || (!file_exists($mon_call_path))) {
+		    error_log(__FILE__." No se encontro el archivo: ".$mon_call_path);
+			$path =$primary_db->QueryString("SELECT par_value FROM sec_parameters where par_code='path_calls_2' limit 1");
+			$mon_call_path=$path."/".$y.$m.$d."/".$mon_call_reference;
+			if (($mon_call_path=="") || (!file_exists($mon_call_path))) {
+			  error_log(__FILE__." No se encontro el archivo: ".$mon_call_path);
+			  if(strtoupper($path_validar) == strtoupper("SI") ) 		{	
+				$res[] = "MENSAJE: No se encuentra el archivo de audio $mon_call_path";	
+				return $res;
+			  }	
+			}	
 		}
+
 		$this->doc_storage = "";
 		$error =  $this->saveDoc($mon_call_reference,$doc_code,$mon_call_path,"") ;
 		$obj->getField("doc_storage")->setValue($this->doc_storage);
@@ -126,18 +144,16 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		}
 
 		
-		$sql3 = "update cir_groups_oper set ";
+		$sql3 = "update cir_oper set ";
 					if ($ok==1)
 					   $sql3.= "cirg_cant_mon_ok=cirg_cant_mon_ok+1, ";
 					else   
 						$sql3.= "cirg_cant_mon_mal=cirg_cant_mon_mal+1, ";
 					if ($add_cap>0)
 					   $sql3.= "cirg_cant_cap_pendientes=cirg_cant_cap_pendientes+".intval($add_cap).", ";
-					if ($add_mon>0)
-						$sql3.= "cirg_cant_mon_pendientes=cirg_cant_mon_pendientes-1+".intval($add_mon).", ";
-						
+				    $sql3.= "cirg_cant_mon_pendientes=cirg_cant_mon_pendientes-1+".intval($add_mon).", ";	
 					$sql3.= "cirg_cant_mon_realizados=cirg_cant_mon_realizados+1 ";
-					$sql3.= " where cirg_code=".intval($cirg_code)." and use_code_operador=".intval($use_code_operador);
+					$sql3.= " where cirg_code=".intval($cirg_code)." and cir_code=".intval($cir_code)." and use_code_operador=".intval($use_code_operador);
 					$primary_db->do_execute($sql3, $err3);
 					if (count($err3) > 0) 
 						$res[]= "MENSAJE: Error al actualizar el operador del grupo ($use_code_operador).";
@@ -167,7 +183,41 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		$rs = $primary_db->do_execute($sql,$res);
 		if (count($res) > 0) return "MENSAJE: ERROR al guardar el archivo";
 		return "";
+		
    }	
+   
+   
+   		
+		
+	function whereIs($file_name,$dir) {
+	    error_log("whereIs($file_name,$dir)");
+		$path = "";
+		if (is_dir($dir)) {
+				if ($dh = opendir($dir)) {
+					while ((($file = readdir($dh)) !== false) && ($path=="")) {
+					    error_log($file);
+					    if (($file != ".") && ($file != ".."))
+						{
+							$file1 = $dir."/".$file;
+							if (is_dir($file1))
+							{
+							   error_log ($file1." es dir");
+							   $path = $this->whereIs($file_name,$file1);
+							   error_log("path->".$path);
+							} else {
+							   if ($file == $file_name)
+							   {
+								  error_log ($file1." es el FILE !!!!!");
+								  $path = $file1;
+								}  
+							}
+						}
+					}
+					closedir($dh);
+				}
+		}			
+		return $path; 
+	}
 
  
 	public function afterSaveDB()
@@ -187,8 +237,8 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		$use_code_supervisor = $obj->getField("use_code_supervisor")->getValue();
 		$use_code_operador = $obj->getField("use_code_operador")->getValue();
 		
-		$sql3 = "update cir_groups_oper set cirg_puntaje_prom=ifnull(";
-		$sql3.= "(select avg(mon_puntaje) from monitoreos m where m.cirg_code = cir_groups_oper.cirg_code and m.use_code_operador=cir_groups_oper.use_code_operador)";
+		$sql3 = "update cir_oper set cirg_puntaje_prom=ifnull(";
+		$sql3.= "(select avg(mon_puntaje) from monitoreos m where m.cirg_code = cir_oper.cirg_code and m.use_code_operador=cir_oper.use_code_operador)";
 		$sql3.= ",0) where cirg_code=".intval($cirg_code)." and use_code_operador=".intval($use_code_operador);		
 		$primary_db->do_execute($sql3, $err3);
 		if (count($err3) > 0) 

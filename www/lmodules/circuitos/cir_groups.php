@@ -30,8 +30,8 @@ class ccir_groups_sl extends csearchandlist {
         $this->addAction(5,"cir_groups_v_maint.php?OP=V",array(new caction_param('cirg_code')),"","ver","V","","");
         $this->addAction(5,"cir_groups_maint.php?OP=M",array(new caction_param('cirg_code')),"","modificar","M","circuitos.cir_groups.actualizar","");
         $this->addAction(5,"cir_groups_maint.php?OP=B",array(new caction_param('cirg_code')),"","eliminar","B","circuitos.cir_groups.actualizar","");
-        $this->addAction(5,"/lmodules/configuracion/oper_status.php?OP=L",array(new caction_param('cir_code'),new caction_param('cirg_code'),new caction_param('oper_grupo')),"","operadores","L","circuitos.cir_groups","");
-        $this->addAction(5,"cir_groups_oper.php?OP=L",array(new caction_param('cir_code'),new caction_param('cirg_code'),new caction_param('oper_grupo')),"","desempeño","L","circuitos.cir_groups","");
+        $this->addAction(5,"/lmodules/configuracion/oper_status.php?OP=L",array(new caction_param('cir_code'),new caction_param('oper_grupo')),"","operadores","L","circuitos.cir_groups","");
+        $this->addAction(5,"cir_oper.php?OP=L",array(new caction_param('cir_code'),new caction_param('oper_grupo')),"","desempeño","L","circuitos.cir_groups","");
     }
 
     //Inicializo la parte de busqueda
@@ -40,7 +40,7 @@ class ccir_groups_sl extends csearchandlist {
 
     /* Campos de busqueda */
         $this->m_obj->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"CIRCUITOS", "IsNullable"=>false, "IsVisible"=>true));
-        $this->m_obj->GetField("cirg_code")->SetDisplayValues(Array("Name"=>"cirg_code", "Label"=>"Grupo Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "Sequence"=>"cir_groups"));
+        $this->m_obj->GetField("cirg_code")->SetDisplayValues(Array("Name"=>"cirg_code", "Label"=>"Grupo Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("oper_grupo")->SetDisplayValues(Array("Name"=>"oper_grupo", "Label"=>"Grupo", "Size"=>20, "IsForDB"=>true, "Order"=>104, "ValueList"=>"oper_grupo", "Presentation"=>"SELECT", "IsNullable"=>false, "IsVisible"=>true));
     }
@@ -61,7 +61,7 @@ class col101 extends ccolumn
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cirg_code", "Label"=>"Grupo Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "Sequence"=>"cir_groups"));
+         $this->m_fields[] = new CField(Array("Name"=>"cirg_code", "Label"=>"Grupo Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true));
     }
 }
 

@@ -18,5 +18,5 @@ source ../www/lmodules/circuitos/circuitos.sql
 source ../www/lmodules/monitoreos/monitoreos.sql
 source ../www/lmodules/capacitacion/capacitacion.sql
 source db_giv_init.sql
-
+source insert_operadores.sql
 

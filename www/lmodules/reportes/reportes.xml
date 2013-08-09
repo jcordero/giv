@@ -10,7 +10,7 @@
 				sum(cirg_cant_cap_realizados) as cirg_cant_cap_realizados, sum(cirg_cant_cap_ok) as cirg_cant_cap_ok,
 				sum(cirg_cant_cap_mal) as cirg_cant_cap_mal, sum(cirg_cant_mon_cierre_forz) as cirg_cant_mon_cierre_forz,
 				round(avg(ifnull(cirg_puntaje_prom,0)),2) as cirg_puntaje_prom
-				FROM cir_groups_oper "/>	
+				FROM cir_oper "/>	
          <method ObjFactoryQuery="SELECT cir_code,
 				sum(cirg_cant_mon_pendientes) as cirg_cant_mon_pendientes, sum(cirg_cant_mon_realizados) as cirg_cant_mon_realizados, 
 				sum(cirg_cant_mon_ok) as cirg_cant_mon_ok, 
@@ -18,7 +18,7 @@
 				sum(cirg_cant_cap_realizados) as cirg_cant_cap_realizados, sum(cirg_cant_cap_ok) as cirg_cant_cap_ok,
 				sum(cirg_cant_cap_mal) as cirg_cant_cap_mal, sum(cirg_cant_mon_cierre_forz) as cirg_cant_mon_cierre_forz,
 				round(avg(ifnull(cirg_puntaje_prom,0)),2) as cirg_puntaje_prom
-				FROM cir_groups_oper "/>
+				FROM cir_oper "/>
          <method ObjFactoryQuerySuffix=" group by cir_code	ORDER BY cir_code desc "/>				
 
         <field name="cir_code" label="circuito" type="INT" isfordb="true" ispk="false"/>
@@ -63,7 +63,7 @@
 			<action label="por grupo" target="/lmodules/reportes/des_circuito_group.php?OP=L" operation="L" next="/lmodules/reportes/des_circuito.php?last=1&amp;OP=L" >
 				<sendfield classname="cdes_circuito" name="cir_code"/>
 			</action>
-			<action label="por operador" target="/lmodules/circuitos/cir_groups_oper.php?OP=L" operation="L" next="/lmodules/reportes/des_circuito.php?last=1&amp;OP=L" >
+			<action label="por operador" target="/lmodules/circuitos/cir_oper.php?OP=L" operation="L" next="/lmodules/reportes/des_circuito.php?last=1&amp;OP=L" >
 				<sendfield classname="cdes_circuito" name="cir_code"/>
 			</action>
 	</build>
@@ -79,7 +79,7 @@
 				sum(cirg_cant_cap_realizados) as cirg_cant_cap_realizados, sum(cirg_cant_cap_ok) as cirg_cant_cap_ok,
 				sum(cirg_cant_cap_mal) as cirg_cant_cap_mal, sum(cirg_cant_mon_cierre_forz) as cirg_cant_mon_cierre_forz,
 				round(avg(ifnull(cirg_puntaje_prom,0)),2) as cirg_puntaje_prom
-				FROM cir_groups_oper "/>		 
+				FROM cir_oper "/>		 
         <method ObjFactoryQuery="SELECT cir_code,cirg_code,
 				sum(cirg_cant_mon_pendientes) as cirg_cant_mon_pendientes, sum(cirg_cant_mon_realizados) as cirg_cant_mon_realizados, 
 				sum(cirg_cant_mon_ok) as cirg_cant_mon_ok, 
@@ -87,7 +87,7 @@
 				sum(cirg_cant_cap_realizados) as cirg_cant_cap_realizados, sum(cirg_cant_cap_ok) as cirg_cant_cap_ok,
 				sum(cirg_cant_cap_mal) as cirg_cant_cap_mal, sum(cirg_cant_mon_cierre_forz) as cirg_cant_mon_cierre_forz,
 				round(avg(ifnull(cirg_puntaje_prom,0)),2) as cirg_puntaje_prom
-				FROM cir_groups_oper "/>
+				FROM cir_oper "/>
         <method ObjFactoryQuerySuffix=" group by cir_code,cirg_code	ORDER BY cir_code,cirg_code desc "/>
          <field name="cir_code" label="circuito" type="INT" isfordb="true" ispk="false"/>
 		<field name="cirg_code" label="grupo" type="INT" isfordb="true" ispk="false"/>
@@ -133,7 +133,7 @@
 			<listfield name="cirg_cant_cap_ok" total="true"/>
 			<listfield name="cirg_cant_cap_mal" total="true"/>	
 
-			<action label="por operador" target="/lmodules/circuitos/cir_groups_oper.php?OP=L" operation="L" next="/lmodules/reportes/des_circuito.php?last=1&amp;OP=L" >
+			<action label="por operador" target="/lmodules/circuitos/cir_oper.php?OP=L" operation="L" next="/lmodules/reportes/des_circuito.php?last=1&amp;OP=L" >
 				<sendfield classname="cdes_circuito_group" name="cir_code"/>
 				<sendfield classname="cdes_circuito_group" name="cirg_code"/>
 			</action>

@@ -196,15 +196,32 @@
 			</action>						
 	</build>
 </make>
- 
+<make object="class"> 
+	<build out_file="coper_status_m.php" classname="coper_status_m" classlabel="oper_status">
+		<parse in_file="configuracion.sql" tablename="oper_status" />	
+		<field name="modificar_circuito" type="VARCHAR" size="2"/>	
+			<field name="cir_code" type="INT" />	
+			<field name="cir_date_ini" type="DATETIME" />	
+			<field name="cir_date_fin" type="DATETIME"/>	
+			<field name="cir_importance_min" type="INT" />	
+			<field name="cir_status" type="VARCHAR" size="20"/>	
+	</build>
+</make>
+ 		
 <make object="table_maint"> 
-	<build out_file="oper_status_maint.php" classname="coper_status" title="Operadores a Monitorear" next="oper_status.php?last=1&amp;OP=L">
+	<build out_file="oper_status_maint.php" classname="coper_status_m" title="Operadores a Monitorear" next="oper_status.php?last=1&amp;OP=L">
 			<field name="use_code" label="Nro" presentation="OPERADOR" />
 			<field name="crit_status" label="Estado Operador" presentation="CRIT_STATUS" ismandatory="true"/>
 			<field name="oper_nuevo" label="Nuevo" presentation="SINO" ismandatory="true"/>		
 			<field name="oper_grupo" label="Grupo" presentation="SELECT" valuelist="oper_grupo" ismandatory="true"/>				
 			<field name="oper_hora_in" label="Hora Ingreso" presentation="TEXT" cols="8" ismandatory="true"/>			
 			<field name="oper_hora_out" label="Hora Egreso" presentation="TEXT" cols="8" ismandatory="true"/>	
+			<field name="modificar_circuito" label="Desea incorporar la modificación al circuito activo actual?" presentation="SINO" initialvalue="SI" ismandatory="true"/>	
+			<field name="cir_code" label="Circuito"  presentation="CIRCUITOS" readonly="true"/>	
+			<field name="cir_date_ini" label="Fecha Inicio" presentation="TEXT" readonly="true"/>	
+			<field name="cir_date_fin" label="Fecha Final" presentation="TEXT"  readonly="true"/>			
+			<field name="cir_importance_min" label="Importancia Min" presentation="INT"  readonly="true"/>	
+			<field name="cir_status" label="Estado" presentation="TEXT" readonly="true"/>			
 	</build>
 </make>
 

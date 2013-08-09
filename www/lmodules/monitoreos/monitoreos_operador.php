@@ -45,8 +45,8 @@ class cmonitoreos_rep_sl extends csearchandlist {
         $this->m_obj->GetField("mon_status")->SetDisplayValues(Array("Name"=>"mon_status", "Label"=>"Estado", "Size"=>20, "IsForDB"=>true, "Order"=>107, "Presentation"=>"MON_STATUS", "IsVisible"=>true));
         $this->m_obj->GetField("mon_forzado")->SetDisplayValues(Array("Name"=>"mon_forzado", "Label"=>"Cierre", "Size"=>2, "IsForDB"=>true, "Order"=>108, "Presentation"=>"SINO", "IsVisible"=>true));
         $this->m_obj->GetField("cli_call_code")->SetDisplayValues(Array("Name"=>"cli_call_code", "Label"=>"Tipo", "Size"=>200, "IsForDB"=>true, "Order"=>111, "Presentation"=>"CLI_CALL", "IsVisible"=>true));
-        $this->m_obj->GetField("mon_aprobo")->SetDisplayValues(Array("Name"=>"mon_aprobo", "Label"=>"Aprobado", "Size"=>2, "IsForDB"=>true, "Order"=>115, "Presentation"=>"SINO", "IsVisible"=>true));
-        $this->m_obj->GetField("mon_perjuicio_cliente")->SetDisplayValues(Array("Name"=>"mon_perjuicio_cliente", "Label"=>"Perjuicio", "Size"=>2, "IsForDB"=>true, "Order"=>116, "Presentation"=>"SINO", "IsVisible"=>true));
+        $this->m_obj->GetField("mon_aprobo")->SetDisplayValues(Array("Name"=>"mon_aprobo", "Label"=>"Aprobado", "Size"=>2, "IsForDB"=>true, "Order"=>116, "Presentation"=>"SINO", "IsVisible"=>true));
+        $this->m_obj->GetField("mon_perjuicio_cliente")->SetDisplayValues(Array("Name"=>"mon_perjuicio_cliente", "Label"=>"Perjuicio", "Size"=>2, "IsForDB"=>true, "Order"=>117, "Presentation"=>"SINO", "IsVisible"=>true));
     }
 
 }
@@ -188,54 +188,20 @@ class col111 extends ccolumn
     }
 }
 
-class col113 extends ccolumn
+class col114 extends ccolumn
 {
     function __construct($parent)
     {
         parent::__construct($parent);
         $this->m_title = 'Llamada';
-        $this->m_order = '113';
+        $this->m_order = '114';
         $this->m_isvisible = false;
         $this->m_align = 'left';
         $this->m_sort_field = 'doc_storage';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"doc_storage", "Label"=>"Llamada", "Size"=>200, "IsForDB"=>true, "Order"=>113, "Presentation"=>"FILE"));
-    }
-}
-
-class col115 extends ccolumn
-{
-    function __construct($parent)
-    {
-        parent::__construct($parent);
-        $this->m_title = 'Aprobado';
-        $this->m_order = '115';
-        $this->m_isvisible = true;
-        $this->m_align = 'left';
-        $this->m_sort_field = 'mon_aprobo';
-        $this->m_width = '';
-
-        //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"mon_aprobo", "Label"=>"Aprobado", "Size"=>2, "IsForDB"=>true, "Order"=>115, "Presentation"=>"SINO", "IsVisible"=>true));
-    }
-}
-
-class col114 extends ccolumn
-{
-    function __construct($parent)
-    {
-        parent::__construct($parent);
-        $this->m_title = 'Puntaje';
-        $this->m_order = '114';
-        $this->m_isvisible = true;
-        $this->m_align = 'left';
-        $this->m_sort_field = 'mon_puntaje';
-        $this->m_width = '';
-
-        //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"mon_puntaje", "Label"=>"Puntaje", "Type"=>"int", "IsForDB"=>true, "Order"=>114, "Presentation"=>"INT", "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"doc_storage", "Label"=>"Llamada", "Size"=>200, "IsForDB"=>true, "Order"=>114, "Presentation"=>"FILE"));
     }
 }
 
@@ -244,15 +210,32 @@ class col116 extends ccolumn
     function __construct($parent)
     {
         parent::__construct($parent);
-        $this->m_title = 'Perjuicio';
+        $this->m_title = 'Aprobado';
         $this->m_order = '116';
         $this->m_isvisible = true;
         $this->m_align = 'left';
-        $this->m_sort_field = 'mon_perjuicio_cliente';
+        $this->m_sort_field = 'mon_aprobo';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"mon_perjuicio_cliente", "Label"=>"Perjuicio", "Size"=>2, "IsForDB"=>true, "Order"=>116, "Presentation"=>"SINO", "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"mon_aprobo", "Label"=>"Aprobado", "Size"=>2, "IsForDB"=>true, "Order"=>116, "Presentation"=>"SINO", "IsVisible"=>true));
+    }
+}
+
+class col115 extends ccolumn
+{
+    function __construct($parent)
+    {
+        parent::__construct($parent);
+        $this->m_title = 'Puntaje';
+        $this->m_order = '115';
+        $this->m_isvisible = true;
+        $this->m_align = 'left';
+        $this->m_sort_field = 'mon_puntaje';
+        $this->m_width = '';
+
+        //Campos de la columna
+         $this->m_fields[] = new CField(Array("Name"=>"mon_puntaje", "Label"=>"Puntaje", "Type"=>"int", "IsForDB"=>true, "Order"=>115, "Presentation"=>"INT", "IsVisible"=>true));
     }
 }
 
@@ -261,15 +244,15 @@ class col117 extends ccolumn
     function __construct($parent)
     {
         parent::__construct($parent);
-        $this->m_title = 'Mon. Agregados';
+        $this->m_title = 'Perjuicio';
         $this->m_order = '117';
         $this->m_isvisible = true;
         $this->m_align = 'left';
-        $this->m_sort_field = 'mon_add_mon';
+        $this->m_sort_field = 'mon_perjuicio_cliente';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"mon_add_mon", "Label"=>"Mon. Agregados", "Type"=>"int", "IsForDB"=>true, "Order"=>117, "Presentation"=>"INT", "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"mon_perjuicio_cliente", "Label"=>"Perjuicio", "Size"=>2, "IsForDB"=>true, "Order"=>117, "Presentation"=>"SINO", "IsVisible"=>true));
     }
 }
 
@@ -278,15 +261,32 @@ class col118 extends ccolumn
     function __construct($parent)
     {
         parent::__construct($parent);
-        $this->m_title = 'Capac. Agregadas';
+        $this->m_title = 'Mon. Agregados';
         $this->m_order = '118';
+        $this->m_isvisible = true;
+        $this->m_align = 'left';
+        $this->m_sort_field = 'mon_add_mon';
+        $this->m_width = '';
+
+        //Campos de la columna
+         $this->m_fields[] = new CField(Array("Name"=>"mon_add_mon", "Label"=>"Mon. Agregados", "Type"=>"int", "IsForDB"=>true, "Order"=>118, "Presentation"=>"INT", "IsVisible"=>true));
+    }
+}
+
+class col119 extends ccolumn
+{
+    function __construct($parent)
+    {
+        parent::__construct($parent);
+        $this->m_title = 'Capac. Agregadas';
+        $this->m_order = '119';
         $this->m_isvisible = true;
         $this->m_align = 'left';
         $this->m_sort_field = 'mon_add_cap';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"mon_add_cap", "Label"=>"Capac. Agregadas", "Type"=>"int", "IsForDB"=>true, "Order"=>118, "Presentation"=>"INT", "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"mon_add_cap", "Label"=>"Capac. Agregadas", "Type"=>"int", "IsForDB"=>true, "Order"=>119, "Presentation"=>"INT", "IsVisible"=>true));
     }
 }
 
@@ -325,12 +325,12 @@ class cmonitoreos_rep_table extends ctable
         $this->m_cols[107] = new col107($this);
         $this->m_cols[108] = new col108($this);
         $this->m_cols[111] = new col111($this);
-        $this->m_cols[113] = new col113($this);
-        $this->m_cols[115] = new col115($this);
         $this->m_cols[114] = new col114($this);
         $this->m_cols[116] = new col116($this);
+        $this->m_cols[115] = new col115($this);
         $this->m_cols[117] = new col117($this);
         $this->m_cols[118] = new col118($this);
+        $this->m_cols[119] = new col119($this);
         $this->m_cols[110] = new col110($this);
     }
 

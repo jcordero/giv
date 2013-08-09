@@ -18,7 +18,7 @@ class ccir_groups extends cobjbase {
         //Extensiones a esta clase
 
         //-- CField( Array(Parametros) )
-        $this->m_fields['cirg_code'] = new CField(Array("Name"=>"cirg_code", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "IsNullable"=>false, "Sequence"=>"cir_groups"));
+        $this->m_fields['cirg_code'] = new CField(Array("Name"=>"cirg_code", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "IsNullable"=>false));
         $this->m_fields['cir_code'] = new CField(Array("Name"=>"cir_code", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "IsNullable"=>false));
         $this->m_fields['use_code_supervisor'] = new CField(Array("Name"=>"use_code_supervisor", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "IsNullable"=>false));
         $this->m_fields['oper_grupo'] = new CField(Array("Name"=>"oper_grupo", "Size"=>20, "IsForDB"=>true, "Order"=>104, "IsNullable"=>false));

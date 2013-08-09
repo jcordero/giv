@@ -71,7 +71,7 @@ class ccircuitos_m extends cclass_maint {
     	$this->m_css_prefix = '';// Prefijo CSS
 
         //Acciones
-		$this->m_action[] = new CAction('N','Asignar Grupo de Operadores','','','cir_groups_maint.php?OP=N','','','');
+		$this->m_action[] = new CAction('N','Asignar Grupo de Operadores','','','cir_groups_n_maint.php?OP=N','','','');
 
         //Grupos
 		$this->m_handler[1] = new grupo_gr($this);

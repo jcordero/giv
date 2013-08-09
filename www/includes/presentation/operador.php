@@ -10,8 +10,8 @@ class CDH_OPERADOR  extends CDH_SELECT
 		global $sess, $primary_db;
 		$fld = $this->m_parent;
 		$this->m_parent->m_search="fix";
-		$this->m_fill_sql = "SELECT use_name,u.use_code FROM sec_users u join sec_usrgroup_users g on u.use_code = g.use_code where g.UGR_CODE = 'Operadores'";
-		$this->m_helper_sql = "SELECT use_name FROM sec_users WHERE use_code='<val>' ";
+		$this->m_fill_sql = "SELECT concat(use_name,' ',use_login),u.use_code FROM sec_users u join sec_usrgroup_users g on u.use_code = g.use_code where g.UGR_CODE = 'Operadores'";
+		$this->m_helper_sql = "SELECT concat(use_name,' ',use_login) FROM sec_users WHERE use_code='<val>' ";
 		// Si el usuarui actual es Operador, inicializo el combo de busqueda con el usuario actual
 		if(isset($sess))
 		{
