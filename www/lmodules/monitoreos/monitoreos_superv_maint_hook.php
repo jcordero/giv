@@ -21,15 +21,17 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		// Obtener Datos de Pantalla
 		$mon_code = $obj->getField("mon_code")->getValue();
 		$cir_code = $obj->getField("cir_code")->getValue();
-		$cirg_code = $obj->getField("cirg_code")->getValue();
+		// $cirg_code = $obj->getField("cirg_code")->getValue();
 		$use_code_supervisor = $obj->getField("use_code_supervisor")->getValue();
 		$use_code_operador = $obj->getField("use_code_operador")->getValue();
-		// Controlar si el circuito esta OK
+		$mon_date_aprox = $obj->getField("mon_date_aprox")->getValue();
+		/* Controlar si el circuito esta OK sacar !!! se monitorean todos
 		$cir_code1 =  $primary_db->QueryString("SELECT cir_code FROM circuitos where cir_date_ini <=date(now()) and cir_date_fin >=date(now()) and cir_status='ACTIVO' and cir_code='".$cir_code."' limit 1");
 		if ($cir_code1 != $cir_code) {
 			$res[] = "MENSAJE: El circuito $cir_code no corresponde a la fecha actual o no se encuentra ACTIVO. Inicie un nuevo circuito";			
 			return $res;
-		}			
+		}
+*/		
 		// resguardar llamada
 		$mon_call_date = $obj->getField("mon_call_date")->getValue();
 		$f = explode ('/',$mon_call_date);
@@ -60,6 +62,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		$this->doc_storage = "";
 		$error =  $this->saveDoc($mon_call_reference,$doc_code,$mon_call_path,"") ;
 		$obj->getField("doc_storage")->setValue($this->doc_storage);
+		
 		// ---- 
 
 
@@ -102,6 +105,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		$obj->getField("mon_status")->setValue("REALIZADO");
 		$obj->getField("mon_puntaje")->setValue($mon_puntaje);
 		$obj->getField("mon_perjuicio_cliente")->setValue($mon_perjuicio_cliente);
+		
 		$add_cap = 0;
         $add_mon = 0;
 		$ok=0;
@@ -111,7 +115,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		     $obj->getField("mon_add_cap")->setValue("SI");
              for ($i=0;$i<$cap_perjuicio;$i++)
 			{
- 			 $error = insertar_capacitacion($cir_code,$cirg_code,$mon_code,$use_code_supervisor,$use_code_operador,$this->doc_storage); 	
+ 			 $error = insertar_capacitacion($cir_code,$mon_code,$use_code_supervisor,$use_code_operador,$this->doc_storage); 	
 			 if ($error != "") 
 			   $res[] = "MENSAJE: Error al insertar Capacitacion";	
 			 else  
@@ -131,7 +135,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		     
             for ($i=0;$i<$mon_no_aprobo;$i++)
 			{
- 			  $error = insertar_monitoreo($cir_code,$cirg_code,$use_code_supervisor,$use_code_operador,date("d/m/Y")); 	
+ 			  $error = insertar_monitoreo($cir_code,$use_code_supervisor,$use_code_operador,$mon_date_aprox); 	
 			  if ($error != "") $res[] = "MENSAJE: Error al insertar nuevo monitoreo";
 			}
           }
@@ -153,7 +157,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 					   $sql3.= "cirg_cant_cap_pendientes=cirg_cant_cap_pendientes+".intval($add_cap).", ";
 				    $sql3.= "cirg_cant_mon_pendientes=cirg_cant_mon_pendientes-1+".intval($add_mon).", ";	
 					$sql3.= "cirg_cant_mon_realizados=cirg_cant_mon_realizados+1 ";
-					$sql3.= " where cirg_code=".intval($cirg_code)." and cir_code=".intval($cir_code)." and use_code_operador=".intval($use_code_operador);
+					$sql3.= " where  cir_code=".intval($cir_code)." and use_code_operador=".intval($use_code_operador);
 					$primary_db->do_execute($sql3, $err3);
 					if (count($err3) > 0) 
 						$res[]= "MENSAJE: Error al actualizar el operador del grupo ($use_code_operador).";
@@ -233,13 +237,13 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 			return $res;
 		}
 		$cir_code = $obj->getField("cir_code")->getValue();
-		$cirg_code = $obj->getField("cirg_code")->getValue();
+		// $cirg_code = $obj->getField("cirg_code")->getValue();
 		$use_code_supervisor = $obj->getField("use_code_supervisor")->getValue();
 		$use_code_operador = $obj->getField("use_code_operador")->getValue();
 		
 		$sql3 = "update cir_oper set cirg_puntaje_prom=ifnull(";
-		$sql3.= "(select avg(mon_puntaje) from monitoreos m where m.cirg_code = cir_oper.cirg_code and m.use_code_operador=cir_oper.use_code_operador)";
-		$sql3.= ",0) where cirg_code=".intval($cirg_code)." and use_code_operador=".intval($use_code_operador);		
+		$sql3.= "(select avg(mon_puntaje) from monitoreos m where m.cir_code = cir_oper.cir_code and m.use_code_operador=cir_oper.use_code_operador)";
+		$sql3.= ",0) where cir_code=".intval($cir_code)." and use_code_operador=".intval($use_code_operador);		
 		$primary_db->do_execute($sql3, $err3);
 		if (count($err3) > 0) 
 			$res[]= "MENSAJE: Error al actualizar el promedio del puntaje del operador ($use_code_operador).";
@@ -250,7 +254,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 			$html.= "<b>Estado del Monitoreo: </b>".$obj->getField("mon_status")->getValue().".<br>";
 			$html.= "<b>Cierre Forzado: </b>".$obj->getField("mon_forzado")->getValue().".<br>";
 			$html.= "<b>Aprobó?: </b>".$obj->getField("mon_aprobo")->getValue().".<br>";
-			$html.= "<b>Perjuicio al Cliente?: </b>".$obj->getField("mon_perjuicio_cliente")->getValue().".<br>";			
+			$html.= "<b>Perjuicio al Vecino?: </b>".$obj->getField("mon_perjuicio_cliente")->getValue().".<br>";			
 			$html.= "<b>Puntaje: </b>".$obj->getField("mon_puntaje")->getValue().".<br>";
 			$html.= "</span><td></tr><tr><td colspan=3>";
 			$content['msgextra']= $html;

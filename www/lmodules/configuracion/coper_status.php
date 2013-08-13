@@ -18,9 +18,9 @@ class coper_status extends cobjbase {
         //Extensiones a esta clase
 
         //-- CField( Array(Parametros) )
-        $this->m_fields['use_code'] = new CField(Array("Name"=>"use_code", "Size"=>50, "IsPK"=>true, "IsForDB"=>true, "Order"=>101));
+        $this->m_fields['use_code'] = new CField(Array("Name"=>"use_code", "Size"=>50, "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "IsNullable"=>false));
         $this->m_fields['crit_status'] = new CField(Array("Name"=>"crit_status", "Type"=>"int", "IsForDB"=>true, "Order"=>102));
-        $this->m_fields['oper_grupo'] = new CField(Array("Name"=>"oper_grupo", "Size"=>50, "IsForDB"=>true, "Order"=>103));
+        $this->m_fields['oper_grupo'] = new CField(Array("Name"=>"oper_grupo", "Size"=>50, "IsForDB"=>true, "Order"=>103, "IsNullable"=>false));
         $this->m_fields['oper_nuevo'] = new CField(Array("Name"=>"oper_nuevo", "Size"=>2, "IsForDB"=>true, "Order"=>104));
         $this->m_fields['oper_hora_in'] = new CField(Array("Name"=>"oper_hora_in", "Size"=>10, "IsForDB"=>true, "Order"=>105));
         $this->m_fields['oper_hora_out'] = new CField(Array("Name"=>"oper_hora_out", "Size"=>10, "IsForDB"=>true, "Order"=>106));

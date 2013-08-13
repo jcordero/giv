@@ -44,9 +44,9 @@ CREATE TABLE crit_status (
 
 
 CREATE TABLE oper_status (
-  use_code  varchar(50) NULL,  
+  use_code  varchar(50) NOT NULL,  
   crit_status int NULL, 
-  oper_grupo varchar(50) NULL,  
+  oper_grupo varchar(50) NOT NULL,  
   oper_nuevo varchar(2) NULL,   
   oper_hora_in varchar(10) NULL,   
   oper_hora_out varchar(10) NULL,    

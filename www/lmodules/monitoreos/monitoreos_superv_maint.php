@@ -24,7 +24,6 @@ class datos1_gr extends cform_group {
         //Campos del grupo
         $this->m_fields[] = 'cmonitoreos_superv:mon_code';
         $this->m_fields[] = 'cmonitoreos_superv:cir_code';
-        $this->m_fields[] = 'cmonitoreos_superv:cirg_code';
         $this->m_fields[] = 'cmonitoreos_superv:use_code_operador';
         $this->m_fields[] = 'cmonitoreos_superv:use_code_supervisor';
         $this->m_fields[] = 'cmonitoreos_superv:mon_use_code';
@@ -38,12 +37,11 @@ class datos1_gr extends cform_group {
         //SetDisplayValues($attributes) 
         $this->getClass("cmonitoreos_superv")->GetField("mon_code")->SetDisplayValues(Array("Name"=>"mon_code", "Label"=>"Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"CIRCUITOS", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
-        $this->getClass("cmonitoreos_superv")->GetField("cirg_code")->SetDisplayValues(Array("Name"=>"cirg_code", "Label"=>"Grupo Oper", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"INT", "IsNullable"=>false, "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("use_code_operador")->SetDisplayValues(Array("Name"=>"use_code_operador", "Label"=>"Operador", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"OPERADOR", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor Asignado", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("mon_use_code")->SetDisplayValues(Array("Name"=>"mon_use_code", "Label"=>"Supervisor Monitoreo", "Type"=>"int", "IsForDB"=>true, "Order"=>120, "Presentation"=>"CURRENTUSER", "IsVisible"=>true, "ClassParams"=>"force", "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("mon_date")->SetDisplayValues(Array("Name"=>"mon_date", "Label"=>"Fecha", "Type"=>"datetime", "IsForDB"=>true, "Order"=>106, "Presentation"=>"DATETIME", "IsVisible"=>true, "IsReadOnly"=>true, "ClassParams"=>"force", "Class"=>"cmonitoreos_superv"));
-        $this->getClass("cmonitoreos_superv")->GetField("mon_date_aprox")->SetDisplayValues(Array("Name"=>"mon_date_aprox", "Label"=>"Fecha Aprox", "Type"=>"datetime", "IsForDB"=>true, "Order"=>121, "Presentation"=>"DATETIME", "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_date_aprox")->SetDisplayValues(Array("Name"=>"mon_date_aprox", "Label"=>"Fecha Aprox", "Type"=>"datetime", "IsForDB"=>true, "Order"=>121, "Presentation"=>"DATETIME", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("mon_status")->SetDisplayValues(Array("Name"=>"mon_status", "Label"=>"Estado Monitoreo", "Size"=>20, "IsForDB"=>true, "Order"=>107, "Presentation"=>"MON_STATUS", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
     }
 }
@@ -115,7 +113,7 @@ class datos3_gr extends cform_group {
     public function InitializeInstance() {
         //SetDisplayValues($attributes) 
         $this->getClass("cmonitoreos_superv")->GetField("mon_puntaje")->SetDisplayValues(Array("Name"=>"mon_puntaje", "Label"=>"Puntaje", "Type"=>"int", "IsForDB"=>true, "Order"=>115, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
-        $this->getClass("cmonitoreos_superv")->GetField("mon_perjuicio_cliente")->SetDisplayValues(Array("Name"=>"mon_perjuicio_cliente", "Label"=>"Perjuicio del Cliente", "Size"=>2, "IsForDB"=>true, "Order"=>117, "Presentation"=>"SINO", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_perjuicio_cliente")->SetDisplayValues(Array("Name"=>"mon_perjuicio_cliente", "Label"=>"Perjuicio al Vecino", "Size"=>2, "IsForDB"=>true, "Order"=>117, "Presentation"=>"SINO", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("mon_aprobo")->SetDisplayValues(Array("Name"=>"mon_aprobo", "Label"=>"Aprobado", "Size"=>2, "IsForDB"=>true, "Order"=>116, "Presentation"=>"SINO", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("mon_add_mon")->SetDisplayValues(Array("Name"=>"mon_add_mon", "Label"=>"Monitoreos Agregados", "Type"=>"int", "IsForDB"=>true, "Order"=>118, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("mon_add_cap")->SetDisplayValues(Array("Name"=>"mon_add_cap", "Label"=>"Capacitaciones Agregadas", "Type"=>"int", "IsForDB"=>true, "Order"=>119, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
@@ -162,7 +160,7 @@ class mon_items_th3 extends ctable_handler {
 
         $this->m_columns[1] = new ctable_column(1,'Item',array('mon_code','it_code','it_order','it_name'));
         $this->m_columns[2] = new ctable_column(2,'Aprobado?',array('it_importance','it_critico','it_puntaje','it_aprobo'));
-        $this->m_columns[3] = new ctable_column(3,'Perjuicio del Cliente',array('it_perjuicio_cliente'));
+        $this->m_columns[3] = new ctable_column(3,'Perjuicio al Vecino',array('it_perjuicio_cliente'));
         $this->m_columns[4] = new ctable_column(4,'Nota',array('it_note'));
     }
 

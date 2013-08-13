@@ -25,12 +25,12 @@ if(!class_exists('home_default'))
 				   $this->monitoreos_tabla_adm();
 				   $grafico = $this->monitoreos_grafico();
 			}	   
-			elseif ($sess->haveRol($primary_db,"Supervisores"))
+			elseif ($sess->haveRol($primary_db,"supervisores"))
 			{
 				   $this->monitoreos_tabla_superv();
 				   $grafico = $this->monitoreos_grafico();
 			}			
-			elseif ($sess->haveRol($primary_db,"Operadores"))
+			elseif ($sess->haveRol($primary_db,"operadores"))
 			{
 				   $this->monitoreos_tabla_oper();
 				   $grafico = $this->monitoreos_grafico();
@@ -52,16 +52,17 @@ if(!class_exists('home_default'))
 			$mal= array();
 			$cerradas= array();
 			
-			$sql = "Select  m.use_code_operador,concat(use_name,' ',use_login) as use_name ,use_code_supervisor,cir_name, cir_date_ini, cir_date_fin,m.cir_code as cir_code
-				FROM monitoreos m join circuitos c on c.cir_code = m.cir_code join sec_users on m.use_code_operador = sec_users.use_code
+			$sql = "Select  distinct m.use_code_operador, use_name ,use_code_supervisor,cir_name, cir_date_ini, cir_date_fin,m.cir_code as cir_code
+				FROM monitoreos m join circuitos c on c.cir_code = m.cir_code join sec_users on m.use_code_supervisor = sec_users.use_code
 				where cir_status='ACTIVO' and m.use_code_operador=".$sess->user_id;
 
 			$re = $primary_db->do_execute($sql);
 			$i=0;
 			while($row = $primary_db->_fetch_row($re))
 			{		
+			  
+			   if ( $i>0) $this->categorias.=",";
 			   $i++;
-			   if ($this->categorias != "[") $this->categorias.=",";
 		       $this->categorias.="'".$row["use_name"]."'";		
 			   $use_code_operador = $row["use_code_operador"];
 			   $use_code_supervisor = $row["use_code_supervisor"];		
@@ -70,7 +71,7 @@ if(!class_exists('home_default'))
 			   $pendientes[]= intval($primary_db->QueryString($sql2." and mon_status='PENDIENTE' "));		
 			   $realizadas[]= intval($primary_db->QueryString($sql2." and mon_status='REALIZADO' "));	
 			   $cerradas[]= intval($primary_db->QueryString($sql2." and mon_status='CERRADO' "));		
-			   $ok[]= intval($primary_db->QueryString($sql2." and mon_status='REALIZADO' nd mon_aprobo='SI'"));	
+			   $ok[]= intval($primary_db->QueryString($sql2." and mon_status='REALIZADO' and mon_aprobo='SI'"));	
 			   $mal[]= intval($primary_db->QueryString($sql2." and mon_status='REALIZADO' and mon_aprobo='NO'"));				   
 			}
 			$this->filas = $i;			
@@ -123,10 +124,10 @@ if(!class_exists('home_default'))
 					   $j++;
 					   if ($j==1)
 					   {
-					   $cir_code = $row["cir_code"];
-					   $cir_name = $row["cir_name"];
-					   $cir_date_ini = substr($row["cir_date_ini"],0,10);					   
-					   $cir_date_fin = substr($row["cir_date_fin"],0,10);
+					   $cir_code = $row2["cir_code"];
+					   $cir_name = $row2["cir_name"];
+					   $cir_date_ini = substr($row2["cir_date_ini"],0,10);					   
+					   $cir_date_fin = substr($row2["cir_date_fin"],0,10);
 					   }
 					   
 			}
@@ -137,9 +138,9 @@ if(!class_exists('home_default'))
 		    $this->tabla_mon.= "<tr><td colspan=7 class=titulo>No hay circuito activos</td></tr>";	
 
 				  
-			$sql = "select round(avg(ifnull(cirg_puntaje_prom,0)),2) as cirg_puntaje_prom, m.use_code_operador,use_name,use_login ,use_code_supervisor
+			$sql = "select distinct m.use_code_operador,use_name,use_login ,use_code_supervisor
 				FROM monitoreos m join circuitos c on c.cir_code = m.cir_code join sec_users on m.use_code_operador = sec_users.use_code
-				where m.cir_code=$cir_code and m.use_code_supervisor=".$sess->user_id." group by m.use_code_operador,use_name,use_login ,use_code_supervisor order by use_login ";
+				where m.cir_code=$cir_code and m.use_code_supervisor=".$sess->user_id." order by use_login ";
 
 			$re = $primary_db->do_execute($sql);
 			$i=0;
@@ -150,28 +151,28 @@ if(!class_exists('home_default'))
 				if ($i==0)
 				{		
 				  $this->tabla_mon.= "<tr bgcolor='#4897f1'><td colspan=".(7+$j)."><b>Monitoreos</b></td></tr>";				 
-				  $this->tabla_cap.= "<tr bgcolor='#a4d53a'><td colspan=5><b>Capacitaciones</b></td></tr>";
 				  $this->tabla_mon.= "<tr bgcolor='#98C5F8'><td> </td><td colspan=".(1+$j)." bgcolor='#BBD9FC'><b>Pendientes</b></td><td colspan=6> </td></tr>";
 				  $this->tabla_mon.= "<tr bgcolor='#98C5F8'><td width='200px'>Operador</td>".$t."<td bgcolor='#BBD9FC'><b>Total</b></td><td>Realiz</td><td>Aprob</td><td>No Aprob</td><td>Cierre</td><td>Puntaje</td></tr>";
-				  $this->tabla_cap.= "<tr bgcolor='#BED689'><td width='200px'>Operador</td><td bgcolor='#DFFC9F'><b>Pend.</b></td><td>Realiz</td><td>Aprob</td><td>No Aprob</td></tr>";
 				}
+				$i++;
 				$use_code_operador = $row["use_code_operador"];
 			    $use_code_supervisor = $row["use_code_supervisor"];						
 				$uMon = WEB_PATH.'/lmodules/monitoreos/monitoreos_superv.php?OP=L&cir_code='.$cir_code.'&use_code_operador='.$use_code_operador.'&use_code_supervisor='.$use_code_supervisor;
 			    $sql2 = "select count(*) from monitoreos where cir_code=$cir_code and use_code_operador=$use_code_operador and use_code_supervisor=$use_code_supervisor";	
-			  				
+				$mon_puntaje = $primary_db->QueryString("select round(avg(ifnull(mon_puntaje,0)),2) from monitoreos where cir_code=$cir_code and mon_status<>'PENDIENTE' and use_code_operador=$use_code_operador and use_code_supervisor=$use_code_supervisor");		  				
    				$i++;
 				$t="";			
 				foreach($mon_date_aprox as $d)
 				{
-			       $cant_pendientes= intval($primary_db->QueryString($sql2." and mon_status='PENDIENTE'  and DATE_FORMAT(mon_date_aprox, '%d/%m/%Y')='".$d));		
+			       $cant_pendientes= intval($primary_db->QueryString($sql2." and mon_status='PENDIENTE'  and DATE_FORMAT(mon_date_aprox, '%d/%m/%Y')='".$d."'"));		
 				   $t.="<td bgcolor='#E8F3FF'><a href='".$sess->encodeURL($uMon."&mon_status=PENDIENTE&mon_date_aprox=$d")."'>". $cant_pendientes ."</a></td>";
 				}
 				$pendientes1= intval($primary_db->QueryString($sql2." and mon_status='PENDIENTE' "));		
 			    $realizadas1= intval($primary_db->QueryString($sql2." and mon_status='REALIZADO' "));	
 			    $cerradas1= intval($primary_db->QueryString($sql2." and mon_status='CERRADO' "));		
-			    $ok1= intval($primary_db->QueryString($sql2." and mon_status='REALIZADO' nd mon_aprobo='SI'"));	
-			    $mal1= intval($primary_db->QueryString($sql2." and mon_status='REALIZADO' and mon_aprobo='NO'"));				
+			    $ok1= intval($primary_db->QueryString($sql2." and mon_status='REALIZADO' and mon_aprobo='SI'"));	
+			    $mal1= intval($primary_db->QueryString($sql2." and mon_status='REALIZADO' and mon_aprobo='NO'"));	
+
 				$this->tabla_mon.= "<tr bgcolor='#D6E6FA'><td nowrap>".substr($row["use_login"]." ".$row["use_name"],0,50)."</td>";
 				$this->tabla_mon.=$t."<td bgcolor='#E8F3FF'><a href='".$sess->encodeURL($uMon."&mon_status=PENDIENTE")."'>".$pendientes1."</a></td><td>";	
 
@@ -180,7 +181,7 @@ if(!class_exists('home_default'))
 				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=REALIZADO")."'>".$realizadas1."</a></td><td>";
 				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=REALIZADO&mon_aprobo=SI")."'>".$ok1."</a></td><td>";
 				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_aprobo=NO")."'>".$mal1."</a></td><td>";
-				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=CERRADO")."'>".$cerradas1."</a></td><td>".$row["cirg_puntaje_prom"]."</td></tr>";
+				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=CERRADO")."'>".$cerradas1."</a></td><td>".$mon_puntaje."</td></tr>";
 			
 				// para graficos				
 			   if ($this->categorias != "[") $this->categorias.=",";
@@ -229,21 +230,22 @@ if(!class_exists('home_default'))
 				  $this->tabla_cap.= "<tr bgcolor='#a4d53a'><td colspan=5><b>Capacitaciones</b></td></tr>";
 				  $this->tabla_cap.= "<tr bgcolor='#BED689'><td width='200px'>Operador</td><td bgcolor='#DFFC9F'><b>Pend.</b></td><td>Realiz</td><td>Aprob</td><td>No Aprob</td></tr>";
 				}
+				$i++;			
 				$use_code_operador = $row["use_code_operador"];
 			    $use_code_supervisor = $row["use_code_supervisor"];		
 			    $sql2 = "select count(*) from capacitacion where cir_code=$cir_code and use_code_operador=$use_code_operador and use_code_supervisor=$use_code_supervisor";	
 
 				$pendientes1= intval($primary_db->QueryString($sql2." and cap_status='PENDIENTE' "));		
 			    $realizadas1= intval($primary_db->QueryString($sql2." and cap_status='REALIZADO' "));		
-			    $ok1= intval($primary_db->QueryString($sql2." and cap_status='REALIZADO' nd mon_aprobo='SI'"));	
-			    $mal1= intval($primary_db->QueryString($sql2." and cap_status='REALIZADO' and mon_aprobo='NO'"));				
+			    $ok1= intval($primary_db->QueryString($sql2." and cap_status='REALIZADO' and cap_rol_play_aprobado='SI'"));	
+			    $mal1= intval($primary_db->QueryString($sql2." and cap_status='REALIZADO' and cap_rol_play_aprobado='NO'"));				
 				$this->tabla_cap.= "<tr bgcolor='#EDF7D7'><td nowrap>".substr($row["use_login"]." ".$row["use_name"],0,50)."</td>";	
 
-				$uCap = WEB_PATH.'/lmodules/capacitacion/capacitacion_superv_pend.php?OP=L&cir_code=$cir_code&use_code_supervisor=$use_code_supervisor&use_code_operador=$use_code_operador';		
+				$uCap = WEB_PATH.'/lmodules/capacitacion/capacitacion_superv_pend.php?OP=L&cir_code='.$cir_code.'&use_code_supervisor='.$use_code_supervisor.'&use_code_operador='.$use_code_operador;		
 
 				$this->tabla_cap.="<td bgcolor='#F6FEE5'><a href='".$sess->encodeURL($uCap)."'>".$pendientes1."</a></td><td>";
 				
-				$uCap = WEB_PATH.'/lmodules/capacitacion/capacitacion_superv.php?OP=L&cir_code=$cir_code&use_code_supervisor=$use_code_supervisor&use_code_operador=$use_code_operador';		
+				$uCap = WEB_PATH.'/lmodules/capacitacion/capacitacion_superv.php?OP=L&cir_code='.$cir_code.'&use_code_supervisor='.$use_code_supervisor.'&use_code_operador='.$use_code_operador;			
 			
 				$this->tabla_cap.="<a href='".$sess->encodeURL($uCap."&cap_status=REALIZADO")."'>".$realizadas1."</a></td><td>";
 				$this->tabla_cap.="<a href='".$sess->encodeURL($uCap."&cap_status=REALIZADO&cap_rol_play_aprobado=SI")."'>".$ok1."</a></td><td>";
@@ -280,10 +282,10 @@ if(!class_exists('home_default'))
 					   $j++;
 					   if ($j==1)
 					   {
-					    $cir_code = $row["cir_code"];
-					    $cir_name = $row["cir_name"];
-					    $cir_date_ini = substr($row["cir_date_ini"],0,10);					   
-					    $cir_date_fin = substr($row["cir_date_fin"],0,10);
+					    $cir_code = $row2["cir_code"];
+					    $cir_name = $row2["cir_name"];
+					    $cir_date_ini = substr($row2["cir_date_ini"],0,10);					   
+					    $cir_date_fin = substr($row2["cir_date_fin"],0,10);
 					   }
 					   
 			}
@@ -292,10 +294,10 @@ if(!class_exists('home_default'))
 			else
 		    $this->tabla_mon.= "<tr><td colspan=7 class=titulo>No hay circuito activos</td></tr>";	
 			// Datos del monitoreo
-			$sql = "select round(avg(ifnull(cirg_puntaje_prom,0)),2) as cirg_puntaje_prom, m.use_code_supervisor,use_name,use_login 
+			$sql = "select distinct m.use_code_supervisor,use_name,use_login 
 				FROM monitoreos m join circuitos c on c.cir_code = m.cir_code 
 			    join sec_users on m.use_code_supervisor = sec_users.use_code
-				where m.cir_code=$cir_code  group by m.use_code_supervisor,use_name,use_login  order by use_login ";
+				where m.cir_code=$cir_code    order by use_login ";
 				
 			$re = $primary_db->do_execute($sql);
 			$i=0;
@@ -312,19 +314,20 @@ if(!class_exists('home_default'))
 			    $use_code_supervisor = $row["use_code_supervisor"];						
 				$uMon = WEB_PATH.'/lmodules/monitoreos/monitoreos_superv.php?OP=L&cir_code='.$cir_code.'&use_code_supervisor='.$use_code_supervisor;
 			    $sql2 = "select count(*) from monitoreos where cir_code=$cir_code and use_code_supervisor=$use_code_supervisor";	
-			  				
+			  	$mon_puntaje = $primary_db->QueryString("select round(avg(ifnull(mon_puntaje,0)),2) from monitoreos where cir_code=$cir_code and mon_status<>'PENDIENTE' and use_code_supervisor=$use_code_supervisor");		  				
+   						
    				$i++;
 				$t="";			
 				foreach($mon_date_aprox as $d)
 				{
-			       $cant_pendientes= intval($primary_db->QueryString($sql2." and mon_status='PENDIENTE'  and DATE_FORMAT(mon_date_aprox, '%d/%m/%Y')='".$d));		
+			       $cant_pendientes= intval($primary_db->QueryString($sql2." and mon_status='PENDIENTE'  and DATE_FORMAT(mon_date_aprox, '%d/%m/%Y')='".$d."'"));		
 				   $t.="<td bgcolor='#E8F3FF'><a href='".$sess->encodeURL($uMon."&mon_status=PENDIENTE&mon_date_aprox=$d")."'>". $cant_pendientes ."</a></td>";
 				}
 				
 				$pendientes1= intval($primary_db->QueryString($sql2." and mon_status='PENDIENTE' "));		
 			    $realizadas1= intval($primary_db->QueryString($sql2." and mon_status='REALIZADO' "));	
 			    $cerradas1= intval($primary_db->QueryString($sql2." and mon_status='CERRADO' "));		
-			    $ok1= intval($primary_db->QueryString($sql2." and mon_status='REALIZADO' nd mon_aprobo='SI'"));	
+			    $ok1= intval($primary_db->QueryString($sql2." and mon_status='REALIZADO' and mon_aprobo='SI'"));	
 			    $mal1= intval($primary_db->QueryString($sql2." and mon_status='REALIZADO' and mon_aprobo='NO'"));	
 				
 			
@@ -333,7 +336,7 @@ if(!class_exists('home_default'))
 				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=REALIZADO")."'>".$realizadas1."</a></td><td>";
 				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=REALIZADO&mon_aprobo=SI")."'>". $ok1."</a></td><td>";
 				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_aprobo=NO")."'>".$mal1."</a></td><td>";
-				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=CERRADO")."'>".$cerradas1."</a></td><td>".$row["cirg_puntaje_prom"]."</td></tr>";
+				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=CERRADO")."'>".$cerradas1."</a></td><td>".$mon_puntaje."</td></tr>";
 
 					// Para el grafico
 			   if ($this->categorias != "[") $this->categorias.=",";
@@ -385,21 +388,20 @@ if(!class_exists('home_default'))
 				  $this->tabla_cap.= "<tr bgcolor='#a4d53a'><td colspan=5><b>Capacitaciones</b></td></tr>";
 				  $this->tabla_cap.= "<tr bgcolor='#BED689'><td width='200px'>Supervisor</td><td bgcolor='#DFFC9F'><b>Pend.</b></td><td>Realiz</td><td>Aprob</td><td>No Aprob</td></tr>";
 				}
-	
+				$i++;
 			    $use_code_supervisor = $row["use_code_supervisor"];		
 			    $sql2 = "select count(*) from capacitacion where cir_code=$cir_code  and use_code_supervisor=$use_code_supervisor";	
 
 				$pendientes1= intval($primary_db->QueryString($sql2." and cap_status='PENDIENTE' "));		
 			    $realizadas1= intval($primary_db->QueryString($sql2." and cap_status='REALIZADO' "));		
-			    $ok1= intval($primary_db->QueryString($sql2." and cap_status='REALIZADO' nd mon_aprobo='SI'"));	
-			    $mal1= intval($primary_db->QueryString($sql2." and cap_status='REALIZADO' and mon_aprobo='NO'"));				
+			    $ok1= intval($primary_db->QueryString($sql2." and cap_status='REALIZADO' and cap_rol_play_aprobado='SI'"));	
+			    $mal1= intval($primary_db->QueryString($sql2." and cap_status='REALIZADO' and cap_rol_play_aprobado='NO'"));				
 				$this->tabla_cap.= "<tr bgcolor='#EDF7D7'><td nowrap>".substr($row["use_name"],0,50)."</td>";	
 
-				$uCap = WEB_PATH.'/lmodules/capacitacion/capacitacion_superv_pend.php?OP=L&cir_code=$cir_code&use_code_supervisor=$use_code_supervisor';		
-
+				$uCap = WEB_PATH.'/lmodules/capacitacion/capacitacion_superv_pend.php?OP=L&cir_code='.$cir_code.'&use_code_supervisor='.$use_code_supervisor;	
 				$this->tabla_cap.="<td bgcolor='#F6FEE5'><a href='".$sess->encodeURL($uCap)."'>".$pendientes1."</a></td><td>";
 				
-				$uCap = WEB_PATH.'/lmodules/capacitacion/capacitacion_superv.php?OP=L&cir_code=$cir_code&use_code_supervisor=$use_code_supervisor';		
+				$uCap = WEB_PATH.'/lmodules/capacitacion/capacitacion_superv.php?OP=L&cir_code='.$cir_code.'&use_code_supervisor='.$use_code_supervisor;	
 			
 				$this->tabla_cap.="<a href='".$sess->encodeURL($uCap."&cap_status=REALIZADO")."'>".$realizadas1."</a></td><td>";
 				$this->tabla_cap.="<a href='".$sess->encodeURL($uCap."&cap_status=REALIZADO&cap_rol_play_aprobado=SI")."'>".$ok1."</a></td><td>";

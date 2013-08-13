@@ -121,8 +121,10 @@ if(!class_exists('validar'))
 		
 		public function fmtFecha($fecha)
 		{
-			if (!$this->valFecha($fecha)) return "";
-			return $a[0]."/".$a[1]."/".$a[2];
+			$datetime1 = new DateTime($fecha);
+			$f = $datetime1->format('d/m/Y');
+			error_log(" fmtFecha($fecha) => $f");
+			return $f;
 		}
 		static function valCBU($cbu)
 		{

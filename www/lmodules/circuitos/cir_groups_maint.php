@@ -3,7 +3,7 @@
  * Compilador PHPClass Version 2.6.18 (01/MAR/2012) UTF-8 / www.CommSys.com.ar
  */
 include_once "common/ctable_maint.php";
-include_once "ccir_groups.php";
+include_once "ccir_groups_n.php";
 
 //Genero las clases de los handlers
 
@@ -12,7 +12,7 @@ class grupo2_gr extends cform_group {
     function __construct($parent) {
         parent::__construct($parent);
         $this->m_title = 'Datos Principales'; //Titulo del grupo
-        $this->m_order = 2; //Orden de presentacion de este grupo
+        $this->m_order = 1; //Orden de presentacion de este grupo
         $this->m_id = 'grupo2'; //Id para los wizards
         $this->m_note = ''; //Nota
         $this->m_image = ''; //Imagen
@@ -22,26 +22,26 @@ class grupo2_gr extends cform_group {
         $this->m_css_prefix = '';// Prefijo CSS
 
         //Campos del grupo
-        $this->m_fields[] = 'ccir_groups:cirg_code';
-        $this->m_fields[] = 'ccir_groups:cir_code';
-        $this->m_fields[] = 'ccir_groups:oper_grupo';
-        $this->m_fields[] = 'ccir_groups:use_code_supervisor';
+        $this->m_fields[] = 'ccir_groups_n:cirg_code';
+        $this->m_fields[] = 'ccir_groups_n:cir_code';
+        $this->m_fields[] = 'ccir_groups_n:oper_grupo';
+        $this->m_fields[] = 'ccir_groups_n:use_code_supervisor';
 
     }
 
     public function InitializeInstance() {
         //SetDisplayValues($attributes) 
-        $this->getClass("ccir_groups")->GetField("cirg_code")->SetDisplayValues(Array("Name"=>"cirg_code", "Label"=>"Grupo Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccir_groups"));
-        $this->getClass("ccir_groups")->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"CIRCUITO", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccir_groups"));
-        $this->getClass("ccir_groups")->GetField("oper_grupo")->SetDisplayValues(Array("Name"=>"oper_grupo", "Label"=>"Grupo", "Size"=>20, "IsForDB"=>true, "Order"=>104, "Presentation"=>"TEXT", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccir_groups"));
-        $this->getClass("ccir_groups")->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "IsMandatory"=>true, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true, "Class"=>"ccir_groups"));
+        $this->getClass("ccir_groups_n")->GetField("cirg_code")->SetDisplayValues(Array("Name"=>"cirg_code", "Label"=>"Grupo Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Sequence"=>"cir_groups", "Class"=>"ccir_groups_n"));
+        $this->getClass("ccir_groups_n")->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"CIRCUITOS", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccir_groups_n"));
+        $this->getClass("ccir_groups_n")->GetField("oper_grupo")->SetDisplayValues(Array("Name"=>"oper_grupo", "Label"=>"Grupo", "Size"=>20, "IsForDB"=>true, "Order"=>104, "Presentation"=>"TEXT", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccir_groups_n"));
+        $this->getClass("ccir_groups_n")->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "IsMandatory"=>true, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true, "Class"=>"ccir_groups_n"));
     }
 }
 }
 
 
-if( !class_exists('oper_status_th3') ) {
-class oper_status_th3 extends ctable_handler {
+if( !class_exists('oper_status_th2') ) {
+class oper_status_th2 extends ctable_handler {
     function __construct($parent) {
         parent::__construct($parent);
         $this->m_title = 'Operadores Asignados'; //Titulo de la tabla
@@ -49,7 +49,7 @@ class oper_status_th3 extends ctable_handler {
         $this->m_classname = 'oper_status'; //Clase x defecto
         $this->m_total = false; //Incluir ultima fila de totales
         $this->m_id = 'operadores_asignados'; //Identificador para Wizards
-        $this->m_order = '3'; //Orden de aparicion
+        $this->m_order = '2'; //Orden de aparicion
 
     	//Botones del editor de la tabla
     	$this->m_button_next = true;// Boton continuar
@@ -92,8 +92,8 @@ class oper_status_th3 extends ctable_handler {
 
     public function InitializeInstance($obj) {
         //SetDisplayValues($attributes) 
-        $obj->GetField("oper_grupo")->SetDisplayValues(Array("Name"=>"oper_grupo", "Label"=>"Grupo", "Size"=>50, "IsForDB"=>true, "Order"=>103, "Presentation"=>"TEXT"));
-        $obj->GetField("use_code")->SetDisplayValues(Array("Name"=>"use_code", "Label"=>"Nro", "Size"=>50, "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"OPERADOR", "IsVisible"=>true));
+        $obj->GetField("oper_grupo")->SetDisplayValues(Array("Name"=>"oper_grupo", "Label"=>"Grupo", "Size"=>50, "IsForDB"=>true, "Order"=>103, "Presentation"=>"TEXT", "IsNullable"=>false));
+        $obj->GetField("use_code")->SetDisplayValues(Array("Name"=>"use_code", "Label"=>"Nro", "Size"=>50, "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"OPERADOR", "IsNullable"=>false, "IsVisible"=>true));
         $obj->GetField("crit_status")->SetDisplayValues(Array("Name"=>"crit_status", "Label"=>"Estado Operador", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"TEXT", "IsVisible"=>true));
         $obj->GetField("oper_nuevo")->SetDisplayValues(Array("Name"=>"oper_nuevo", "Label"=>"Nuevo", "Size"=>2, "IsForDB"=>true, "Order"=>104, "IsMandatory"=>true, "Presentation"=>"TEXT", "IsVisible"=>true));
         $obj->GetField("oper_hora_in")->SetDisplayValues(Array("Name"=>"oper_hora_in", "Label"=>"Hora Ingreso", "Size"=>10, "IsForDB"=>true, "Order"=>105, "Presentation"=>"TEXT", "IsVisible"=>true));
@@ -102,8 +102,8 @@ class oper_status_th3 extends ctable_handler {
 
 }
 }
-if( !class_exists('ccir_groups_m') ) {
-class ccir_groups_m extends cclass_maint {
+if( !class_exists('ccir_groups_n_m') ) {
+class ccir_groups_n_m extends cclass_maint {
     function __construct() {
 		global $primary_db;
 
@@ -113,7 +113,7 @@ class ccir_groups_m extends cclass_maint {
 		$this->m_template_pdml = 'default.pdml';
 		$this->m_render_html = 'BLOCK';
 		$this->m_render_pdml = 'BLOCK';
-		$this->m_obj = new ccir_groups();
+		$this->m_obj = new ccir_groups_n();
 		$this->m_next_page = 'cir_groups.php?last=1&OP=L'; //Pagina a mostrar luego de enviar/cancelar el formulario
 		$this->m_this_page = 'cir_groups_maint.php';
     	$this->m_save_to_type = 'DB'; //Si el formulario accede directo a las tablas o hace una transaccion
@@ -130,10 +130,10 @@ class ccir_groups_m extends cclass_maint {
     	$this->m_css_prefix = '';// Prefijo CSS
 
         //Grupos
-		$this->m_handler[2] = new grupo2_gr($this);
+		$this->m_handler[1] = new grupo2_gr($this);
 
         //Tablas
-		$this->m_handler[3] = new oper_status_th3($this);
+		$this->m_handler[2] = new oper_status_th2($this);
 
     }
 
@@ -146,7 +146,7 @@ class ccir_groups_m extends cclass_maint {
 }
 
 //Genero el form en HTML
-$f = new ccir_groups_m();
+$f = new ccir_groups_n_m();
 if(!defined('NO_RENDER'))
 {
     $f->CreatePage();

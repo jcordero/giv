@@ -26,7 +26,6 @@ class datos1_gr extends cform_group {
         $this->m_fields[] = 'ccapacitacion:mon_code';
         $this->m_fields[] = 'ccapacitacion:doc_storage';
         $this->m_fields[] = 'ccapacitacion:cir_code';
-        $this->m_fields[] = 'ccapacitacion:cirg_code';
         $this->m_fields[] = 'ccapacitacion:use_code_operador';
         $this->m_fields[] = 'ccapacitacion:use_code_supervisor';
         $this->m_fields[] = 'ccapacitacion:cap_status';
@@ -37,12 +36,11 @@ class datos1_gr extends cform_group {
         //SetDisplayValues($attributes) 
         $this->getClass("ccapacitacion")->GetField("cap_code")->SetDisplayValues(Array("Name"=>"cap_code", "Label"=>"Capacitación Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
         $this->getClass("ccapacitacion")->GetField("mon_code")->SetDisplayValues(Array("Name"=>"mon_code", "Label"=>"Monitoreo Nro", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
-        $this->getClass("ccapacitacion")->GetField("doc_storage")->SetDisplayValues(Array("Name"=>"doc_storage", "Label"=>"Llamada", "Size"=>200, "IsForDB"=>true, "Order"=>109, "Presentation"=>"FILE", "Class"=>"ccapacitacion"));
+        $this->getClass("ccapacitacion")->GetField("doc_storage")->SetDisplayValues(Array("Name"=>"doc_storage", "Label"=>"Llamada", "Size"=>200, "IsForDB"=>true, "Order"=>108, "Presentation"=>"FILE", "Class"=>"ccapacitacion"));
         $this->getClass("ccapacitacion")->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"CIRCUITOS", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
-        $this->getClass("ccapacitacion")->GetField("cirg_code")->SetDisplayValues(Array("Name"=>"cirg_code", "Label"=>"Grupo Oper", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"INT", "IsNullable"=>false, "Class"=>"ccapacitacion"));
-        $this->getClass("ccapacitacion")->GetField("use_code_operador")->SetDisplayValues(Array("Name"=>"use_code_operador", "Label"=>"Operador", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"OPERADOR", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
-        $this->getClass("ccapacitacion")->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor Asignado", "Type"=>"int", "IsForDB"=>true, "Order"=>106, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
-        $this->getClass("ccapacitacion")->GetField("cap_status")->SetDisplayValues(Array("Name"=>"cap_status", "Label"=>"Estado", "Size"=>20, "IsForDB"=>true, "Order"=>108, "Presentation"=>"CAP_STATUS", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
+        $this->getClass("ccapacitacion")->GetField("use_code_operador")->SetDisplayValues(Array("Name"=>"use_code_operador", "Label"=>"Operador", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"OPERADOR", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
+        $this->getClass("ccapacitacion")->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor Asignado", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
+        $this->getClass("ccapacitacion")->GetField("cap_status")->SetDisplayValues(Array("Name"=>"cap_status", "Label"=>"Estado", "Size"=>20, "IsForDB"=>true, "Order"=>107, "Presentation"=>"CAP_STATUS", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
     }
 }
 }
@@ -75,13 +73,13 @@ class datos2_gr extends cform_group {
 
     public function InitializeInstance() {
         //SetDisplayValues($attributes) 
-        $this->getClass("ccapacitacion")->GetField("cap_date")->SetDisplayValues(Array("Name"=>"cap_date", "Label"=>"Fecha", "Type"=>"datetime", "IsForDB"=>true, "Order"=>107, "Presentation"=>"DATETIME", "IsVisible"=>true, "IsReadOnly"=>true, "ClassParams"=>"force", "Class"=>"ccapacitacion"));
-        $this->getClass("ccapacitacion")->GetField("cap_use_code")->SetDisplayValues(Array("Name"=>"cap_use_code", "Label"=>"Capacitado por", "Type"=>"int", "IsForDB"=>true, "Order"=>111, "Presentation"=>"CURRENTUSER", "IsVisible"=>true, "IsReadOnly"=>true, "ClassParams"=>"force", "Class"=>"ccapacitacion"));
-        $this->getClass("ccapacitacion")->GetField("cap_origen")->SetDisplayValues(Array("Name"=>"cap_origen", "Label"=>"Origen", "Size"=>20, "IsForDB"=>true, "Order"=>112, "IsMandatory"=>true, "ValueList"=>"cap_origen", "Presentation"=>"SELECT", "IsVisible"=>true, "Class"=>"ccapacitacion"));
-        $this->getClass("ccapacitacion")->GetField("cap_motivo")->SetDisplayValues(Array("Name"=>"cap_motivo", "Label"=>"Motivo", "Size"=>200, "IsForDB"=>true, "Order"=>113, "IsMandatory"=>true, "Presentation"=>"TEXTAREA", "IsVisible"=>true, "Rows"=>2, "Cols"=>100, "Class"=>"ccapacitacion"));
-        $this->getClass("ccapacitacion")->GetField("cap_habilidad")->SetDisplayValues(Array("Name"=>"cap_habilidad", "Label"=>"Habilidad", "Size"=>200, "IsForDB"=>true, "Order"=>114, "IsMandatory"=>true, "ValueList"=>"cap_habilidad", "Presentation"=>"SELECT", "IsVisible"=>true, "Class"=>"ccapacitacion"));
-        $this->getClass("ccapacitacion")->GetField("cap_tipo_tramite")->SetDisplayValues(Array("Name"=>"cap_tipo_tramite", "Label"=>"Tipo Trámite", "Size"=>200, "IsForDB"=>true, "Order"=>115, "IsMandatory"=>true, "Presentation"=>"TEXTAREA", "IsVisible"=>true, "Rows"=>2, "Cols"=>100, "Class"=>"ccapacitacion"));
-        $this->getClass("ccapacitacion")->GetField("cap_rol_play_aprobado")->SetDisplayValues(Array("Name"=>"cap_rol_play_aprobado", "Label"=>"Rol Play Aprobado", "Size"=>2, "IsForDB"=>true, "Order"=>110, "IsMandatory"=>true, "Presentation"=>"SINO", "IsVisible"=>true, "Class"=>"ccapacitacion"));
+        $this->getClass("ccapacitacion")->GetField("cap_date")->SetDisplayValues(Array("Name"=>"cap_date", "Label"=>"Fecha", "Type"=>"datetime", "IsForDB"=>true, "Order"=>106, "Presentation"=>"DATETIME", "IsVisible"=>true, "IsReadOnly"=>true, "ClassParams"=>"force", "Class"=>"ccapacitacion"));
+        $this->getClass("ccapacitacion")->GetField("cap_use_code")->SetDisplayValues(Array("Name"=>"cap_use_code", "Label"=>"Capacitado por", "Type"=>"int", "IsForDB"=>true, "Order"=>110, "Presentation"=>"CURRENTUSER", "IsVisible"=>true, "IsReadOnly"=>true, "ClassParams"=>"force", "Class"=>"ccapacitacion"));
+        $this->getClass("ccapacitacion")->GetField("cap_origen")->SetDisplayValues(Array("Name"=>"cap_origen", "Label"=>"Origen", "Size"=>20, "IsForDB"=>true, "Order"=>111, "IsMandatory"=>true, "ValueList"=>"cap_origen", "Presentation"=>"SELECT", "IsVisible"=>true, "Class"=>"ccapacitacion"));
+        $this->getClass("ccapacitacion")->GetField("cap_motivo")->SetDisplayValues(Array("Name"=>"cap_motivo", "Label"=>"Motivo", "Size"=>200, "IsForDB"=>true, "Order"=>112, "IsMandatory"=>true, "Presentation"=>"TEXTAREA", "IsVisible"=>true, "Rows"=>2, "Cols"=>100, "Class"=>"ccapacitacion"));
+        $this->getClass("ccapacitacion")->GetField("cap_habilidad")->SetDisplayValues(Array("Name"=>"cap_habilidad", "Label"=>"Habilidad", "Size"=>200, "IsForDB"=>true, "Order"=>113, "IsMandatory"=>true, "ValueList"=>"cap_habilidad", "Presentation"=>"SELECT", "IsVisible"=>true, "Class"=>"ccapacitacion"));
+        $this->getClass("ccapacitacion")->GetField("cap_tipo_tramite")->SetDisplayValues(Array("Name"=>"cap_tipo_tramite", "Label"=>"Tipo Trámite", "Size"=>200, "IsForDB"=>true, "Order"=>114, "IsMandatory"=>true, "Presentation"=>"TEXTAREA", "IsVisible"=>true, "Rows"=>2, "Cols"=>100, "Class"=>"ccapacitacion"));
+        $this->getClass("ccapacitacion")->GetField("cap_rol_play_aprobado")->SetDisplayValues(Array("Name"=>"cap_rol_play_aprobado", "Label"=>"Rol Play Aprobado", "Size"=>2, "IsForDB"=>true, "Order"=>109, "IsMandatory"=>true, "Presentation"=>"SINO", "IsVisible"=>true, "Class"=>"ccapacitacion"));
     }
 }
 }
@@ -108,7 +106,7 @@ class datos3_gr extends cform_group {
 
     public function InitializeInstance() {
         //SetDisplayValues($attributes) 
-        $this->getClass("ccapacitacion")->GetField("cap_observaciones")->SetDisplayValues(Array("Name"=>"cap_observaciones", "Label"=>"Observaciones", "Size"=>400, "IsForDB"=>true, "Order"=>116, "IsMandatory"=>true, "Presentation"=>"TEXTAREA", "IsVisible"=>true, "Rows"=>4, "Cols"=>100, "Class"=>"ccapacitacion"));
+        $this->getClass("ccapacitacion")->GetField("cap_observaciones")->SetDisplayValues(Array("Name"=>"cap_observaciones", "Label"=>"Observaciones", "Size"=>400, "IsForDB"=>true, "Order"=>115, "IsMandatory"=>true, "Presentation"=>"TEXTAREA", "IsVisible"=>true, "Rows"=>4, "Cols"=>100, "Class"=>"ccapacitacion"));
     }
 }
 }
@@ -136,8 +134,8 @@ class datos4_gr extends cform_group {
 
     public function InitializeInstance() {
         //SetDisplayValues($attributes) 
-        $this->getClass("ccapacitacion")->GetField("cap_visto_oper")->SetDisplayValues(Array("Name"=>"cap_visto_oper", "Label"=>"Visto", "Size"=>2, "IsForDB"=>true, "Order"=>117, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion", "InitialValue"=>"NO"));
-        $this->getClass("ccapacitacion")->GetField("cap_date_visto_oper")->SetDisplayValues(Array("Name"=>"cap_date_visto_oper", "Label"=>"Fecha", "Type"=>"datetime", "IsForDB"=>true, "Order"=>118, "Presentation"=>"DATETIME", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
+        $this->getClass("ccapacitacion")->GetField("cap_visto_oper")->SetDisplayValues(Array("Name"=>"cap_visto_oper", "Label"=>"Visto", "Size"=>2, "IsForDB"=>true, "Order"=>116, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion", "InitialValue"=>"NO"));
+        $this->getClass("ccapacitacion")->GetField("cap_date_visto_oper")->SetDisplayValues(Array("Name"=>"cap_date_visto_oper", "Label"=>"Fecha", "Type"=>"datetime", "IsForDB"=>true, "Order"=>117, "Presentation"=>"DATETIME", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
     }
 }
 }

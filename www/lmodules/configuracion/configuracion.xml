@@ -169,7 +169,7 @@
 </make>
 <make object="search_and_list"> 
 	<build out_file="oper_status.php" classname="coper_status" title="Listado de Operadores">
-			<field name="use_code" label="Nro" presentation="OPERADOR" />
+			<field name="use_code" label="Operador" presentation="OPERADOR" />
 			<field name="crit_status" label="Estado Operador" presentation="CRIT_STATUS" />
 			<field name="oper_grupo" label="Grupo" presentation="SELECT" valuelist="oper_grupo"/>	
 			<field name="oper_nuevo" label="Nuevo" presentation="SINO" />		
@@ -210,7 +210,7 @@
  		
 <make object="table_maint"> 
 	<build out_file="oper_status_maint.php" classname="coper_status_m" title="Operadores a Monitorear" next="oper_status.php?last=1&amp;OP=L">
-			<field name="use_code" label="Nro" presentation="OPERADOR" />
+			<field name="use_code" label="Operador" presentation="OPERADOR" />
 			<field name="crit_status" label="Estado Operador" presentation="CRIT_STATUS" ismandatory="true"/>
 			<field name="oper_nuevo" label="Nuevo" presentation="SINO" ismandatory="true"/>		
 			<field name="oper_grupo" label="Grupo" presentation="SELECT" valuelist="oper_grupo" ismandatory="true"/>				

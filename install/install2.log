@@ -1,1 +1,0 @@
-ERROR 1064 (42000) at line 458 in file: 'insert_operadores.sql': You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update sec_users set use_phone = ''' at line 4

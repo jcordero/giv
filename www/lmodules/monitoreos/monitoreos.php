@@ -25,11 +25,11 @@ class cmonitoreos_rep_sl extends csearchandlist {
 		$this->m_render_html = 'BLOCK';
 		$this->m_render_pdml = 'BLOCK';
 
-        $this->m_search_fields = array('mon_code','cir_code','cirg_code','use_code_operador','use_code_supervisor','mon_date','mon_status','mon_forzado','cli_call_code','mon_aprobo','mon_perjuicio_cliente','mon_date_aprox');
+        $this->m_search_fields = array('mon_code','cir_code','use_code_operador','use_code_supervisor','mon_date','mon_status','mon_forzado','cli_call_code','mon_aprobo','mon_perjuicio_cliente','mon_date_aprox');
 
-        $this->addAction(13,"monitoreos_maint.php?OP=V",array(new caction_param('mon_code')),"","detalle","V","","monitoreos.php?last=1&OP=L");
-        $this->addAction(13,"/lmodules/capacitacion/capacitacion_superv.php?OP=L",array(new caction_param('mon_code'),new caction_param('mon_add_cap')),"","capac. sup","L","capacitacion.supervisor","monitoreos.php?last=1&OP=L");
-        $this->addAction(13,"/common/download.php?OP=V",array(new caction_param('doc_storage')),"","llamada","D","","");
+        $this->addAction(12,"monitoreos_maint.php?OP=V",array(new caction_param('mon_code')),"","detalle","V","","monitoreos.php?last=1&OP=L");
+        $this->addAction(12,"/lmodules/capacitacion/capacitacion_superv.php?OP=L",array(new caction_param('mon_code'),new caction_param('mon_add_cap')),"","capac. sup","L","capacitacion.supervisor","monitoreos.php?last=1&OP=L");
+        $this->addAction(12,"/common/download.php?OP=V",array(new caction_param('doc_storage')),"","llamada","D","","");
     }
 
     //Inicializo la parte de busqueda
@@ -39,7 +39,6 @@ class cmonitoreos_rep_sl extends csearchandlist {
     /* Campos de busqueda */
         $this->m_obj->GetField("mon_code")->SetDisplayValues(Array("Name"=>"mon_code", "Label"=>"Mon. Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circ. Nro", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"CIRCUITOS", "IsNullable"=>false, "IsVisible"=>true));
-        $this->m_obj->GetField("cirg_code")->SetDisplayValues(Array("Name"=>"cirg_code", "Label"=>"Grupo", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("use_code_operador")->SetDisplayValues(Array("Name"=>"use_code_operador", "Label"=>"Oper.", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"OPERADOR", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Superv. Asignado", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("mon_date")->SetDisplayValues(Array("Name"=>"mon_date", "Label"=>"Fecha", "Type"=>"datetime", "IsForDB"=>true, "Order"=>106, "Presentation"=>"DATERANGE", "IsVisible"=>true));

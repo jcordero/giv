@@ -111,7 +111,7 @@
                 	$buff.='</li>';
                 }
                 if($this->haveRight($primary_db,'circuitos.cir_groups.nuevo')) { 
-                	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/circuitos/cir_groups_maint.php?OP=N')."\">Nueva Asignacion de Grupos</a>";
+                	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/circuitos/cir_groups_n_maint.php?OP=N')."\">Nueva Asignacion de Grupos</a>";
                 	$buff.='</li>';
                 }
             	$buff.='</ul>';
@@ -135,7 +135,7 @@
         if($this->haveRight($primary_db,'reportes.menu')) { 
         	$buff.="<li>reportes";
         	$buff.='<ul>';
-            if($this->haveRight($primary_db,'circuitos.cir_groups_oper')) { 
+            if($this->haveRight($primary_db,'circuitos.cir_oper')) { 
             	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/reportes/des_circuito.php?OP=L')."\">Estado Circuitos</a>";
             	$buff.='</li>';
             }
@@ -147,12 +147,12 @@
             	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/monitoreos/monitoreos_operador.php?OP=L')."\">Mis Monitoreos Operador</a>";
             	$buff.='</li>';
             }
-            if($this->haveRight($primary_db,'circuitos.cir_groups_oper')) { 
+            if($this->haveRight($primary_db,'circuitos.cir_oper')) { 
             	$buff.="<li>Desempeño";
             	$buff.='<ul>';
-            	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/reportes/des_circuito_group.php?OP=L')."\">Desempeño por Grupo</a>";
+            	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/reportes/des_circuito_superv.php?OP=L')."\">Desempeño por Supervisor</a>";
             	$buff.='</li>';
-            	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/circuitos/cir_groups_oper.php?OP=L')."\">Desempeño por Operadores</a>";
+            	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/circuitos/cir_oper.php?OP=L')."\">Desempeño por Operadores</a>";
             	$buff.='</li>';
             	$buff.='</ul>';
             	$buff.='</li>';

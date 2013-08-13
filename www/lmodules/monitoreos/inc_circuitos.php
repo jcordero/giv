@@ -56,14 +56,14 @@ function iniciarCircuito($cir_code,$cir_date_ini,$cir_date_fin)
 			
 		return $res;
 }
-	
-function insertar_monitoreo($cir_code,$cirg_code,$use_code_supervisor,$use_code_operador,$mon_date_aprox)
+
+function insertar_monitoreo($cir_code,$use_code_supervisor,$use_code_operador,$mon_date_aprox)
 {
 		global $primary_db,$sess;
 		$error = "";
 		$mon_code = $primary_db->Sequence("monitoreos");
-		$sql = "insert into monitoreos (mon_code,cirg_code,cir_code,use_code_operador,use_code_supervisor,mon_date_aprox,mon_date,mon_status)";
-		$sql.= " values ($mon_code,$cirg_code,$cir_code,$use_code_operador,$use_code_supervisor,STR_TO_DATE('$mon_date_aprox','%d/%m/%Y'),null,'PENDIENTE')";
+		$sql = "insert into monitoreos (mon_code,cir_code,use_code_operador,use_code_supervisor,mon_date_aprox,mon_date,mon_status)";
+		$sql.= " values ($mon_code,$cir_code,$use_code_operador,$use_code_supervisor,STR_TO_DATE('".$mon_date_aprox."','%d/%m/%Y'),null,'PENDIENTE')";
 		$primary_db->do_execute($sql, $err);
 		if (count($err) > 0) {
 			$error= "MENSAJE: Error en el alta del monitoreo.";
@@ -76,13 +76,13 @@ function insertar_monitoreo($cir_code,$cirg_code,$use_code_supervisor,$use_code_
 		}
 		return $error;
 }	
-function insertar_capacitacion($cir_code,$cirg_code,$mon_code,$use_code_supervisor,$use_code_operador,$doc_storage)	
+function insertar_capacitacion($cir_code,$mon_code,$use_code_supervisor,$use_code_operador,$doc_storage)	
 {
 		global $primary_db,$sess;
 		$error = "";
 		$cap_code = $primary_db->Sequence("capacitacion");
-		$sql = "insert into capacitacion (cap_code,mon_code,cirg_code,cir_code,use_code_operador,use_code_supervisor,cap_date,cap_status,doc_storage)";
-		$sql.= " values ($cap_code,$mon_code,$cirg_code,$cir_code,$use_code_operador,$use_code_supervisor,null,'PENDIENTE','$doc_storage')";
+		$sql = "insert into capacitacion (cap_code,mon_code,cir_code,use_code_operador,use_code_supervisor,cap_date,cap_status,doc_storage)";
+		$sql.= " values ($cap_code,$mon_code,$cir_code,$use_code_operador,$use_code_supervisor,null,'PENDIENTE','$doc_storage')";
 		$primary_db->do_execute($sql, $err);
 		if (count($err) > 0) {
 			$error= "MENSAJE: Error en el alta del monitoreo.";
@@ -179,8 +179,7 @@ function mover_operador_en_circuito($cir_code,$oper_grupo_ant,$oper_grupo_act,$u
 	if ($use_code_supervisor == "")
 		return "El grupo seleccionado no tiene asignado un supervisor en el circuito activo. Asigne el grupo al circuito correctamente si desea incorporar al operador";
 	// Actualizar monitoreos
-	$sql = "update monitoreos set cirg_code=$cirg_code_act , use_code_supervisor = $use_code_supervisor where ";
-	$sql.= " cirg_code=$cirg_code_ant and cir_code=$cir_code and use_code_operador=$use_code_oper and  mon_status='PENDIENTE' ";
+	$sql = "update monitoreos set use_code_supervisor = $use_code_supervisor where cir_code=$cir_code and use_code_operador=$use_code_oper and  mon_status='PENDIENTE' ";
 			
 	$primary_db->do_execute($sql, $err);
 	if (count($err) > 0) 
@@ -188,8 +187,7 @@ function mover_operador_en_circuito($cir_code,$oper_grupo_ant,$oper_grupo_act,$u
 	else
 	{
 		// Actualizar capacitacion
-		$sql = "update capacitacion set cirg_code=$cirg_code_act , use_code_supervisor = $use_code_supervisor where ";
-		$sql.= " cirg_code=$cirg_code_ant and cir_code=$cir_code and use_code_operador=$use_code_oper and  cap_status='PENDIENTE' ";
+		$sql = "update capacitacion set  use_code_supervisor = $use_code_supervisor where cir_code=$cir_code and use_code_operador=$use_code_oper and  cap_status='PENDIENTE' ";
 		$primary_db->do_execute($sql, $err2);
 		if (count($err2) > 0) 
 				$error= "Error al actualizar los capacitaciones pendientes.";
@@ -203,25 +201,31 @@ function insertar_operador_en_circuito($cir_code,$oper_grupo_act,$use_code_super
 	$error = "";
 
 	$crit_status_mon_sem =  intval($primary_db->QueryString("SELECT crit_status_mon_sem FROM crit_status where crit_status='".$crit_status."' limit 1"));
-	if ($crit_status_mon_sem == "")
-		return "El grupo seleccionado no tiene asignado un supervisor en el circuito activo. Asigne el grupo al circuito correctamente si desea incorporar al operador";	
-
-	
+	if ($crit_status_mon_sem == 0)
+		return "El criterio asignado al operador no tiene monitoreos por semana.";	
+	/*
+	$cirg_code_act =  intval($primary_db->QueryString("SELECT cirg_code FROM cir_groups where oper_grupo='".$oper_grupo_act."' and cir_code=$cir_code and use_code_supervisor=$use_code_supervisor"));
+	if ($cirg_code_act == 0)
+		return "El grupo seleccionado no esta asignado a ningun supervisor en el circuito actual. Asigne el grupo al circuito correctamente si desea incorporar al operador";	
+	*/
 	$cirg_cant_mon_pendientes = 0;
 	// Analizar Fechas
 	error_log("Analizar Fechas $cir_date_ini,$cir_date_fin");
 	$v = new validar();
 	$dias = $v->diffFecha($cir_date_fin,$cir_date_ini);
+	if ($dias < 0)
+		return "La fecha fin del circuito es menor a la actual. No se pueden insertar monitoreos";	
+	
 	$d = 0;
-	error_log("Analizar Fechas $dias");
-	$cir_date = $cir_date_ini;
-	while ($d < $dias)
+	error_log("Dias $dias");
+	$cir_date = $v->addDays($cir_date_ini,$d) ;
+	while ($d <= $dias)
 	{
 	        $cirg_cant_mon_pendientes=$cirg_cant_mon_pendientes+$crit_status_mon_sem;
 			for ($i=0;$i<$crit_status_mon_sem;$i++)
 			{
-								  
-				$error = insertar_monitoreo($cir_code,$cirg_code_act,$use_code_supervisor,$use_code_operador,$cir_date); 	
+	  
+				$error = insertar_monitoreo($cir_code,$use_code_supervisor,$use_code_operador,$cir_date); 	
 				if ($error != '')  break; 			  
 			}
 			$d = $d + 7;

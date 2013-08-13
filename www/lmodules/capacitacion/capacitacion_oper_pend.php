@@ -40,10 +40,10 @@ class ccapacitacion_sl extends csearchandlist {
         $this->m_obj->GetField("cap_code")->SetDisplayValues(Array("Name"=>"cap_code", "Label"=>"Capacitación Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false));
         $this->m_obj->GetField("mon_code")->SetDisplayValues(Array("Name"=>"mon_code", "Label"=>"Monitoreo Nro", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"INT", "IsNullable"=>false));
         $this->m_obj->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"CIRCUITO_ACTIVO", "IsNullable"=>false, "IsVisible"=>true));
-        $this->m_obj->GetField("use_code_operador")->SetDisplayValues(Array("Name"=>"use_code_operador", "Label"=>"Operador", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"CURRENTUSER", "IsNullable"=>false, "ClassParams"=>"force"));
-        $this->m_obj->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor Asignado", "Type"=>"int", "IsForDB"=>true, "Order"=>106, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true));
-        $this->m_obj->GetField("cap_status")->SetDisplayValues(Array("Name"=>"cap_status", "Label"=>"Estado", "Size"=>20, "IsForDB"=>true, "Order"=>108, "Presentation"=>"CAP_STATUS", "InitialValue"=>"REALIZADO"));
-        $this->m_obj->GetField("cap_visto_oper")->SetDisplayValues(Array("Name"=>"cap_visto_oper", "Label"=>"Visto", "Size"=>2, "IsForDB"=>true, "Order"=>117, "Presentation"=>"TEXT", "InitialValue"=>"NO"));
+        $this->m_obj->GetField("use_code_operador")->SetDisplayValues(Array("Name"=>"use_code_operador", "Label"=>"Operador", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"CURRENTUSER", "IsNullable"=>false, "ClassParams"=>"force"));
+        $this->m_obj->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor Asignado", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true));
+        $this->m_obj->GetField("cap_status")->SetDisplayValues(Array("Name"=>"cap_status", "Label"=>"Estado", "Size"=>20, "IsForDB"=>true, "Order"=>107, "Presentation"=>"CAP_STATUS", "InitialValue"=>"REALIZADO"));
+        $this->m_obj->GetField("cap_visto_oper")->SetDisplayValues(Array("Name"=>"cap_visto_oper", "Label"=>"Visto", "Size"=>2, "IsForDB"=>true, "Order"=>116, "Presentation"=>"TEXT", "InitialValue"=>"NO"));
     }
 
 }
@@ -100,54 +100,54 @@ class col103 extends ccolumn
     }
 }
 
-class col106 extends ccolumn
+class col105 extends ccolumn
 {
     function __construct($parent)
     {
         parent::__construct($parent);
         $this->m_title = 'Supervisor Asignado';
-        $this->m_order = '106';
+        $this->m_order = '105';
         $this->m_isvisible = true;
         $this->m_align = 'left';
         $this->m_sort_field = 'use_code_supervisor';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor Asignado", "Type"=>"int", "IsForDB"=>true, "Order"=>106, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor Asignado", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true));
     }
 }
 
-class col105 extends ccolumn
+class col104 extends ccolumn
 {
     function __construct($parent)
     {
         parent::__construct($parent);
         $this->m_title = 'Operador';
-        $this->m_order = '105';
+        $this->m_order = '104';
         $this->m_isvisible = true;
         $this->m_align = 'left';
         $this->m_sort_field = 'use_code_operador';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"use_code_operador", "Label"=>"Operador", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"CURRENTUSER", "IsNullable"=>false, "IsVisible"=>true, "ClassParams"=>"force"));
+         $this->m_fields[] = new CField(Array("Name"=>"use_code_operador", "Label"=>"Operador", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"CURRENTUSER", "IsNullable"=>false, "IsVisible"=>true, "ClassParams"=>"force"));
     }
 }
 
-class col109 extends ccolumn
+class col108 extends ccolumn
 {
     function __construct($parent)
     {
         parent::__construct($parent);
         $this->m_title = 'Llamada';
-        $this->m_order = '109';
+        $this->m_order = '108';
         $this->m_isvisible = false;
         $this->m_align = 'left';
         $this->m_sort_field = 'doc_storage';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"doc_storage", "Label"=>"Llamada", "Size"=>200, "IsForDB"=>true, "Order"=>109, "Presentation"=>"FILE"));
+         $this->m_fields[] = new CField(Array("Name"=>"doc_storage", "Label"=>"Llamada", "Size"=>200, "IsForDB"=>true, "Order"=>108, "Presentation"=>"FILE"));
     }
 }
 
@@ -164,9 +164,9 @@ class ccapacitacion_table extends ctable
         $this->m_cols[101] = new col101($this);
         $this->m_cols[102] = new col102($this);
         $this->m_cols[103] = new col103($this);
-        $this->m_cols[106] = new col106($this);
         $this->m_cols[105] = new col105($this);
-        $this->m_cols[109] = new col109($this);
+        $this->m_cols[104] = new col104($this);
+        $this->m_cols[108] = new col108($this);
     }
 
 }

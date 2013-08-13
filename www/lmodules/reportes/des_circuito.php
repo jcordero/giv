@@ -27,8 +27,8 @@ class cdes_circuito_sl extends csearchandlist {
 
         $this->m_search_fields = array('cir_code');
 
-        $this->addAction(2,"/lmodules/reportes/des_circuito_group.php?OP=L",array(new caction_param('cir_code')),"","por grupo","L","","/lmodules/reportes/des_circuito.php?last=1&OP=L");
-        $this->addAction(2,"/lmodules/circuitos/cir_oper.php?OP=L",array(new caction_param('cir_code')),"","por operador","L","","/lmodules/reportes/des_circuito.php?last=1&OP=L");
+        $this->addAction(2,"/lmodules/reportes/des_circuito_superv.php?OP=L",array(new caction_param('cir_code')),"","por supervisor","L","","/lmodules/reportes/des_circuito.php?last=1&OP=L");
+        $this->addAction(2,"/lmodules/reportes/des_circuito_oper.php?OP=L",array(new caction_param('cir_code')),"","por operador","L","","/lmodules/reportes/des_circuito.php?last=1&OP=L");
     }
 
     //Inicializo la parte de busqueda

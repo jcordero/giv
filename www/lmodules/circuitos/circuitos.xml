@@ -186,14 +186,14 @@
 	</build>
 </make>
 <make object="table_maint"> 
-	<build out_file="cir_groups_maint.php" classname="ccir_groups" title="Asignación de Grupos a Circuitos" next="cir_groups.php?last=1&amp;OP=L">
-	    <group title="Datos Principales" id="grupo2" order="2">	
+	<build out_file="cir_groups_maint.php" classname="ccir_groups_n" title="Asignación de Grupos a Circuitos" next="cir_groups.php?last=1&amp;OP=L">
+	    <group title="Datos Principales" id="grupo2" order="1">	
 			<field name="cirg_code" label="Grupo Nro"  presentation="INT"  readonly="true"/>	
-			<field name="cir_code" label="Circuito"  presentation="CIRCUITO" readonly="true"/>			
+			<field name="cir_code" label="Circuito"  presentation="CIRCUITOS" readonly="true"/>			
 			<field name="oper_grupo" label="Grupo" presentation="TEXT" readonly="true"/>	
 			<field name="use_code_supervisor" label="Supervisor" presentation="SUPERVISOR"  ismandatory="true" />	
 		</group>	
-		<table relationclass="" classname="oper_status" title="Operadores Asignados" order="3" add="false" delete="false"  update="false">
+		<table relationclass="" classname="oper_status" title="Operadores Asignados" order="2" add="false" delete="false"  update="false">
 			<column title="Operador" order="1">
 			<field name="oper_grupo" label="Grupo" presentation="TEXT"  isvisible="false"/>				
 			<field name="use_code" label="Nro" presentation="OPERADOR" />

@@ -11,7 +11,6 @@
 			<field name="mon_status" label="Estado" presentation="MON_STATUS" />	
 			<field name="mon_code" label="Mon. Nro" presentation="INT" />
 			<field name="cir_code" label="Circ. Nro" presentation="CIRCUITOS" />
-			<field name="cirg_code" label="Grupo" presentation="INT" />
 			<field name="use_code_operador" label="Oper." presentation="OPERADOR" />
 			<field name="use_code_supervisor" label="Superv. Asignado" presentation="SUPERVISOR"/>
 			<field name="mon_date" label="Fecha" presentation="DATERANGE" />
@@ -29,7 +28,6 @@
 			 
 			<searchfield name="mon_code"/>
 			<searchfield name="cir_code"/>
-			<searchfield name="cirg_code"/>
 			<searchfield name="use_code_operador"/>
 			<searchfield name="use_code_supervisor"/>
 			<searchfield name="mon_date"/>
@@ -135,21 +133,18 @@
 <make object="search_and_list"> 
 	<build out_file="monitoreos_superv.php" classname="cmonitoreos" title="Monitorear">
 			<field name="mon_code" label="Nro" presentation="INT" />
-			<field name="cir_code" label="Circuito" presentation="CIRCUITO_ACTIVO" />
-			<field name="cirg_code" label="Grupo" presentation="INT" />
+			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" />
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" />
 			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR"/>
 			<field name="mon_date_aprox" label="Fecha Aproximada" presentation="DATERANGE" />
 			<field name="mon_status" label="Estado Monitoreo" presentation="MON_STATUS" initialvalue="PENDIENTE"/>	
 
 			<searchfield name="cir_code"/>
-			<searchfield name="cirg_code" isvisible="false" />
 			<searchfield name="use_code_operador"/>
 			<searchfield name="mon_date_aprox"/>
 			<searchfield name="use_code_supervisor" presentation="SUPERVISOR"/>
 			<searchfield name="mon_status" isvisible="false" initialvalue="PENDIENTE"/>	
 			<listfield name="cir_code"/>
-			<listfield name="cirg_code" isvisible="false" />
 			<listfield name="mon_code" />
 			<listfield name="mon_date_aprox"/>
 			<listfield name="mon_status" isvisible="false" />	
@@ -180,12 +175,11 @@
 		<group id="datos1" title="Datos Principales" order="1">
 			<field name="mon_code" label="Nro" presentation="INT" readonly="true"/>
 			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" readonly="true"/>
-			<field name="cirg_code" label="Grupo Oper" presentation="INT" isvisible="false"/>
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" readonly="true"/>
 			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" readonly="true"/>
 			<field name="mon_use_code" label="Supervisor Monitoreo" presentation="CURRENTUSER" classparams="force" />
 			<field name="mon_date" label="Fecha" presentation="DATETIME" classparams="force" readonly="true"/>
-			<field name="mon_date_aprox" label="Fecha Aprox" presentation="DATETIME" readonly="true" isvisible="false"/>			
+			<field name="mon_date_aprox" label="Fecha Aprox" presentation="DATETIME" readonly="true" />			
 			<field name="mon_status" label="Estado Monitoreo" presentation="MON_STATUS" readonly="true"/>
 		</group>
 		<group id="datos2" title="Datos a Completar en el Monitoreo" order="2" >	
@@ -199,7 +193,7 @@
 		</group>
 		<group id="datos3" title="Datos automaticos" order="4">
 			<field name="mon_puntaje" label="Puntaje" presentation="INT" readonly="true"/>
-			<field name="mon_perjuicio_cliente" label="Perjuicio del Cliente" presentation="SINO" readonly="true"/>
+			<field name="mon_perjuicio_cliente" label="Perjuicio al Vecino" presentation="SINO" readonly="true"/>
 			<field name="mon_aprobo" label="Aprobado" presentation="SINO" readonly="true"/>
 			<field name="mon_add_mon" label="Monitoreos Agregados" presentation="INT" readonly="true"/>
 			<field name="mon_add_cap" label="Capacitaciones Agregadas" presentation="INT" readonly="true"/>
@@ -217,7 +211,7 @@
 				<field name="it_puntaje" label="Puntaje" presentation="INT" isvisible="false"/>		
 				<field name="it_aprobo" label="Aprobado?" presentation="SINO"  ismandatory="true"/>		
 			</column>
-			<column title="Perjuicio del Cliente" order="3">			
+			<column title="Perjuicio al Vecino" order="3">			
 				<field name="it_perjuicio_cliente" label="Perjuicio?" presentation="SINO"   ismandatory="true"/>		
 			</column>
 			<column title="Nota" order="4">			
@@ -233,16 +227,16 @@
 		<group id="datos1" title="Datos Principales" order="1">
 			<field name="mon_code" label="Nro" presentation="INT" readonly="true"/>
 			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" readonly="true"/>
-			<field name="cirg_code" label="Grupo Oper" presentation="INT" isvisible="false"/>
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" readonly="true"/>
 			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" readonly="true"/>
 			<field name="mon_use_code" label="Supervisor Monitoreo" presentation="CURRENTUSER" classparams="force" readonly="true"/>	
 			<field name="mon_date" label="Fecha" presentation="DATETIME" classparams="force" readonly="true"/>
 			<field name="mon_status" label="Estado Monitoreo" presentation="MON_STATUS" readonly="true"/>
+			<field name="mon_date_aprox" label="Fecha Aprox" presentation="DATETIME" readonly="true" />					
 		</group>
 		<group id="datos2" title="Datos a Completar en el Monitoreo" order="2" >	
 		    <field name="mon_forzado" label="Cierre Forzado ?" presentation="TEXT" initialvalue='SI' isvisible="false"/>
-		    <field name="mon_motivo" label="Motivo de Cierre Forzado" presentation="TEXT" ismandatory="true" />		 	
+		    <field name="mon_motivo" label="Motivo de Cierre Forzado" presentation="SELECT" valuelist="mon_motivo_cierre" ismandatory="true" />		 	
 			<field name="mon_aprobo" label="Aprobado" presentation="TEXT" initialvalue='NO' isvisible="false"/>
 		</group>
 	</build>
@@ -254,7 +248,6 @@
 		<group id="datos1" title="Datos Principales" order="1">
 			<field name="mon_code" label="Nro" presentation="INT" readonly="true"/>
 			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" readonly="true"/>
-			<field name="cirg_code" label="Grupo Oper" presentation="INT" isvisible="false"/>
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" readonly="true"/>
 			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" readonly="true"/>
 			<field name="mon_use_code" label="Supervisor Monitoreo" presentation="CURRENTUSER" readonly="true"/>		
@@ -272,7 +265,7 @@
 		</group>
 		<group id="datos3" title="Datos automaticos" order="4">
 			<field name="mon_puntaje" label="Puntaje" presentation="TEXT" readonly="true"/>
-			<field name="mon_perjuicio_cliente" label="Perjuicio del Cliente" presentation="TEXT" readonly="true"/>
+			<field name="mon_perjuicio_cliente" label="Perjuicio al Vecino" presentation="TEXT" readonly="true"/>
 			<field name="mon_aprobo" label="Aprobado" presentation="TEXT" readonly="true"/>
 			<field name="mon_add_mon" label="Monitoreos Agregados" presentation="INT" readonly="true"/>
 			<field name="mon_add_cap" label="Capacitaciones Agregados" presentation="INT" readonly="true"/>
@@ -288,7 +281,7 @@
 				<field name="it_critico" label="Items Criticos" presentation="INT" />	
 				<field name="it_aprobo" label="Aprobado?" presentation="TEXT" />		
 			</column>
-			<column title="Perjuicio del Cliente" order="3">			
+			<column title="Perjuicio al Vecino" order="3">			
 				<field name="it_perjuicio_cliente" label="Perjuicio?" presentation="TEXT"/>		
 			</column>
 			<column title="Nota" order="4">			
