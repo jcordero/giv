@@ -15,6 +15,7 @@ function iniciarCircuito($cir_code,$cir_date_ini,$cir_date_fin)
 				return $res;
 		}		
 		$primary_db->beginTransaction();
+		$i = 0;
 		while ($row = $primary_db->_fetch_row($out))
 		{
 		    $cirg_code = $row["cirg_code"];
@@ -30,6 +31,7 @@ function iniciarCircuito($cir_code,$cir_date_ini,$cir_date_fin)
 			{
 				while ($row2 = $primary_db->_fetch_row($out2))
 				{
+				    $i++;
 					$use_code_operador = $row2["use_code"];
 					$crit_status =  $primary_db->QueryString("SELECT crit_status FROM oper_status where use_code='".$use_code_operador."' limit 1");
 					$error =  insertar_operador_en_circuito($cir_code,$oper_grupo,$use_code_supervisor,$use_code_operador,$crit_status,$cir_date_ini,$cir_date_fin);
@@ -41,6 +43,10 @@ function iniciarCircuito($cir_code,$cir_date_ini,$cir_date_fin)
 				}
 			}
 		}
+		if ($i == 0)
+		{
+			$res[] = "MENSAJE: No se asignaron operadores, revise si el circuito tiene grupos asignados.";
+		}		
 		if (count($res) == 0)
 		{
 			$sql = "update circuitos set cir_status='ACTIVO' where cir_code=".intval($cir_code);
@@ -49,6 +55,7 @@ function iniciarCircuito($cir_code,$cir_date_ini,$cir_date_fin)
 				$res[] = "MENSAJE: Error al actualizar el circuito a ACTIVO.";
 			}	
 		}
+
 		if (count($res) == 0) 
 			$primary_db->commitTransaction();
 		else
@@ -56,7 +63,17 @@ function iniciarCircuito($cir_code,$cir_date_ini,$cir_date_fin)
 			
 		return $res;
 }
-
+function del_monitoreo($cir_code,$mon_date_aprox,$cant)	
+{
+		global $primary_db,$sess;
+		$error = "";
+		$sql = "delete monitoreos where mon_date_aprox = STR_TO_DATE('".$mon_date_aprox."','%d/%m/%Y') and cir_code=$cir_code and mon_status='PENDIENTE' limit $cant ";
+		$primary_db->do_execute($sql, $err);
+		if (count($err) > 0) {
+			$error= "MENSAJE: Error al eliminar monitoreos.";
+		}
+		return $error;
+}	
 function insertar_monitoreo($cir_code,$use_code_supervisor,$use_code_operador,$mon_date_aprox)
 {
 		global $primary_db,$sess;
@@ -75,6 +92,18 @@ function insertar_monitoreo($cir_code,$use_code_supervisor,$use_code_operador,$m
 				$error= "MENSAJE: Error en el alta de items de monitoreo.";  
 		}
 		return $error;
+}
+
+function del_capacitacion($cir_code,$mon_code,$cant)	
+{
+		global $primary_db,$sess;
+		$error = "";
+		$sql = "delete capacitacion where mon_code = $mon_code and cir_code=$cir_code and cap_status='PENDIENTE' limit $cant ";
+		$primary_db->do_execute($sql, $err);
+		if (count($err) > 0) {
+			$error= "MENSAJE: Error al eliminar capacitaciones.";
+		}
+		return $error;
 }	
 function insertar_capacitacion($cir_code,$mon_code,$use_code_supervisor,$use_code_operador,$doc_storage)	
 {
@@ -85,7 +114,7 @@ function insertar_capacitacion($cir_code,$mon_code,$use_code_supervisor,$use_cod
 		$sql.= " values ($cap_code,$mon_code,$cir_code,$use_code_operador,$use_code_supervisor,null,'PENDIENTE','$doc_storage')";
 		$primary_db->do_execute($sql, $err);
 		if (count($err) > 0) {
-			$error= "MENSAJE: Error en el alta del monitoreo.";
+			$error= "MENSAJE: Error en el alta de capacitacion.";
 		}
 		return $error;
 }
@@ -93,7 +122,7 @@ function cerrarCircuito($cir_code)
 {
 		global $primary_db, $sess;
 		$res = array();
-		$sql = "select * from circuitos where cir_date_fin <= date(now()) and cir_code=".$cir_code;
+		$sql = "select * from circuitos where date(cir_date_fin) <= date(now()) and cir_code=".$cir_code;
 		$out = $primary_db->do_execute($sql, $err);
 		if (count($err) != 0)
 		{
@@ -113,7 +142,13 @@ function cerrarCircuito($cir_code)
 				$res[] = "MENSAJE: El circuito $cir_code no se pudo cerrar porque no se cumplio la fecha de finalizacion.";
 				return $res;		
 		}
-    	// Actualizar estado de operadores		
+    	// Actualizar estado de operadores	
+		$error = actualizarCirOper ($cir_code);
+	    if ($error !='')
+		{
+				$res[] = "MENSAJE: ".$error;
+				return $res;		
+		}		
 		$sql2 = "select * from cir_oper where cir_code=".$cir_code;
 		$out2 = $primary_db->do_execute($sql2, $err2);
 		if (count($err2) != 0)
@@ -124,6 +159,8 @@ function cerrarCircuito($cir_code)
 				{
 					$use_code_operador = $row2["use_code_operador"];
 					$crit_status_ini = $row2["crit_status_ini"];
+						
+					
 					$cirg_cant_mon_mal = intval($row2["cirg_cant_mon_mal"]);
 
 					$s = "SELECT crit_oper_status_fin FROM criterios where crit_oper_status_ini=".intval($crit_status_ini);
@@ -210,36 +247,61 @@ function insertar_operador_en_circuito($cir_code,$oper_grupo_act,$use_code_super
 	*/
 	$cirg_cant_mon_pendientes = 0;
 	// Analizar Fechas
-	error_log("Analizar Fechas $cir_date_ini,$cir_date_fin");
-	$v = new validar();
-	$dias = $v->diffFecha($cir_date_fin,$cir_date_ini);
-	if ($dias < 0)
-		return "La fecha fin del circuito es menor a la actual. No se pueden insertar monitoreos";	
-	
-	$d = 0;
-	error_log("Dias $dias");
-	$cir_date = $v->addDays($cir_date_ini,$d) ;
-	while ($d <= $dias)
+	$j = 0;
+	$sql2 = "select DATE_FORMAT(cir_date,'%d/%m/%Y') as cir_date from cir_semanas where cir_code=".$cir_code." order by cir_code,cir_date asc" ;
+	$out2 = $primary_db->do_execute($sql2, $err2);
+	if (count($err2) != 0)
+					$error = "Error al buscar las fechas del circuito $cir_code.";
+	else 
 	{
+		while ( ($row2 = $primary_db->_fetch_row($out2)) && ($error ==''))
+		{
 	        $cirg_cant_mon_pendientes=$cirg_cant_mon_pendientes+$crit_status_mon_sem;
 			for ($i=0;$i<$crit_status_mon_sem;$i++)
 			{
 	  
-				$error = insertar_monitoreo($cir_code,$use_code_supervisor,$use_code_operador,$cir_date); 	
+				$error = insertar_monitoreo($cir_code,$use_code_supervisor,$use_code_operador,$row2["cir_date"]); 	
 				if ($error != '')  break; 			  
 			}
-			$d = $d + 7;
-			$cir_date = $v->addDays($cir_date_ini,$d) ;
-	}
-	$sql3 = "insert into cir_oper (cir_code,use_code_operador,crit_status_ini,crit_status_fin,cirg_cant_mon_pendientes,";
-	$sql3.= "cirg_cant_mon_realizados,cirg_cant_mon_ok,cirg_cant_mon_mal,cirg_cant_cap_pendientes,cirg_cant_cap_realizados,cirg_cant_cap_ok,cirg_cant_cap_mal,cirg_cant_mon_cierre_forz,cirg_puntaje_prom) ";
-	$sql3.= " values ($cir_code,$use_code_operador,'".$crit_status."','',".$cirg_cant_mon_pendientes.",";
-	$sql3.= "0,0,0,0,0,0,0,0,0) ";
-	$primary_db->do_execute($sql3, $err3);
-	if (count($err3) > 0) {
-		$error = "Error al insertar el operador del grupo ($use_code_operador).";
+			$j++;
+			// Si es nuevo, solo 2 semanas
+			if (($crit_status == 4) && ($j==2)) break;
+		}
+		
+		$sql3 = "insert into cir_oper (cir_code,use_code_operador,crit_status_ini,crit_status_fin,cirg_cant_mon_pendientes,";
+		$sql3.= "cirg_cant_mon_realizados,cirg_cant_mon_ok,cirg_cant_mon_mal,cirg_cant_cap_pendientes,cirg_cant_cap_realizados,cirg_cant_cap_ok,cirg_cant_cap_mal,cirg_cant_mon_cierre_forz,cirg_puntaje_prom) ";
+		$sql3.= " values ($cir_code,$use_code_operador,'".$crit_status."','',".$cirg_cant_mon_pendientes.",";
+		$sql3.= "0,0,0,0,0,0,0,0,0) ";
+		$primary_db->do_execute($sql3, $err3);
+		if (count($err3) > 0) {
+			$error = "Error al insertar el operador del grupo ($use_code_operador).";
+		}
 	}
 	return $error;
-}			
+}	
+
+function actualizarCirOper ($cir_code)
+{
+    global $primary_db,$sess;
+	$error="";
+	$sql1= "select count(*) from capacitacion where cir_code=$cir_code and capacitacion.use_code_operador=cir_oper.use_code_operador";
+	$sql2= "select count(*) from monitoreos where cir_code=$cir_code and monitoreos.use_code_operador=cir_oper.use_code_operador";
+	 
+	$sql = "update cir_oper set ";
+	$sql.= " cirg_cant_mon_pendientes=ifnull((".$sql2." and mon_status='PENDIENTE' ),0), ";
+	$sql.= " cirg_cant_mon_realizados=ifnull((".$sql2." and mon_status='REALIZADO' ),0), ";
+	$sql.= " cirg_cant_mon_ok=ifnull((".$sql2." and mon_status='REALIZADO' and mon_aprobo='SI' ),0), ";
+	$sql.= " cirg_cant_mon_mal=ifnull((".$sql2." and mon_status='REALIZADO' and mon_aprobo='NO' ),0), ";
+	$sql.= " cirg_puntaje_prom=ifnull((select round(avg(ifnull(mon_puntaje,0)),2) from monitoreos where cir_code=$cir_code and monitoreos.use_code_operador=cir_oper.use_code_operador and mon_status='REALIZADO' ),0), ";		
+	$sql.= " cirg_cant_mon_cierre_forz=ifnull((".$sql2." and mon_status='PENDIENTE' ),0), ";	
+	$sql.= " cirg_cant_cap_pendientes=ifnull((".$sql1." and cap_status='PENDIENTE'),0), ";
+	$sql.= " cirg_cant_cap_realizados=ifnull((".$sql1." and cap_status='REALIZADO' ),0), ";
+	$sql.= " cirg_cant_cap_ok=ifnull((".$sql1." and cap_status='REALIZADO' and cap_rol_play_aprobado='SI' ),0), ";
+	$sql.= " cirg_cant_cap_mal=ifnull((".$sql1." and cap_status='REALIZADO' and cap_rol_play_aprobado='NO' ),0) where cir_code=$cir_code ";	
+	$primary_db->do_execute($sql, $err3);
+	if (count($err3) > 0) $error = "Error al actualizar el estado de los operadores en el circuito.";
+	return $error;
+				
+}
 
 ?>	

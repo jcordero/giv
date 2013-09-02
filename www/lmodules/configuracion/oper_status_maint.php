@@ -26,6 +26,7 @@ class unico_gr extends cform_group {
         $this->m_fields[] = 'coper_status_m:crit_status';
         $this->m_fields[] = 'coper_status_m:oper_nuevo';
         $this->m_fields[] = 'coper_status_m:oper_grupo';
+        $this->m_fields[] = 'coper_status_m:oper_status';
         $this->m_fields[] = 'coper_status_m:oper_hora_in';
         $this->m_fields[] = 'coper_status_m:oper_hora_out';
         $this->m_fields[] = 'coper_status_m:modificar_circuito';
@@ -39,18 +40,19 @@ class unico_gr extends cform_group {
 
     public function InitializeInstance() {
         //SetDisplayValues($attributes) 
-        $this->getClass("coper_status_m")->GetField("use_code")->SetDisplayValues(Array("Name"=>"use_code", "Label"=>"Operador", "Size"=>50, "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"OPERADOR", "IsNullable"=>false, "IsVisible"=>true, "Class"=>"coper_status_m"));
+        $this->getClass("coper_status_m")->GetField("use_code")->SetDisplayValues(Array("Name"=>"use_code", "Label"=>"Operador", "Size"=>50, "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "IsMandatory"=>true, "Presentation"=>"OPERADOR", "IsNullable"=>false, "IsVisible"=>true, "Class"=>"coper_status_m"));
         $this->getClass("coper_status_m")->GetField("crit_status")->SetDisplayValues(Array("Name"=>"crit_status", "Label"=>"Estado Operador", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "IsMandatory"=>true, "Presentation"=>"CRIT_STATUS", "IsVisible"=>true, "Class"=>"coper_status_m"));
         $this->getClass("coper_status_m")->GetField("oper_nuevo")->SetDisplayValues(Array("Name"=>"oper_nuevo", "Label"=>"Nuevo", "Size"=>2, "IsForDB"=>true, "Order"=>104, "IsMandatory"=>true, "Presentation"=>"SINO", "IsVisible"=>true, "Class"=>"coper_status_m"));
         $this->getClass("coper_status_m")->GetField("oper_grupo")->SetDisplayValues(Array("Name"=>"oper_grupo", "Label"=>"Grupo", "Size"=>50, "IsForDB"=>true, "Order"=>103, "IsMandatory"=>true, "ValueList"=>"oper_grupo", "Presentation"=>"SELECT", "IsNullable"=>false, "IsVisible"=>true, "Class"=>"coper_status_m"));
+        $this->getClass("coper_status_m")->GetField("oper_status")->SetDisplayValues(Array("Name"=>"oper_status", "Label"=>"Estado Operador", "Size"=>10, "IsForDB"=>true, "Order"=>108, "Presentation"=>"ESTADO", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"coper_status_m", "InitialValue"=>"ACTIVO"));
         $this->getClass("coper_status_m")->GetField("oper_hora_in")->SetDisplayValues(Array("Name"=>"oper_hora_in", "Label"=>"Hora Ingreso", "Size"=>10, "IsForDB"=>true, "Order"=>105, "IsMandatory"=>true, "Presentation"=>"TEXT", "IsVisible"=>true, "Cols"=>8, "Class"=>"coper_status_m"));
         $this->getClass("coper_status_m")->GetField("oper_hora_out")->SetDisplayValues(Array("Name"=>"oper_hora_out", "Label"=>"Hora Egreso", "Size"=>10, "IsForDB"=>true, "Order"=>106, "IsMandatory"=>true, "Presentation"=>"TEXT", "IsVisible"=>true, "Cols"=>8, "Class"=>"coper_status_m"));
-        $this->getClass("coper_status_m")->GetField("modificar_circuito")->SetDisplayValues(Array("Name"=>"modificar_circuito", "Label"=>"Desea incorporar la modificación al circuito activo actual?", "Size"=>2, "Type"=>"VARCHAR", "Order"=>7, "IsMandatory"=>true, "Presentation"=>"SINO", "IsVisible"=>true, "Class"=>"coper_status_m", "InitialValue"=>"SI"));
-        $this->getClass("coper_status_m")->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"INT", "Order"=>8, "Presentation"=>"CIRCUITOS", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"coper_status_m"));
-        $this->getClass("coper_status_m")->GetField("cir_date_ini")->SetDisplayValues(Array("Name"=>"cir_date_ini", "Label"=>"Fecha Inicio", "Type"=>"DATETIME", "Order"=>9, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"coper_status_m"));
-        $this->getClass("coper_status_m")->GetField("cir_date_fin")->SetDisplayValues(Array("Name"=>"cir_date_fin", "Label"=>"Fecha Final", "Type"=>"DATETIME", "Order"=>10, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"coper_status_m"));
-        $this->getClass("coper_status_m")->GetField("cir_importance_min")->SetDisplayValues(Array("Name"=>"cir_importance_min", "Label"=>"Importancia Min", "Type"=>"INT", "Order"=>11, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"coper_status_m"));
-        $this->getClass("coper_status_m")->GetField("cir_status")->SetDisplayValues(Array("Name"=>"cir_status", "Label"=>"Estado", "Size"=>20, "Type"=>"VARCHAR", "Order"=>12, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"coper_status_m"));
+        $this->getClass("coper_status_m")->GetField("modificar_circuito")->SetDisplayValues(Array("Name"=>"modificar_circuito", "Label"=>"Incorpora al circuito activo actual?", "Size"=>2, "Type"=>"VARCHAR", "Order"=>9, "IsMandatory"=>true, "Presentation"=>"SINO", "IsVisible"=>true, "Class"=>"coper_status_m", "InitialValue"=>"NO"));
+        $this->getClass("coper_status_m")->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"INT", "Order"=>10, "Presentation"=>"CIRCUITOS", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"coper_status_m"));
+        $this->getClass("coper_status_m")->GetField("cir_date_ini")->SetDisplayValues(Array("Name"=>"cir_date_ini", "Label"=>"Fecha Inicio", "Type"=>"DATETIME", "Order"=>11, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"coper_status_m"));
+        $this->getClass("coper_status_m")->GetField("cir_date_fin")->SetDisplayValues(Array("Name"=>"cir_date_fin", "Label"=>"Fecha Final", "Type"=>"DATETIME", "Order"=>12, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"coper_status_m"));
+        $this->getClass("coper_status_m")->GetField("cir_importance_min")->SetDisplayValues(Array("Name"=>"cir_importance_min", "Label"=>"Importancia Min", "Type"=>"INT", "Order"=>13, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"coper_status_m"));
+        $this->getClass("coper_status_m")->GetField("cir_status")->SetDisplayValues(Array("Name"=>"cir_status", "Label"=>"Estado", "Size"=>20, "Type"=>"VARCHAR", "Order"=>14, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"coper_status_m"));
     }
 }
 }

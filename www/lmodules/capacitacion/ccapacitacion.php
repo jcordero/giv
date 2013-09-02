@@ -19,7 +19,7 @@ class ccapacitacion extends cobjbase {
 
         //-- CField( Array(Parametros) )
         $this->m_fields['cap_code'] = new CField(Array("Name"=>"cap_code", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "IsNullable"=>false));
-        $this->m_fields['mon_code'] = new CField(Array("Name"=>"mon_code", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "IsNullable"=>false));
+        $this->m_fields['mon_code'] = new CField(Array("Name"=>"mon_code", "Type"=>"int", "IsForDB"=>true, "Order"=>102));
         $this->m_fields['cir_code'] = new CField(Array("Name"=>"cir_code", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "IsNullable"=>false));
         $this->m_fields['use_code_operador'] = new CField(Array("Name"=>"use_code_operador", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "IsNullable"=>false));
         $this->m_fields['use_code_supervisor'] = new CField(Array("Name"=>"use_code_supervisor", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "IsNullable"=>false));

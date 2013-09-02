@@ -35,8 +35,8 @@ class datos1_gr extends cform_group {
     public function InitializeInstance() {
         //SetDisplayValues($attributes) 
         $this->getClass("ccapacitacion")->GetField("cap_code")->SetDisplayValues(Array("Name"=>"cap_code", "Label"=>"Capacitación Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
-        $this->getClass("ccapacitacion")->GetField("mon_code")->SetDisplayValues(Array("Name"=>"mon_code", "Label"=>"Monitoreo Nro", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
-        $this->getClass("ccapacitacion")->GetField("doc_storage")->SetDisplayValues(Array("Name"=>"doc_storage", "Label"=>"Llamada", "Size"=>200, "IsForDB"=>true, "Order"=>108, "Presentation"=>"FILE", "Class"=>"ccapacitacion"));
+        $this->getClass("ccapacitacion")->GetField("mon_code")->SetDisplayValues(Array("Name"=>"mon_code", "Label"=>"Monitoreo Nro", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
+        $this->getClass("ccapacitacion")->GetField("doc_storage")->SetDisplayValues(Array("Name"=>"doc_storage", "Label"=>"Llamada", "Size"=>200, "IsForDB"=>true, "Order"=>108, "Presentation"=>"CALLS_AUDIO", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
         $this->getClass("ccapacitacion")->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"CIRCUITOS", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
         $this->getClass("ccapacitacion")->GetField("use_code_operador")->SetDisplayValues(Array("Name"=>"use_code_operador", "Label"=>"Operador", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"OPERADOR", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
         $this->getClass("ccapacitacion")->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor Asignado", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
@@ -166,9 +166,6 @@ class ccapacitacion_m extends cclass_maint {
     	$this->m_event_v = '';// Evento al visualizar
     	$this->m_event_p = '';// Evento al imprimir
     	$this->m_css_prefix = '';// Prefijo CSS
-
-        //Acciones
-		$this->m_action[] = new CAction('D','llamada','','','/common/download.php?OP=V','doc_storage|','','');
 
         //Grupos
 		$this->m_handler[1] = new datos1_gr($this);

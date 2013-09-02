@@ -175,11 +175,14 @@
 			<field name="oper_nuevo" label="Nuevo" presentation="SINO" />		
 			<field name="oper_hora_in" label="Hora Ingreso" presentation="TEXT" cols="8"/>				
 			<field name="oper_hora_out" label="Hora Egreso" presentation="TEXT" cols="8"/>	
+			<field name="oper_status" label="Estado Operador" presentation="ESTADO" initialvalue="ACTIVO"/>	
 			<searchfield name="use_code"/>
+			<searchfield name="oper_status"/>			
 			<searchfield name="crit_status"/>
 			<searchfield name="oper_grupo"/>
 			<searchfield name="oper_nuevo"/>			
 			<listfield name="use_code"/>
+			<listfield name="oper_status"/>			
 			<listfield name="crit_status"/>
 			<listfield name="oper_grupo"/>
 			<listfield name="oper_nuevo"/>
@@ -191,9 +194,13 @@
 			<action label="modificar"  target="oper_status_maint.php?OP=M" operation="M"  >
 				<sendfield classname="coper_status" name="use_code"/>
 			</action>			
-			<action label="usuario"  target="/modules/security/users_maint.php?OP=V" operation="V"  >
+			<action label="datos usuario"  target="/modules/security/users_maint.php?OP=V" operation="V"  >
 				<sendfield classname="coper_status" name="use_code"/>
-			</action>						
+			</action>			
+			<action label="baja"  target="oper_status_b_maint.php?OP=M" operation="M"  >
+				<sendfield classname="coper_status" name="use_code"/>
+			</action>			
+			
 	</build>
 </make>
 <make object="class"> 
@@ -210,18 +217,31 @@
  		
 <make object="table_maint"> 
 	<build out_file="oper_status_maint.php" classname="coper_status_m" title="Operadores a Monitorear" next="oper_status.php?last=1&amp;OP=L">
-			<field name="use_code" label="Operador" presentation="OPERADOR" />
+			<field name="use_code" label="Operador" presentation="OPERADOR" ismandatory="true"/>
 			<field name="crit_status" label="Estado Operador" presentation="CRIT_STATUS" ismandatory="true"/>
 			<field name="oper_nuevo" label="Nuevo" presentation="SINO" ismandatory="true"/>		
-			<field name="oper_grupo" label="Grupo" presentation="SELECT" valuelist="oper_grupo" ismandatory="true"/>				
+			<field name="oper_grupo" label="Grupo" presentation="SELECT" valuelist="oper_grupo" ismandatory="true"/>		
+			<field name="oper_status" label="Estado Operador" presentation="ESTADO" initialvalue="ACTIVO" readonly="true"/>				
 			<field name="oper_hora_in" label="Hora Ingreso" presentation="TEXT" cols="8" ismandatory="true"/>			
 			<field name="oper_hora_out" label="Hora Egreso" presentation="TEXT" cols="8" ismandatory="true"/>	
-			<field name="modificar_circuito" label="Desea incorporar la modificación al circuito activo actual?" presentation="SINO" initialvalue="SI" ismandatory="true"/>	
+			<field name="modificar_circuito" label="Incorpora al circuito activo actual?" presentation="SINO" initialvalue="NO" ismandatory="true"/>	
 			<field name="cir_code" label="Circuito"  presentation="CIRCUITOS" readonly="true"/>	
 			<field name="cir_date_ini" label="Fecha Inicio" presentation="TEXT" readonly="true"/>	
 			<field name="cir_date_fin" label="Fecha Final" presentation="TEXT"  readonly="true"/>			
 			<field name="cir_importance_min" label="Importancia Min" presentation="INT"  readonly="true"/>	
-			<field name="cir_status" label="Estado" presentation="TEXT" readonly="true"/>			
+			<field name="cir_status" label="Estado" presentation="TEXT" readonly="true"/>		
+			
+	</build>
+</make>
+<make object="table_maint"> 
+	<build out_file="oper_status_b_maint.php" classname="coper_status_m" title="Operadores a Monitorear" next="oper_status.php?last=1&amp;OP=L">
+			<field name="use_code" label="Operador" presentation="OPERADOR" readonly="true"/>	
+			<field name="crit_status" label="Estado Operador" presentation="CRIT_STATUS" readonly="true"/>	
+			<field name="oper_nuevo" label="Nuevo" presentation="TEXT" readonly="true"/>		
+			<field name="oper_grupo" label="Grupo" presentation="TEXT"  readonly="true"/>				
+			<field name="oper_hora_in" label="Hora Ingreso" presentation="TEXT" readonly="true"/>				
+			<field name="oper_hora_out" label="Hora Egreso" presentation="TEXT" readonly="true"/>		
+			<field name="oper_motivo_cierre" label="Motivo" presentation="SELECT" valuelist="mon_motivo_cierre" ismandatory="true"/>				
 	</build>
 </make>
 

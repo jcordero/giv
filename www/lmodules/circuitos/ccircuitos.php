@@ -31,7 +31,7 @@ class ccircuitos extends cobjbase {
         //Consultas particulares a la base de datos
         $this->m_loaddb_sql = "SELECT cir_code, cir_name, cir_date_ini, cir_date_fin, cir_importance_min, cir_status FROM circuitos  WHERE cir_code= :cir_code_key:";
         $this->m_objfactory_sql = "SELECT cir_code, cir_name, cir_date_ini, cir_date_fin, cir_importance_min, cir_status FROM circuitos";
-        $this->m_objfactory_suffix_sql = " ORDER BY cir_date_ini asc";
+        $this->m_objfactory_suffix_sql = " ORDER BY cir_date_ini desc";
         $this->m_savedb_update_sql = "UPDATE circuitos SET cir_code= :cir_code:, cir_name= :cir_name:, cir_date_ini= :cir_date_ini:, cir_date_fin= :cir_date_fin:, cir_importance_min= :cir_importance_min:, cir_status= :cir_status: WHERE cir_code=:cir_code_key:";
         $this->m_savedb_insert_sql = "INSERT INTO circuitos(cir_code, cir_name, cir_date_ini, cir_date_fin, cir_importance_min, cir_status) VALUES (:cir_code:, :cir_name:, :cir_date_ini:, :cir_date_fin:, :cir_importance_min:, :cir_status:)";
         $this->m_savedb_delete_sql = "DELETE FROM circuitos WHERE cir_code=:cir_code_key:";

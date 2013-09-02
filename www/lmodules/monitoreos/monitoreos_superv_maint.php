@@ -76,7 +76,7 @@ class datos2_gr extends cform_group {
     public function InitializeInstance() {
         //SetDisplayValues($attributes) 
         $this->getClass("cmonitoreos_superv")->GetField("mon_forzado")->SetDisplayValues(Array("Name"=>"mon_forzado", "Label"=>"Cierre Forzado ?", "Size"=>2, "IsForDB"=>true, "Order"=>108, "Presentation"=>"TEXT", "Class"=>"cmonitoreos_superv", "InitialValue"=>"NO"));
-        $this->getClass("cmonitoreos_superv")->GetField("mon_motivo")->SetDisplayValues(Array("Name"=>"mon_motivo", "Label"=>"Motivo de Cierre Forzado", "Size"=>200, "IsForDB"=>true, "Order"=>109, "Presentation"=>"TEXT", "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_motivo")->SetDisplayValues(Array("Name"=>"mon_motivo", "Label"=>"Motivo de Cierre Forzado", "Size"=>200, "IsForDB"=>true, "Order"=>109, "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("cli_call_code")->SetDisplayValues(Array("Name"=>"cli_call_code", "Label"=>"Tipo LLamado", "Size"=>200, "IsForDB"=>true, "Order"=>111, "IsMandatory"=>true, "Presentation"=>"CLI_CALL", "IsVisible"=>true, "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("mon_note")->SetDisplayValues(Array("Name"=>"mon_note", "Label"=>"Nota", "Size"=>400, "IsForDB"=>true, "Order"=>110, "IsMandatory"=>true, "Presentation"=>"TEXTAREA", "IsVisible"=>true, "Rows"=>4, "Cols"=>100, "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("mon_call_date")->SetDisplayValues(Array("Name"=>"mon_call_date", "Label"=>"Fecha Llamada", "Type"=>"datetime", "IsForDB"=>true, "Order"=>112, "IsMandatory"=>true, "Presentation"=>"DATE", "IsVisible"=>true, "Class"=>"cmonitoreos_superv"));

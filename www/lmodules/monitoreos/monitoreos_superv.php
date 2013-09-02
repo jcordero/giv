@@ -25,10 +25,10 @@ class cmonitoreos_sl extends csearchandlist {
 		$this->m_render_html = 'BLOCK';
 		$this->m_render_pdml = 'BLOCK';
 
-        $this->m_search_fields = array('cir_code','use_code_operador','mon_date_aprox','use_code_supervisor','mon_status');
+        $this->m_search_fields = array('cir_code','mon_code','use_code_operador','mon_date_aprox','use_code_supervisor','mon_status');
 
-        $this->addAction(6,"monitoreos_superv_maint.php?OP=M",array(new caction_param('mon_code')),"","monitorear","M","monitoreos.supervisar","monitoreos_superv.php?last=1&OP=L");
-        $this->addAction(6,"monitoreos_superv_cierre_maint.php?OP=M",array(new caction_param('mon_code')),"","cierre forzado","M","monitoreos.supervisar","monitoreos_superv.php?last=1&OP=L");
+        $this->addAction(7,"monitoreos_superv_maint.php?OP=M",array(new caction_param('mon_code')),"","monitorear","M","monitoreos.supervisar","monitoreos_superv.php?last=1&OP=L");
+        $this->addAction(7,"monitoreos_superv_cierre_maint.php?OP=M",array(new caction_param('mon_code')),"","cierre forzado","M","monitoreos.supervisar","monitoreos_superv.php?last=1&OP=L");
     }
 
     //Inicializo la parte de busqueda
@@ -37,10 +37,11 @@ class cmonitoreos_sl extends csearchandlist {
 
     /* Campos de busqueda */
         $this->m_obj->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"CIRCUITOS", "IsNullable"=>false, "IsVisible"=>true));
+        $this->m_obj->GetField("mon_code")->SetDisplayValues(Array("Name"=>"mon_code", "Label"=>"Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("use_code_operador")->SetDisplayValues(Array("Name"=>"use_code_operador", "Label"=>"Operador", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"OPERADOR", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("mon_date_aprox")->SetDisplayValues(Array("Name"=>"mon_date_aprox", "Label"=>"Fecha Aproximada", "Type"=>"datetime", "IsForDB"=>true, "Order"=>121, "Presentation"=>"DATERANGE", "IsVisible"=>true));
         $this->m_obj->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor Asignado", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true));
-        $this->m_obj->GetField("mon_status")->SetDisplayValues(Array("Name"=>"mon_status", "Label"=>"Estado Monitoreo", "Size"=>20, "IsForDB"=>true, "Order"=>107, "Presentation"=>"MON_STATUS", "InitialValue"=>"PENDIENTE"));
+        $this->m_obj->GetField("mon_status")->SetDisplayValues(Array("Name"=>"mon_status", "Label"=>"Estado Monitoreo", "Size"=>20, "IsForDB"=>true, "Order"=>107, "Presentation"=>"MON_STATUS", "IsVisible"=>true, "InitialValue"=>"PENDIENTE"));
     }
 
 }
@@ -104,13 +105,13 @@ class col107 extends ccolumn
         parent::__construct($parent);
         $this->m_title = 'Estado Monitoreo';
         $this->m_order = '107';
-        $this->m_isvisible = false;
+        $this->m_isvisible = true;
         $this->m_align = 'left';
         $this->m_sort_field = 'mon_status';
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"mon_status", "Label"=>"Estado Monitoreo", "Size"=>20, "IsForDB"=>true, "Order"=>107, "Presentation"=>"MON_STATUS", "InitialValue"=>"PENDIENTE"));
+         $this->m_fields[] = new CField(Array("Name"=>"mon_status", "Label"=>"Estado Monitoreo", "Size"=>20, "IsForDB"=>true, "Order"=>107, "Presentation"=>"MON_STATUS", "IsVisible"=>true, "InitialValue"=>"PENDIENTE"));
     }
 }
 

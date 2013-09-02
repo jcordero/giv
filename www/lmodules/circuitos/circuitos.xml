@@ -4,7 +4,7 @@
 	<build out_file="ccircuitos.php" classname="ccircuitos" classlabel="Circuitos">
 		<parse in_file="circuitos.sql" tablename="circuitos" />	
 		<field name="cir_code" sequence="circuitos"/>	
-		<method ObjFactoryQuerySuffix=" ORDER BY cir_date_ini asc"/>			
+		<method ObjFactoryQuerySuffix=" ORDER BY cir_date_ini desc"/>			
 	</build>
 </make> 
 <make object="search_and_list"> 
@@ -142,7 +142,6 @@
 <make object="class"> 
 	<build out_file="ccir_groups_n.php" classname="ccir_groups_n" classlabel="Nuevo Grupos">
 		<parse in_file="circuitos.sql" tablename="cir_groups" />
-		<field name="cirg_code" sequence="cir_groups"/>		
 		<build classname="oper_status" classlabel="Operadores del Grupo">
 			<parse in_file="../configuracion/configuracion.sql" tablename="oper_status"/>
 			<key parent="oper_grupo" child="oper_grupo"/>
@@ -157,7 +156,7 @@
 					<field name="oper_grupo" label="Grupo" presentation="SELECT" valuelist="oper_grupo" ismandatory="true"/>	
 		</group>				
 	    <group title="Datos Principales" id="grupo2" order="2">	
-			<field name="cirg_code" label="Grupo Nro"  presentation="SEQUENCE" classparams="cir_groups" readonly="true"/>	
+			<field name="cirg_code" label="Grupo Nro"  presentation="INT"  readonly="true"/>	
 			<field name="cir_code" label="Circuito"  presentation="SELECTTABLE"  classparams="SELECT  cir_name,cir_code FROM circuitos where cir_status in ('PENDIENTE','ACTIVO') order by cir_name" ismandatory="true" />		
 			<field name="use_code_supervisor" label="Supervisor" presentation="SUPERVISOR"  ismandatory="true" />	
 		</group>	

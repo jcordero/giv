@@ -9,6 +9,14 @@ CREATE TABLE circuitos (
   (	cir_code asc)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;  
 
+CREATE TABLE cir_semanas (
+  cir_code int(10) NOT NULL,
+  cir_date datetime NULL,
+  cir_date_ini datetime NULL,
+  cir_date_fin datetime  NULL,
+  constraint pk_cir_semanas primary key clustered 
+  (	cir_code, cir_date)
+) 
 
 CREATE TABLE cir_groups (
   cirg_code int(10) NOT NULL,

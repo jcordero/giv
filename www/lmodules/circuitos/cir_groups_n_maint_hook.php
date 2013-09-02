@@ -3,7 +3,10 @@ include_once "funciones/validar.php";
 include_once "../monitoreos/inc_circuitos.php";
 class ccir_groups_n_hooks extends cclass_maint_hooks
 {
-
+	public function canSaveDB()
+	{
+		return false;
+	}
 	public function beforeSaveDB()
 	{
 		global $primary_db,$sess;
@@ -45,6 +48,14 @@ class ccir_groups_n_hooks extends cclass_maint_hooks
 				$res[] = "MENSAJE: Ya existe un grupo para ese grupo de operadores en el circuito.";
 				return $res;
 		}
+		$primary_db->beginTransaction();
+		$cirg_code = $primary_db->Sequence("cir_groups");
+		$sql = "insert into cir_groups (cirg_code,cir_code,use_code_supervisor,oper_grupo) values ($cirg_code,$cir_code,$use_code_supervisor,'$oper_grupo')";
+		$out2 = $primary_db->do_execute($sql, $err2);
+		if (count($err2) != 0)
+			$error = "Error al insertar el grupo en el circuito $cir_code.";
+  
+		
 		if ( $cir_status == 'ACTIVO')
 		{
 			// Controlar que los conceptos no esten repetidos
@@ -54,15 +65,25 @@ class ccir_groups_n_hooks extends cclass_maint_hooks
 				$i++;
 				$use_code_operador = $o->getField("use_code")->getValue();		
 				$crit_status = $o->getField("crit_status")->getValue();	
-			   // Insertar Monitoreos
-			    $error = insertar_operador_en_circuito($cir_code,$oper_grupo,$use_code_supervisor,$use_code_operador,$crit_status,$cir_date_ini,$cir_date_fin);
-				if ($error != '')
+			   
+			    $cant =  $primary_db->QueryString("select count(*) from monitoreos  where cir_code = $cir_code and use_code_operador = $use_code_operador"  );
+				if (intval($cant) > 0)
 				{
-						$res[] = "MENSAJE: ".$error;
-						return $res;
-				}				
+				       $oper_grupo_ant =  $primary_db->QueryString("select oper_grupo from oper_status  where use_code = $use_code_operador" );
+				       $error = mover_operador_en_circuito($cir_code,$oper_grupo_ant,$oper_grupo,$use_code_operador);
+					   if ($error != "") $res[] = "MENSAJE: ".$error;
+				}else{
+				   // Insertar Monitoreos
+						$error = insertar_operador_en_circuito($cir_code,$oper_grupo,$use_code_supervisor,$use_code_operador,$crit_status,$cir_date_ini,$cir_date_fin);
+						if ($error != "") $res[] = "MENSAJE: ".$error;
+				}
+				   
 			}
 		}
+		if (count($res) == 0)
+			$primary_db->commitTransaction();
+		else
+			$primary_db->rollbackTransaction();			
 		return $res;
 	}	
 }

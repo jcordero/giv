@@ -29,7 +29,6 @@ class ccapacitacion_sl extends csearchandlist {
 
         $this->addAction(12,"capacitacion_superv_maint.php?OP=V",array(new caction_param('cap_code')),"","ver capacitacion","V","capacitacion.operador","capacitacion_oper.php?last=1&OP=L");
         $this->addAction(12,"/lmodules/monitoreos/monitoreos_superv_maint.php?OP=V",array(new caction_param('mon_code')),"","ver monitoreo","V","","/lmodules/capacitacion/capacitacion_oper.php?last=1&OP=L");
-        $this->addAction(12,"/common/download.php?OP=V",array(new caction_param('doc_storage')),"","llamada","D","","");
     }
 
     //Inicializo la parte de busqueda
@@ -38,7 +37,7 @@ class ccapacitacion_sl extends csearchandlist {
 
     /* Campos de busqueda */
         $this->m_obj->GetField("cap_code")->SetDisplayValues(Array("Name"=>"cap_code", "Label"=>"Capacitación Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true));
-        $this->m_obj->GetField("mon_code")->SetDisplayValues(Array("Name"=>"mon_code", "Label"=>"Monitoreo Nro", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true));
+        $this->m_obj->GetField("mon_code")->SetDisplayValues(Array("Name"=>"mon_code", "Label"=>"Monitoreo Nro", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"INT", "IsVisible"=>true));
         $this->m_obj->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"CIRCUITO_ACTIVO", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("use_code_operador")->SetDisplayValues(Array("Name"=>"use_code_operador", "Label"=>"Operador", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"CURRENTUSER", "IsNullable"=>false, "ClassParams"=>"force"));
         $this->m_obj->GetField("cap_use_code")->SetDisplayValues(Array("Name"=>"cap_use_code", "Label"=>"Capacitado por", "Type"=>"int", "IsForDB"=>true, "Order"=>110, "Presentation"=>"SUPERVISOR", "IsVisible"=>true));
@@ -83,7 +82,7 @@ class col102 extends ccolumn
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"mon_code", "Label"=>"Monitoreo Nro", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"mon_code", "Label"=>"Monitoreo Nro", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"INT", "IsVisible"=>true));
     }
 }
 
@@ -240,23 +239,6 @@ class col116 extends ccolumn
     }
 }
 
-class col108 extends ccolumn
-{
-    function __construct($parent)
-    {
-        parent::__construct($parent);
-        $this->m_title = 'Llamada';
-        $this->m_order = '108';
-        $this->m_isvisible = false;
-        $this->m_align = 'left';
-        $this->m_sort_field = 'doc_storage';
-        $this->m_width = '';
-
-        //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"doc_storage", "Label"=>"Llamada", "Size"=>200, "IsForDB"=>true, "Order"=>108, "Presentation"=>"FILE"));
-    }
-}
-
 class ccapacitacion_table extends ctable
 {
     function __construct($parent)
@@ -278,7 +260,6 @@ class ccapacitacion_table extends ctable
         $this->m_cols[113] = new col113($this);
         $this->m_cols[109] = new col109($this);
         $this->m_cols[116] = new col116($this);
-        $this->m_cols[108] = new col108($this);
     }
 
 }

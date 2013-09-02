@@ -63,8 +63,12 @@ class coper_status_m_hooks extends cclass_maint_hooks
 		$oper_grupo = $obj->getField("oper_grupo")->getValue();
 		$modificar_circuito = $obj->getField("modificar_circuito")->getValue();
 		$crit_status = $obj->getField("crit_status")->getValue();
-
-		
+		$oper_status = $obj->getField("oper_status")->getValue();
+		if ($oper_status != 'ACTIVO') 
+		{
+				$res[] = "MENSAJE: No se puede actualiar un operador dado de baja";	
+				return $res;
+		}		
 		if (($modificar_circuito=="SI") && ($cir_code==0) )
 		{
 				$res[] = "MENSAJE: No se puede asignar al circuito, ya que no hay circuito activo.";	

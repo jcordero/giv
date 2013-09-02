@@ -50,6 +50,8 @@ CREATE TABLE oper_status (
   oper_nuevo varchar(2) NULL,   
   oper_hora_in varchar(10) NULL,   
   oper_hora_out varchar(10) NULL,    
+  oper_motivo_cierre varchar(50) NULL,    
+  oper_status varchar(10) NULL,     
   constraint pk_oper_status primary key clustered (use_code)  
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;  
 

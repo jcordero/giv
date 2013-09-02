@@ -1,6 +1,6 @@
 CREATE TABLE capacitacion (
   cap_code int(10) NOT NULL,
-  mon_code int(10) NOT NULL,
+  mon_code int(10) NULL,
   cir_code int(10) NOT NULL,
   use_code_operador int not null,
   use_code_supervisor int not null, 

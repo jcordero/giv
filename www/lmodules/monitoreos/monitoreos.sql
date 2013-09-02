@@ -20,6 +20,9 @@ CREATE TABLE monitoreos (
   mon_add_cap int NULL,
   mon_use_code int null, 
   mon_date_aprox datetime  NULL, 
+  mon_call_llamada varchar(20) NULL,    
+  mon_call_tel_origen varchar(40) NULL,    
+  mon_call_operador varchar(20) NULL,    	
   constraint pk_monitoreos primary key clustered (mon_code)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 

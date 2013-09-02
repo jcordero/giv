@@ -170,6 +170,10 @@
             	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/capacitacion/capacitacion_superv_pend.php?OP=L')."\">Capacitaciones Pendientes</a>";
             	$buff.='</li>';
             }
+            if($this->haveRight($primary_db,'capacitacion.supervisor.pend')) { 
+            	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/capacitacion/capacitacion_n_maint.php?OP=N')."\">Nueva Capacitación</a>";
+            	$buff.='</li>';
+            }
             if($this->haveRight($primary_db,'capacitacion.operador')) { 
             	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/capacitacion/capacitacion_oper.php?OP=L')."\">Mis Capacitaciones</a>";
             	$buff.='</li>';

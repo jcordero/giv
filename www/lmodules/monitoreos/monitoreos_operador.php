@@ -29,7 +29,6 @@ class cmonitoreos_rep_sl extends csearchandlist {
 
         $this->addAction(11,"monitoreos_maint.php?OP=V",array(new caction_param('mon_code')),"","detalle","V","","monitoreos_operador.php?last=1&OP=L");
         $this->addAction(11,"/lmodules/capacitacion/capacitacion_oper.php?OP=L",array(new caction_param('mon_code'),new caction_param('mon_add_cap')),"","capacitacion","L","capacitacion.operador","monitoreos_operador.php?last=1&OP=L");
-        $this->addAction(11,"/common/download.php?OP=V",array(new caction_param('doc_storage')),"","llamada","D","","");
     }
 
     //Inicializo la parte de busqueda
@@ -188,23 +187,6 @@ class col111 extends ccolumn
     }
 }
 
-class col114 extends ccolumn
-{
-    function __construct($parent)
-    {
-        parent::__construct($parent);
-        $this->m_title = 'Llamada';
-        $this->m_order = '114';
-        $this->m_isvisible = false;
-        $this->m_align = 'left';
-        $this->m_sort_field = 'doc_storage';
-        $this->m_width = '';
-
-        //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"doc_storage", "Label"=>"Llamada", "Size"=>200, "IsForDB"=>true, "Order"=>114, "Presentation"=>"FILE"));
-    }
-}
-
 class col116 extends ccolumn
 {
     function __construct($parent)
@@ -325,7 +307,6 @@ class cmonitoreos_rep_table extends ctable
         $this->m_cols[107] = new col107($this);
         $this->m_cols[108] = new col108($this);
         $this->m_cols[111] = new col111($this);
-        $this->m_cols[114] = new col114($this);
         $this->m_cols[116] = new col116($this);
         $this->m_cols[115] = new col115($this);
         $this->m_cols[117] = new col117($this);

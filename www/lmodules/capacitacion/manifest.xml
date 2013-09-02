@@ -9,9 +9,10 @@
 		<menuitem name="capacitacion" order="8" right="capacitacion.menu" pda="true" >
 			<menuitem name="Capacitaciones" right="capacitacion.supervisor" action="/lmodules/capacitacion/capacitacion_superv.php?OP=L" tooltip="Listar Capacitaciones " order="1" pda="true"/>
 			<menuitem name="Capacitaciones Pendientes" right="capacitacion.supervisor.pend" action="/lmodules/capacitacion/capacitacion_superv_pend.php?OP=L" tooltip="Listar Capacitaciones Pendientes " order="2" pda="true"/>
-
-			<menuitem name="Mis Capacitaciones" right="capacitacion.operador" action="/lmodules/capacitacion/capacitacion_oper.php?OP=L" tooltip="Listar Capacitaciones del Operador" order="3" pda="true"/>
-			<menuitem name="Mis Capacitaciones Pendientes" right="capacitacion.operador.pendOK" action="/lmodules/capacitacion/capacitacion_oper_pend.php?OP=L" tooltip="Listar Capacitaciones Pendientes de Visto del Operador" order="4" pda="true"/>			
+			<menuitem name="Nueva Capacitación" right="capacitacion.supervisor.pend" action="/lmodules/capacitacion/capacitacion_n_maint.php?OP=N" tooltip="Ingresar Nueva Capacitacion " order="3" pda="true"/>
+		
+			<menuitem name="Mis Capacitaciones" right="capacitacion.operador" action="/lmodules/capacitacion/capacitacion_oper.php?OP=L" tooltip="Listar Capacitaciones del Operador" order="4" pda="true"/>
+			<menuitem name="Mis Capacitaciones Pendientes" right="capacitacion.operador.pendOK" action="/lmodules/capacitacion/capacitacion_oper_pend.php?OP=L" tooltip="Listar Capacitaciones Pendientes de Visto del Operador" order="5" pda="true"/>			
 		</menuitem>
 	</menu>	
 </module>

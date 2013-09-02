@@ -30,10 +30,26 @@ class CDH_CALLS_AUDIO extends CDataHandler
 		} 
 		else 
 		{
+		
+
+			$fi = new _CFile();
+			$carpeta = $fi->get_path($val);
+			$file = $carpeta.$val;
+			if(!file_exists($file))
+			{
+			   error_log(__FILE__."No existe archivo  {$carpeta}{$val}");
+			
+			}
+			$c = substr($carpeta,-26);
+			$file = WEB_PATH.$c.$val;			
+			error_log("calls_audio::RenderFilterForm ".$file);
 			$html ="<div id=\"$fld->m_Name\" class=\"itm\"><div class=\"desc\">$fld->m_Label</div><div class=\"fld\">";
 			$html.="<input type=\"FILE\" name=\"$name\" id=\"$id\" value=\"$val\" maxlength=\"200\" SIZE=\"60\"/>";
-			$html.="<embed src=\"$val\" hidden=\"true\" autostart=\"true\" loop=\"false\"></embed>";
-			$html.="<audio src=\"$val\" controls preload=\"auto\" autobuffer></audio>";
+
+			$html.="<audio controls>";
+			$html.="<source src=\"$file\" type=\"audio/wav\">";
+			$html.="Your browser does not support the audio element.";
+			$html.="</audio>";
 			$html.="</div></div>"."\n";
 		}
 		return $html;
@@ -60,10 +76,25 @@ class CDH_CALLS_AUDIO extends CDataHandler
 		
 		if($ro) 
 		{
+		
+			$fi = new _CFile();
+			$carpeta = $fi->get_path($val);
+			$file = $carpeta.$val;
+			if(!file_exists($file))
+			{
+			   error_log(__FILE__."No existe archivo  {$carpeta}{$val}");
+			
+			}	
+			error_log("calls_audio::RenderTableEdit ".$file);	
+			$c = substr($carpeta,-26);
+			$file = WEB_PATH.$c.$val;			
 			$html ="<input type=\"hidden\" name=\"$name\" id=\"$id\" value=\"$val\"/>";
 
-			$html.="<embed src=\"$val\" hidden=\"true\" autostart=\"true\" loop=\"false\"></embed>";
-			$html.="<audio src=\"$val\" controls preload=\"auto\" autobuffer></audio>";
+			$html.="<audio controls>";
+			$html.="<source src=\"$file\" type=\"audio/wav\">";
+			$html.="Your browser does not support the audio element.";
+			$html.="</audio>";
+
 		}
 		else
 		{
@@ -92,24 +123,31 @@ class CDH_CALLS_AUDIO extends CDataHandler
 		$val = $fld->getValue();
 		$name = $fld->m_Name;
 		$id = $name;
+
+
 		$fi = new _CFile();
-	    $carpeta = $fi->get_path($val);
-	    if(!file_exists($carpeta.$val))
-	    {
-		   error_log(__FILE__."No existe archivo imagen {$carpeta}{$val}");
-		
-        }	
-		else
+		$carpeta = $fi->get_path($val);
+		$file = $carpeta.$val;
+		if(!file_exists($file))
 		{
-		   $file = $carpeta.$val;
-		}	    
+			   error_log(__FILE__."No existe archivo  {$carpeta}{$val}");
+			
+		}
+
+		$c = substr($carpeta,-26);
+		$file = WEB_PATH.$c.$val;
+		
 		if($fld->m_IsVisible)
 		{
 			if($showlabel)
 			{
                 $html ="<input type=\"hidden\" name=\"$name\" id=\"$id\" value=\"$val\"/>";      
-				$html.="<embed src=\"$val\" hidden=\"true\" autostart=\"true\" loop=\"false\"></embed>";
-				$html.="<audio src=\"$val\" controls preload=\"auto\" autobuffer></audio>";
+			
+				$html.="<audio controls>";
+				$html.="<source src=\"$file\" type=\"audio/wav\">";
+				$html.="Your browser does not support the audio element.";
+				$html.="</audio>";
+
 				if($fld->m_Label=="")
 				{
 					error_log("RenderReadOnly($name) no tiene etiqueta declarada");

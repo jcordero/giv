@@ -18,7 +18,8 @@ class CDH_BUSCAR_GRUPOS extends CDataHandler {
 		//list($dpa_code,$ptar_banda,$prv_cuit,$cli_cuit,$ptar_number,$pag_aut_ret_tipo_doc,$pag_aut_ret_doc) = explode("|",$params);
 		$oper_grupo = $params;
 		$sql = "select o.use_code as use_code,use_name,oper_grupo,oper_nuevo,oper_hora_in,oper_hora_out,crit_status_name,o.crit_status as crit_status
-    		from oper_status as o join sec_users as u on o.use_code=u.use_code join crit_status as c on o.crit_status=c.crit_status where oper_grupo='$oper_grupo'";
+    		from oper_status as o join sec_users as u on o.use_code=u.use_code join crit_status as c on o.crit_status=c.crit_status where oper_grupo='$oper_grupo' 
+			and oper_status='ACTIVO' ";
 		$rs = $primary_db->do_execute($sql);
 		$i=0;
 		while( $row = $primary_db->_fetch_row($rs) )

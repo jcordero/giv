@@ -40,7 +40,18 @@ class ccircuitos_hooks extends cclass_maint_hooks
 		{
 				$res[] = "MENSAJE: El circuito no pudo actualizarse.";
 		}			
-
+		$sql = "update monitoreos set mon_status = 'ANULADO',mon_date=now()  where cir_code = '".$cir_code."'";
+		$primary_db->do_execute($sql,$err);
+		if(count($err) != 0)
+		{
+				$res[] = "MENSAJE: Los monitoreos no pudieron anularse.";
+		}	
+		$sql = "update capacitacion set cap_status = 'ANULADO',cap_date=now()  where cir_code = '".$cir_code."'";
+		$primary_db->do_execute($sql,$err);
+		if(count($err) != 0)
+		{
+				$res[] = "MENSAJE: Las capacitaciones no pudieron anularse.";
+		}			
 		return $res;
 	}	
 }

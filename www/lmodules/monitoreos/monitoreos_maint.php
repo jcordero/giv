@@ -29,6 +29,7 @@ class datos1_gr extends cform_group {
         $this->m_fields[] = 'cmonitoreos_superv:mon_use_code';
         $this->m_fields[] = 'cmonitoreos_superv:mon_date';
         $this->m_fields[] = 'cmonitoreos_superv:mon_status';
+        $this->m_fields[] = 'cmonitoreos_superv:mon_note';
 
     }
 
@@ -41,45 +42,7 @@ class datos1_gr extends cform_group {
         $this->getClass("cmonitoreos_superv")->GetField("mon_use_code")->SetDisplayValues(Array("Name"=>"mon_use_code", "Label"=>"Supervisor Monitoreo", "Type"=>"int", "IsForDB"=>true, "Order"=>120, "Presentation"=>"CURRENTUSER", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("mon_date")->SetDisplayValues(Array("Name"=>"mon_date", "Label"=>"Fecha", "Type"=>"datetime", "IsForDB"=>true, "Order"=>106, "Presentation"=>"DATETIME", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("mon_status")->SetDisplayValues(Array("Name"=>"mon_status", "Label"=>"Estado Monitoreo", "Size"=>20, "IsForDB"=>true, "Order"=>107, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
-    }
-}
-}
-
-
-if( !class_exists('datos2_gr') ) {
-class datos2_gr extends cform_group {
-    function __construct($parent) {
-        parent::__construct($parent);
-        $this->m_title = 'Datos del Monitoreo'; //Titulo del grupo
-        $this->m_order = 2; //Orden de presentacion de este grupo
-        $this->m_id = 'datos2'; //Id para los wizards
-        $this->m_note = ''; //Nota
-        $this->m_image = ''; //Imagen
-        $this->m_render_html = 'PARENT'; //Forma de generar el contenido HTML
-        $this->m_render_pdml = 'PARENT'; //Forma de generar el contenido PDF
-        $this->m_comment = '';// Comentario del formulario
-        $this->m_css_prefix = '';// Prefijo CSS
-
-        //Campos del grupo
-        $this->m_fields[] = 'cmonitoreos_superv:mon_forzado';
-        $this->m_fields[] = 'cmonitoreos_superv:mon_motivo';
-        $this->m_fields[] = 'cmonitoreos_superv:cli_call_code';
-        $this->m_fields[] = 'cmonitoreos_superv:mon_note';
-        $this->m_fields[] = 'cmonitoreos_superv:mon_call_date';
-        $this->m_fields[] = 'cmonitoreos_superv:mon_call_reference';
-        $this->m_fields[] = 'cmonitoreos_superv:doc_storage';
-
-    }
-
-    public function InitializeInstance() {
-        //SetDisplayValues($attributes) 
-        $this->getClass("cmonitoreos_superv")->GetField("mon_forzado")->SetDisplayValues(Array("Name"=>"mon_forzado", "Label"=>"Cierre Forzado ?", "Size"=>2, "IsForDB"=>true, "Order"=>108, "Presentation"=>"SINO", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
-        $this->getClass("cmonitoreos_superv")->GetField("mon_motivo")->SetDisplayValues(Array("Name"=>"mon_motivo", "Label"=>"Motivo de Cierre Forzado", "Size"=>200, "IsForDB"=>true, "Order"=>109, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
-        $this->getClass("cmonitoreos_superv")->GetField("cli_call_code")->SetDisplayValues(Array("Name"=>"cli_call_code", "Label"=>"Tipo LLamado", "Size"=>200, "IsForDB"=>true, "Order"=>111, "Presentation"=>"CLI_CALL", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
         $this->getClass("cmonitoreos_superv")->GetField("mon_note")->SetDisplayValues(Array("Name"=>"mon_note", "Label"=>"Nota", "Size"=>400, "IsForDB"=>true, "Order"=>110, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
-        $this->getClass("cmonitoreos_superv")->GetField("mon_call_date")->SetDisplayValues(Array("Name"=>"mon_call_date", "Label"=>"Fecha Llamada", "Type"=>"datetime", "IsForDB"=>true, "Order"=>112, "Presentation"=>"DATE", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
-        $this->getClass("cmonitoreos_superv")->GetField("mon_call_reference")->SetDisplayValues(Array("Name"=>"mon_call_reference", "Label"=>"Ref LLamado", "Size"=>20, "IsForDB"=>true, "Order"=>113, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
-        $this->getClass("cmonitoreos_superv")->GetField("doc_storage")->SetDisplayValues(Array("Name"=>"doc_storage", "Label"=>"Archivo Call", "Size"=>200, "IsForDB"=>true, "Order"=>114, "Presentation"=>"CALLS_AUDIO", "Class"=>"cmonitoreos_superv"));
     }
 }
 }
@@ -89,8 +52,8 @@ if( !class_exists('datos3_gr') ) {
 class datos3_gr extends cform_group {
     function __construct($parent) {
         parent::__construct($parent);
-        $this->m_title = 'Datos automaticos'; //Titulo del grupo
-        $this->m_order = 4; //Orden de presentacion de este grupo
+        $this->m_title = 'Calificación'; //Titulo del grupo
+        $this->m_order = 2; //Orden de presentacion de este grupo
         $this->m_id = 'datos3'; //Id para los wizards
         $this->m_note = ''; //Nota
         $this->m_image = ''; //Imagen
@@ -120,8 +83,76 @@ class datos3_gr extends cform_group {
 }
 
 
-if( !class_exists('mon_items_th3') ) {
-class mon_items_th3 extends ctable_handler {
+if( !class_exists('datos2_gr') ) {
+class datos2_gr extends cform_group {
+    function __construct($parent) {
+        parent::__construct($parent);
+        $this->m_title = 'Datos de la Llamada'; //Titulo del grupo
+        $this->m_order = 3; //Orden de presentacion de este grupo
+        $this->m_id = 'datos2'; //Id para los wizards
+        $this->m_note = ''; //Nota
+        $this->m_image = ''; //Imagen
+        $this->m_render_html = 'PARENT'; //Forma de generar el contenido HTML
+        $this->m_render_pdml = 'PARENT'; //Forma de generar el contenido PDF
+        $this->m_comment = '';// Comentario del formulario
+        $this->m_css_prefix = '';// Prefijo CSS
+
+        //Campos del grupo
+        $this->m_fields[] = 'cmonitoreos_superv:cli_call_code';
+        $this->m_fields[] = 'cmonitoreos_superv:mon_call_date';
+        $this->m_fields[] = 'cmonitoreos_superv:mon_call_reference';
+        $this->m_fields[] = 'cmonitoreos_superv:doc_storage';
+        $this->m_fields[] = 'cmonitoreos_superv:mon_call_llamada';
+        $this->m_fields[] = 'cmonitoreos_superv:mon_call_tel_origen';
+        $this->m_fields[] = 'cmonitoreos_superv:mon_call_operador';
+
+    }
+
+    public function InitializeInstance() {
+        //SetDisplayValues($attributes) 
+        $this->getClass("cmonitoreos_superv")->GetField("cli_call_code")->SetDisplayValues(Array("Name"=>"cli_call_code", "Label"=>"Tipo LLamado", "Size"=>200, "IsForDB"=>true, "Order"=>111, "Presentation"=>"CLI_CALL", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_call_date")->SetDisplayValues(Array("Name"=>"mon_call_date", "Label"=>"Fecha Llamada", "Type"=>"datetime", "IsForDB"=>true, "Order"=>112, "Presentation"=>"DATE", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_call_reference")->SetDisplayValues(Array("Name"=>"mon_call_reference", "Label"=>"Ref LLamado", "Size"=>20, "IsForDB"=>true, "Order"=>113, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("doc_storage")->SetDisplayValues(Array("Name"=>"doc_storage", "Label"=>"Archivo Call", "Size"=>200, "IsForDB"=>true, "Order"=>114, "Presentation"=>"CALLS_AUDIO", "IsVisible"=>true, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_call_llamada")->SetDisplayValues(Array("Name"=>"mon_call_llamada", "Label"=>"LLamada", "Size"=>20, "IsForDB"=>true, "Order"=>122, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_call_tel_origen")->SetDisplayValues(Array("Name"=>"mon_call_tel_origen", "Label"=>"Tel. Origen", "Size"=>40, "IsForDB"=>true, "Order"=>123, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_call_operador")->SetDisplayValues(Array("Name"=>"mon_call_operador", "Label"=>"Operador del Llamado", "Size"=>20, "IsForDB"=>true, "Order"=>124, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
+    }
+}
+}
+
+
+if( !class_exists('datos4_gr') ) {
+class datos4_gr extends cform_group {
+    function __construct($parent) {
+        parent::__construct($parent);
+        $this->m_title = 'Datos del Cierre'; //Titulo del grupo
+        $this->m_order = 4; //Orden de presentacion de este grupo
+        $this->m_id = 'datos4'; //Id para los wizards
+        $this->m_note = ''; //Nota
+        $this->m_image = ''; //Imagen
+        $this->m_render_html = 'PARENT'; //Forma de generar el contenido HTML
+        $this->m_render_pdml = 'PARENT'; //Forma de generar el contenido PDF
+        $this->m_comment = '';// Comentario del formulario
+        $this->m_css_prefix = '';// Prefijo CSS
+
+        //Campos del grupo
+        $this->m_fields[] = 'cmonitoreos_superv:mon_forzado';
+        $this->m_fields[] = 'cmonitoreos_superv:mon_motivo';
+
+    }
+
+    public function InitializeInstance() {
+        //SetDisplayValues($attributes) 
+        $this->getClass("cmonitoreos_superv")->GetField("mon_forzado")->SetDisplayValues(Array("Name"=>"mon_forzado", "Label"=>"Cierre Forzado ?", "Size"=>2, "IsForDB"=>true, "Order"=>108, "Presentation"=>"SINO", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
+        $this->getClass("cmonitoreos_superv")->GetField("mon_motivo")->SetDisplayValues(Array("Name"=>"mon_motivo", "Label"=>"Motivo de Cierre Forzado", "Size"=>200, "IsForDB"=>true, "Order"=>109, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"cmonitoreos_superv"));
+    }
+}
+}
+
+
+if( !class_exists('mon_items_th5') ) {
+class mon_items_th5 extends ctable_handler {
     function __construct($parent) {
         parent::__construct($parent);
         $this->m_title = 'Items'; //Titulo de la tabla
@@ -129,7 +160,7 @@ class mon_items_th3 extends ctable_handler {
         $this->m_classname = 'mon_items'; //Clase x defecto
         $this->m_total = false; //Incluir ultima fila de totales
         $this->m_id = 'items'; //Identificador para Wizards
-        $this->m_order = '3'; //Orden de aparicion
+        $this->m_order = '5'; //Orden de aparicion
 
     	//Botones del editor de la tabla
     	$this->m_button_next = true;// Boton continuar
@@ -221,16 +252,14 @@ class cmonitoreos_superv_m extends cclass_maint {
     	$this->m_event_p = '';// Evento al imprimir
     	$this->m_css_prefix = '';// Prefijo CSS
 
-        //Acciones
-		$this->m_action[] = new CAction('D','llamada','','','/common/download.php?OP=V','doc_storage|','','');
-
         //Grupos
 		$this->m_handler[1] = new datos1_gr($this);
-		$this->m_handler[2] = new datos2_gr($this);
-		$this->m_handler[4] = new datos3_gr($this);
+		$this->m_handler[2] = new datos3_gr($this);
+		$this->m_handler[3] = new datos2_gr($this);
+		$this->m_handler[4] = new datos4_gr($this);
 
         //Tablas
-		$this->m_handler[3] = new mon_items_th3($this);
+		$this->m_handler[5] = new mon_items_th5($this);
 
     }
 

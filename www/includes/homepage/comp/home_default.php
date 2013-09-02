@@ -159,7 +159,7 @@ if(!class_exists('home_default'))
 			    $use_code_supervisor = $row["use_code_supervisor"];						
 				$uMon = WEB_PATH.'/lmodules/monitoreos/monitoreos_superv.php?OP=L&cir_code='.$cir_code.'&use_code_operador='.$use_code_operador.'&use_code_supervisor='.$use_code_supervisor;
 			    $sql2 = "select count(*) from monitoreos where cir_code=$cir_code and use_code_operador=$use_code_operador and use_code_supervisor=$use_code_supervisor";	
-				$mon_puntaje = $primary_db->QueryString("select round(avg(ifnull(mon_puntaje,0)),2) from monitoreos where cir_code=$cir_code and mon_status<>'PENDIENTE' and use_code_operador=$use_code_operador and use_code_supervisor=$use_code_supervisor");		  				
+				$mon_puntaje = $primary_db->QueryString("select round(avg(ifnull(mon_puntaje,0)),2) from monitoreos where cir_code=$cir_code and mon_status='REALIZADO' and use_code_operador=$use_code_operador and use_code_supervisor=$use_code_supervisor");		  				
    				$i++;
 				$t="";			
 				foreach($mon_date_aprox as $d)
@@ -314,7 +314,7 @@ if(!class_exists('home_default'))
 			    $use_code_supervisor = $row["use_code_supervisor"];						
 				$uMon = WEB_PATH.'/lmodules/monitoreos/monitoreos_superv.php?OP=L&cir_code='.$cir_code.'&use_code_supervisor='.$use_code_supervisor;
 			    $sql2 = "select count(*) from monitoreos where cir_code=$cir_code and use_code_supervisor=$use_code_supervisor";	
-			  	$mon_puntaje = $primary_db->QueryString("select round(avg(ifnull(mon_puntaje,0)),2) from monitoreos where cir_code=$cir_code and mon_status<>'PENDIENTE' and use_code_supervisor=$use_code_supervisor");		  				
+			  	$mon_puntaje = $primary_db->QueryString("select round(avg(ifnull(mon_puntaje,0)),2) from monitoreos where cir_code=$cir_code and mon_status='REALIZADO'  and use_code_supervisor=$use_code_supervisor");		  				
    						
    				$i++;
 				$t="";			
