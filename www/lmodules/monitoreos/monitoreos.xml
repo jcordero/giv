@@ -2,7 +2,7 @@
 <make object="class"> 
 	<build out_file="cmonitoreos_rep.php" classname="cmonitoreos_rep" classlabel="monitoreos">
 		<parse in_file="monitoreos.sql" tablename="monitoreos" />	
-		<method ObjFactoryQuerySuffix=" ORDER BY mon_date desc"/>		
+		<method ObjFactoryQuerySuffix=" ORDER BY mon_code desc"/>		
 	</build>
 </make>
 
@@ -14,13 +14,14 @@
 			<field name="use_code_operador" label="Oper." presentation="OPERADOR" />
 			<field name="use_code_supervisor" label="Superv. Asignado" presentation="SUPERVISOR"/>
 			<field name="mon_date" label="Fecha" presentation="DATERANGE" />
+			<field name="mon_call_date" label="Fecha LLamada" presentation="DATERANGE" />				
 			<field name="mon_forzado" label="Cierre" presentation="SINO" />				 
 			<field name="cli_call_code" label="Tipo" presentation="CLI_CALL" />	
 			<field name="mon_note" label="Nota" presentation="TEXT" />	
 			<field name="mon_call_reference" label="Ref LLamado" presentation="TEXT" />	
 			<field name="mon_puntaje" label="Puntaje" presentation="INT" />	
 			<field name="mon_aprobo" label="Aprobado" presentation="SINO" />	
-			<field name="mon_perjuicio_cliente" label="Perjuicio" presentation="SINO" />	
+			<field name="mon_perjuicio_cliente" label="Req. Capacitac." presentation="SINO" />	
 			<field name="mon_add_mon" label="Mon. Agregados" presentation="INT" />	
 			<field name="mon_add_cap" label="Capac. Agregadas" presentation="INT" />	
 			<field name="mon_date_aprox" label="Fecha Aprox" presentation="DATETIME" />
@@ -29,7 +30,8 @@
 			<searchfield name="cir_code"/>
 			<searchfield name="use_code_operador"/>
 			<searchfield name="use_code_supervisor"/>
-			<searchfield name="mon_date"/>
+			<searchfield name="mon_date" isvisible="false"/>			
+			<searchfield name="mon_call_date" />
 			<searchfield name="mon_status"/>
 			<searchfield name="mon_forzado"/>
 			<searchfield name="cli_call_code"/>
@@ -40,15 +42,15 @@
 			<listfield name="cir_code"/>
 			<listfield name="use_code_operador"/>
 			<listfield name="use_code_supervisor"/>
-			<listfield name="mon_date"/>
+			<listfield name="mon_call_date"/>
 			<listfield name="mon_status"/>
 			<listfield name="mon_forzado"/>
 			<listfield name="cli_call_code"/>
 			<listfield name="mon_aprobo"/>
-			<listfield name="mon_puntaje" />
+			<listfield name="mon_puntaje" isvisible="false"/>
 			<listfield name="mon_perjuicio_cliente"/>
-			<listfield name="mon_add_mon" />
-			<listfield name="mon_add_cap"/>
+			<listfield name="mon_add_mon" isvisible="false"/>
+			<listfield name="mon_add_cap" isvisible="false"/>
 			<listfield name="mon_note"/>		
 			<listfield name="mon_date_aprox" presentation="DATE" isvisible="false"/>		
 			<action label="detalle" target="monitoreos_maint.php?OP=V" operation="V"  next="monitoreos.php?last=1&amp;OP=L">
@@ -71,13 +73,14 @@
 			<field name="use_code_operador" label="Oper."  presentation="CURRENTUSER" classparams="force"/>
 			<field name="use_code_supervisor" label="Superv. Asignado" presentation="SUPERVISOR"/>
 			<field name="mon_date" label="Fecha" presentation="DATERANGE" />
+			<field name="mon_call_date" label="Fecha LLamada" presentation="DATERANGE" />		
 			<field name="mon_forzado" label="Cierre" presentation="SINO" />				 
 			<field name="cli_call_code" label="Tipo" presentation="CLI_CALL" />	
 			<field name="mon_note" label="Nota" presentation="TEXT" />	
 			<field name="mon_call_reference" label="Ref LLamado" presentation="TEXT" />	
 			<field name="mon_puntaje" label="Puntaje" presentation="INT" />	
 			<field name="mon_aprobo" label="Aprobado" presentation="SINO" />	
-			<field name="mon_perjuicio_cliente" label="Perjuicio" presentation="SINO" />	
+			<field name="mon_perjuicio_cliente" label="Req. Capacitac." presentation="SINO" />	
 			<field name="mon_add_mon" label="Mon. Agregados" presentation="INT" />	
 			<field name="mon_add_cap" label="Capac. Agregadas" presentation="INT" />	
 
@@ -85,7 +88,8 @@
 			<searchfield name="cir_code"/>
 			<searchfield name="use_code_operador" presentation="CURRENTUSER" classparams="force" isvisible="false" />
 			<searchfield name="use_code_supervisor"/>
-			<searchfield name="mon_date"/>
+			<searchfield name="mon_date" isvisible="false"/>
+			<searchfield name="mon_call_date"/>			
 			<searchfield name="mon_status"/>
 			<searchfield name="mon_forzado"/>
 			<searchfield name="cli_call_code"/>
@@ -96,15 +100,15 @@
 			<listfield name="cir_code"/>
 			<listfield name="use_code_operador" isvisible="false" />
 			<listfield name="use_code_supervisor"/>
-			<listfield name="mon_date"/>
+			<listfield name="mon_call_date"/>
 			<listfield name="mon_status"/>
 			<listfield name="mon_forzado"/>
 			<listfield name="cli_call_code"/>
 			<listfield name="mon_aprobo"/>
-			<listfield name="mon_puntaje" />
+			<listfield name="mon_puntaje" isvisible="false" />
 			<listfield name="mon_perjuicio_cliente"/>
-			<listfield name="mon_add_mon" />
-			<listfield name="mon_add_cap"/>
+			<listfield name="mon_add_mon" isvisible="false" />
+			<listfield name="mon_add_cap" isvisible="false" />
 			<listfield name="mon_note"/>			
 			<action label="detalle" target="monitoreos_maint.php?OP=V" operation="V"  next="monitoreos_operador.php?last=1&amp;OP=L">
 				<sendfield classname="cmonitoreos_rep" name="mon_code"/>
@@ -119,7 +123,7 @@
 <make object="class"> 
 	<build out_file="cmonitoreos.php" classname="cmonitoreos" classlabel="monitoreos">
 		<parse in_file="monitoreos.sql" tablename="monitoreos" />	
-		<method ObjFactoryQuerySuffix=" ORDER BY mon_date_aprox asc"/>		
+		<method ObjFactoryQuerySuffix=" ORDER BY mon_code asc"/>		
 	</build>
 </make>
 
@@ -129,21 +133,26 @@
 			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" />
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" />
 			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR"/>
-			<field name="mon_date_aprox" label="Fecha Aproximada" presentation="DATERANGE" />
+			<field name="mon_date_aprox" label="Fecha Aprox" presentation="DATERANGE" />
+			<field name="mon_call_date" label="Fecha LLamada" presentation="DATERANGE" />			
 			<field name="mon_status" label="Estado Monitoreo" presentation="MON_STATUS" initialvalue="PENDIENTE"/>	
-
+			<field name="mon_aprobo" label="Aprobado" presentation="SINO" />
 			<searchfield name="cir_code"/>
 			<searchfield name="mon_code"/>
 			<searchfield name="use_code_operador"/>
-			<searchfield name="mon_date_aprox"/>
+			<searchfield name="mon_call_date" />			
+			<searchfield name="mon_date_aprox" isvisible="false"/>
 			<searchfield name="use_code_supervisor" presentation="SUPERVISOR"/>
 			<searchfield name="mon_status"  initialvalue="PENDIENTE"/>	
+			<searchfield name="mon_aprobo"/>			
 			<listfield name="cir_code"/>
 			<listfield name="mon_code" />
-			<listfield name="mon_date_aprox"/>
+			<listfield name="mon_call_date"/>
 			<listfield name="mon_status"  />	
+			<listfield name="mon_aprobo"/>	
 			<listfield name="use_code_supervisor"/>
 			<listfield name="use_code_operador"/>
+			
 			<action label="monitorear" right="monitoreos.supervisar" target="monitoreos_superv_maint.php?OP=M" operation="M" next="monitoreos_superv.php?last=1&amp;OP=L">
 				<sendfield classname="cmonitoreos" name="mon_code"/>
 			</action>		
@@ -171,12 +180,18 @@
 			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" readonly="true"/>
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" readonly="true"/>
 			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" readonly="true"/>
-			<field name="mon_use_code" label="Supervisor Monitoreo" presentation="CURRENTUSER" classparams="force" />
-			<field name="mon_date" label="Fecha" presentation="DATETIME" classparams="force" readonly="true"/>
-			<field name="mon_date_aprox" label="Fecha Aprox" presentation="DATETIME" readonly="true" />			
+			<field name="mon_use_code" label="Supervisor Monitoreo" presentation="CURRENTUSER" classparams="force" />			
+			<field name="cir_semana" label="Semana" presentation="INT"  isvisible="false"/>
+			<field name="mon_date" label="Fecha" presentation="DATE" classparams="force" isvisible="false"/>
+			<field name="mon_date_aprox" label="Fecha Aprox" presentation="DATETIME" isvisible="false"/>		
 			<field name="mon_status" label="Estado Monitoreo" presentation="MON_STATUS" readonly="true"/>
 		</group>
 		<group id="datos2" title="Datos a Completar en el Monitoreo" order="2" >	
+			<field name="mon_puntaje" label="Puntaje" presentation="INT" isvisible="false"/>
+			<field name="mon_perjuicio_cliente" label="Req. Capacitac." presentation="TEXT" isvisible="false"/>
+			<field name="mon_aprobo" label="Aprobado" presentation="TEXT" isvisible="false"/>
+			<field name="mon_add_mon" label="Monitoreos Agregados" presentation="INT" isvisible="false"/>
+			<field name="mon_add_cap" label="Capacitaciones Agregadas" presentation="INT" isvisible="false"/>		
 		    <field name="mon_forzado" label="Cierre Forzado ?" presentation="TEXT" initialvalue='NO' isvisible="false"/>
 		    <field name="mon_motivo" label="Motivo de Cierre Forzado" isvisible="false"/>		
 			<field name="cli_call_code" label="Tipo LLamado" presentation="CLI_CALL" ismandatory="true"/>	
@@ -185,31 +200,24 @@
 			<field name="mon_call_reference" label="Ref LLamado" presentation="TEXT" ismandatory="true" />	
 			<field name="doc_storage" label="Archivo Call" presentation="TEXT" isvisible="false"/>	
 		</group>
-		<group id="datos3" title="Datos automaticos" order="4">
-			<field name="mon_puntaje" label="Puntaje" presentation="INT" readonly="true"/>
-			<field name="mon_perjuicio_cliente" label="Perjuicio al Vecino" presentation="SINO" readonly="true"/>
-			<field name="mon_aprobo" label="Aprobado" presentation="SINO" readonly="true"/>
-			<field name="mon_add_mon" label="Monitoreos Agregados" presentation="INT" readonly="true"/>
-			<field name="mon_add_cap" label="Capacitaciones Agregadas" presentation="INT" readonly="true"/>
-		</group>
-		<table relationclass="" classname="mon_items" title="Items" order="3" add="false" delete="false"  update="true">
+		<table relationclass="" classname="mon_items" title="Items" order="3" add="false" delete="false"  update="false">
 			<column title="Item" order="1">
 				<field name="mon_code" label="Monitoreo" isvisible="false"/>
-				<field name="it_code" label="Item" isvisible="false"/>				
+				<field name="it_name" label="Desc" presentation="TEXT" isvisible="false"/>					
 				<field name="it_order" label="Orden" isvisible="false"/>	
-				<field name="it_name" label="Item" presentation="TEXT" readonly="true"/>
+				<field name="it_critico" label="Items Criticos" isvisible="false"/>	
+				<field name="it_importance" label="Importancia" presentation="INT" isvisible="false"/>						
+				<field name="it_puntaje" label="Puntaje" presentation="INT" isvisible="false"/>						
+				<field name="it_code" label="Item" presentation="ITEM" readonly="true"/>	
 			</column>
 			<column title="Aprobado?" order="2">			
-				<field name="it_importance" label="Importancia" presentation="INT" isvisible="false"/>						
-				<field name="it_critico" label="Items Criticos" presentation="INT" isvisible="false"/>		
-				<field name="it_puntaje" label="Puntaje" presentation="INT" isvisible="false"/>		
-				<field name="it_aprobo" label="Aprobado?" presentation="SINO"  ismandatory="true"/>		
+				<field name="it_aprobo" label="Aprobado?" presentation="CHECKBOX" direct_edit="true" ismandatory="true"/>		
 			</column>
-			<column title="Perjuicio al Vecino" order="3">			
-				<field name="it_perjuicio_cliente" label="Perjuicio?" presentation="SINO"   ismandatory="true"/>		
+			<column title="Req. Capacitacion" order="3">			
+				<field name="it_perjuicio_cliente" label="Req. Capacitac." presentation="CHECKBOX"  direct_edit="true" ismandatory="true"/>		
 			</column>
 			<column title="Nota" order="4">			
-				<field name="it_note" label="Nota" presentation="TEXTAREA" cols="50" rows="4"/>		
+				<field name="it_note" label="Nota" presentation="TEXT" direct_edit="true" cols="200" />		
 			</column>
 		</table>	
 	</build>
@@ -224,11 +232,11 @@
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" readonly="true"/>
 			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" readonly="true"/>
 			<field name="mon_use_code" label="Supervisor Monitoreo" presentation="CURRENTUSER" classparams="force" readonly="true"/>	
-			<field name="mon_date" label="Fecha" presentation="DATETIME" classparams="force" readonly="true"/>
+			<field name="mon_date" label="Fecha" presentation="DATE" classparams="force" isvisible="false"/>	
 			<field name="mon_status" label="Estado Monitoreo" presentation="MON_STATUS" readonly="true"/>
-			<field name="mon_date_aprox" label="Fecha Aprox" presentation="DATETIME" readonly="true" />		
-			<field name="mon_add_mon" label="Monitoreos Agregados" presentation="INT" readonly="true"/>
-			<field name="mon_add_cap" label="Capacitaciones Agregados" presentation="INT" readonly="true"/>			
+			<field name="mon_date_aprox" label="Fecha Aprox" presentation="DATETIME" readonly="true" isvisible="false"/>		
+			<field name="mon_add_mon" label="Monitoreos Agregados" presentation="INT" isvisible="false" readonly="true"/>
+			<field name="mon_add_cap" label="Capacitaciones Agregados" presentation="INT" isvisible="false" readonly="true"/>			
 		</group>
 		<group id="datos2" title="Datos a Completar en el Monitoreo" order="2" >	
 		    <field name="mon_forzado" label="Cierre Forzado ?" presentation="TEXT" initialvalue='SI' isvisible="false"/>
@@ -247,17 +255,17 @@
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" readonly="true"/>
 			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" readonly="true"/>
 			<field name="mon_use_code" label="Supervisor Monitoreo" presentation="CURRENTUSER" readonly="true"/>		
-			<field name="mon_date" label="Fecha" presentation="DATETIME"  readonly="true"/>
+			<field name="mon_date" label="Fecha" presentation="DATE"  readonly="true" isvisible="false"/>	
 			<field name="mon_status" label="Estado Monitoreo" presentation="TEXT" readonly="true"/>
 			<field name="mon_note" label="Nota" presentation="TEXT" readonly="true"/>  			
 		</group>
 
 		<group id="datos3" title="Calificación" order="2">
 			<field name="mon_puntaje" label="Puntaje" presentation="TEXT" readonly="true"/>
-			<field name="mon_perjuicio_cliente" label="Perjuicio al Vecino" presentation="TEXT" readonly="true"/>
+			<field name="mon_perjuicio_cliente" label="Req. Capacitac." presentation="TEXT" readonly="true"/>
 			<field name="mon_aprobo" label="Aprobado" presentation="TEXT" readonly="true"/>
-			<field name="mon_add_mon" label="Monitoreos Agregados" presentation="INT" readonly="true"/>
-			<field name="mon_add_cap" label="Capacitaciones Agregados" presentation="INT" readonly="true"/>
+			<field name="mon_add_mon" label="Monitoreos Agregados" presentation="INT" readonly="true" isvisible="false"/>
+			<field name="mon_add_cap" label="Capacitaciones Agregados" presentation="INT" readonly="true" isvisible="false"/>
 		</group>
 		<group id="datos2" title="Datos de la Llamada" order="3" >		
 			<field name="cli_call_code" label="Tipo LLamado" presentation="CLI_CALL" readonly="true"/>
@@ -274,25 +282,21 @@
 		</group>
 		<table relationclass="" classname="mon_items" title="Items" order="5" add="false" delete="false" update="false">
 			<column title="Item" order="1">
-				<field name="mon_code" label="Monitoreo" isvisible="false"/>
-				<field name="it_code" label="Item" isvisible="false"/>				
+				<field name="mon_code" label="Monitoreo" isvisible="false"/>		
 				<field name="it_order" label="Orden" isvisible="false"/>	
-				<field name="it_name" label="Item" presentation="TEXT" readonly="true"/>
+				<field name="it_name" label="Desc" isvisible="false"/>
+				<field name="it_critico" label="Items Criticos" presentation="INT" isvisible="false"/>
+				<field name="it_importance" label="Importancia" presentation="INT" isvisible="false"/>			
+				<field name="it_puntaje" label="Puntaje" presentation="INT" isvisible="false"/>	
+				<field name="it_perjuicio_cliente" label="Req. Capacitac." isvisible="false"/>					
+				<field name="it_code" label="Item" presentation="ITEM" readonly="true"/>				
 			</column>
 			<column title="Aprobado?" order="2">		
-				<field name="it_critico" label="Items Criticos" presentation="INT" />	
 				<field name="it_aprobo" label="Aprobado?" presentation="TEXT" />		
 			</column>
-			<column title="Perjuicio al Vecino" order="3">			
-				<field name="it_perjuicio_cliente" label="Perjuicio?" presentation="TEXT"/>		
-			</column>
-			<column title="Nota" order="4">			
+			<column title="Nota" order="3">			
 				<field name="it_note" label="Nota" presentation="TEXT" direct_edit="true" ismandatory="true"/>		
-			</column>
-			<column title="Puntaje" order="5">				
-				<field name="it_importance" label="Importancia" presentation="INT" />			
-				<field name="it_puntaje" label="Puntaje" presentation="INT" />
-			</column>				
+			</column>		
 		</table>	
 			
 	</build>
@@ -307,6 +311,7 @@
 	<build out_file="mon_iniciar_circuito_maint.php" classname="cmon_iniciar_circuito" title="Iniciar Circuito">
 	<group id="datos" title="Confirme con continuar para iniciar el circuito" >
 		<field name="cir_code" label="Circuito"  presentation="CIRCUITOS" readonly="true"/>	
+		<field name="cir_semanas" label="Semanas" presentation="INT" readonly="true" isvisible="false" />			
 		<field name="cir_date_ini" label="Fecha Inicio" presentation="TEXT" readonly="true"/>	
 		<field name="cir_date_fin" label="Fecha Final" presentation="TEXT"  readonly="true"/>			
 		<field name="cir_importance_min" label="Importancia Min" presentation="INT"  readonly="true"/>	

@@ -5,14 +5,14 @@
 include_once "common/csearchandlist.php";
 
 //Clases involucradas en esta pagina
-include_once "ccapacitacion.php";
+include_once "ccapacitacion_small.php";
 
-class ccapacitacion_sl extends csearchandlist {
+class ccapacitacion_small_sl extends csearchandlist {
     function __construct() {
         parent::__construct();
         $this->m_title = "Listado de Capacitaciones";
-        $this->m_classname = "ccapacitacion_sl";
-        $this->m_obj = new ccapacitacion();
+        $this->m_classname = "ccapacitacion_small_sl";
+        $this->m_obj = new ccapacitacion_small();
         $this->m_page_name = "capacitacion_superv.php";
         $this->m_result = new ctable($this->m_title);
         $this->m_print_orientation = 'P';
@@ -29,6 +29,7 @@ class ccapacitacion_sl extends csearchandlist {
 
         $this->addAction(13,"capacitacion_superv_maint.php?OP=V",array(new caction_param('cap_code')),"","ver capacitacion","V","capacitacion.supervisor.pend","capacitacion_superv.php?last=1&OP=L");
         $this->addAction(13,"/lmodules/monitoreos/monitoreos_superv_maint.php?OP=V",array(new caction_param('mon_code')),"","ver monitoreo","V","","/lmodules/capacitacion/capacitacion_superv.php?last=1&OP=L");
+        $this->addAction(13,"capacitacion_superv_maint.php?OP=M",array(new caction_param('cap_code')),"","modificar","M","capacitacion.supervisor.pend","/lmodules/capacitacion/capacitacion_superv.php?last=1&OP=L");
     }
 
     //Inicializo la parte de busqueda
@@ -38,7 +39,7 @@ class ccapacitacion_sl extends csearchandlist {
     /* Campos de busqueda */
         $this->m_obj->GetField("cap_code")->SetDisplayValues(Array("Name"=>"cap_code", "Label"=>"Capacitación Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("mon_code")->SetDisplayValues(Array("Name"=>"mon_code", "Label"=>"Monitoreo Nro", "Type"=>"int", "IsForDB"=>true, "Order"=>102, "Presentation"=>"INT", "IsVisible"=>true));
-        $this->m_obj->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"CIRCUITO_ACTIVO", "IsNullable"=>false, "IsVisible"=>true));
+        $this->m_obj->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"CIRCUITOS", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("use_code_operador")->SetDisplayValues(Array("Name"=>"use_code_operador", "Label"=>"Operador", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"OPERADOR", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("use_code_supervisor")->SetDisplayValues(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor Asignado", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"SUPERVISOR", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("cap_use_code")->SetDisplayValues(Array("Name"=>"cap_use_code", "Label"=>"Capacitado por", "Type"=>"int", "IsForDB"=>true, "Order"=>110, "Presentation"=>"USER", "IsVisible"=>true));
@@ -100,7 +101,7 @@ class col103 extends ccolumn
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"CIRCUITO_ACTIVO", "IsNullable"=>false, "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"cir_code", "Label"=>"Circuito", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"CIRCUITOS", "IsNullable"=>false, "IsVisible"=>true));
     }
 }
 
@@ -257,13 +258,13 @@ class col116 extends ccolumn
     }
 }
 
-class ccapacitacion_table extends ctable
+class ccapacitacion_small_table extends ctable
 {
     function __construct($parent)
     {
         parent::__construct($parent);
         $this->m_title = 'Listado de Capacitaciones'; //Titulo de la tabla
-        $this->m_classname = 'ccapacitacion'; //Clase contenedora de datos
+        $this->m_classname = 'ccapacitacion_small'; //Clase contenedora de datos
         $this->m_total = false; //Incluir ultima fila de totales
 
         //Agrego las columnas a la tabla
@@ -283,7 +284,7 @@ class ccapacitacion_table extends ctable
 
 }
 
-$pg = new ccapacitacion_sl();
+$pg = new ccapacitacion_small_sl();
 $pg->CreatePage();
 
 ?>

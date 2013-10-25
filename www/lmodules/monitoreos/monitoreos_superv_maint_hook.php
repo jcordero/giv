@@ -26,9 +26,30 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 			$res[]= $msg;
 			return $res;
 		}
-
+		/* Comenzar Transaccion para actualizar TODAS las RUTAS !!!!
+		$primary_db->beginTransaction();		
+		$sql.= "select DATE_FORMAT(mon_call_date,'%d/%m/%Y') as mon_call_date,mon_call_reference,mon_code from monitoreos where mon_status= 'REALIZADO' limit 1,10";
+		$r = array();
+		$re = $primary_db->do_execute($sql);
+		while( $row = $primary_db->_fetch_row($re) )
+		{
+			$mon_call_date = $row["mon_call_date"];
+			$mon_call_reference = $row["mon_call_reference"];
+			$mon_code = $row["mon_code"];			
+			$doc_storage = $this->obtenerCallFile($mon_call_date,$mon_call_reference);
+			$sql1 = "UPDATE monitoreos SET doc_storage='".$doc_storage."' where mon_code=".$mon_code;
+			$primary_db->do_execute($sql1, $err1);
+			if (count($err1) > 0) 
+						$res[]= "MENSAJE: Error al actualizar el monitoreo.";				
+		}
+		if (count($res) == 0)
+			$primary_db->commitTransaction();
+		else
+			$primary_db->rollbackTransaction();
+		*/
 		return $res;		
 	}		
+	
 	public function beforeSaveDB()
 	{
 		global $primary_db,$sess;
@@ -47,6 +68,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		$use_code_supervisor = $obj->getField("use_code_supervisor")->getValue();
 		$use_code_operador = $obj->getField("use_code_operador")->getValue();
 		$mon_date_aprox = $obj->getField("mon_date_aprox")->getValue();
+		$cir_semana = $obj->getField("cir_semana")->getValue();
 		$mon_note = $obj->getField("mon_note")->getValue();
 		$mon_status=$obj->getField("mon_status")->getValue();
 		$add_cap_ant = $obj->getField("mon_add_cap")->getValue();
@@ -68,21 +90,21 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		
 		// Ver si el archivo existe
 		$path_validar =$primary_db->QueryString("SELECT par_value FROM sec_parameters where par_code='path_validar' limit 1");
-		error_log("mon_call_path   $mon_call_path");
+		// error_log("mon_call_path   $mon_call_path");
 		if (($mon_call_path=="") || (!file_exists($mon_call_path))) {
 			  if(strtoupper($path_validar) == strtoupper("SI") ) {	
 				$res[] = "MENSAJE: No se encuentra el archivo de audio $mon_call_path";	
 				return $res;
 			  }	
 		}
+		// Comenzar Transaccion
+		$primary_db->beginTransaction();		
+		
 		// Resguardar la llamada en documents
 		$doc_code = "mon_code:".$mon_code;
-		$this->doc_storage = "";
-		$error =  $this->saveDoc($mon_call_reference,$doc_code,$mon_call_path,"") ;
+		$this->doc_storage = $mon_call_path;
 		$obj->getField("doc_storage")->setValue($this->doc_storage);
 		
-		// ---- 
-
 
 		$cir_importance_min = $primary_db->QueryString("SELECT cir_importance_min FROM circuitos where cir_code='".$cir_code."' limit 1");
 		$min_puntaje=$primary_db->QueryString("select par_value from sec_parameters where par_code = 'min_puntaje'");
@@ -94,19 +116,35 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		
 		$i=0;	
 		$it_critico = 0;
+		$it_no_critico = 0;
 	    foreach($obj->m_childs['mon_items'] as $it)
 	    {
 		    $it_code = $it->getField("it_code")->getValue();
 		    $it_note = $it->getField("it_note")->getValue();
 		    $it_aprobo = $it->getField("it_aprobo")->getValue();
+			if ($it_aprobo=='on') $it_aprobo = 'SI';
+			if ($it_aprobo=='') $it_aprobo = 'NO';
+			
 			$it_perjuicio_cliente = $it->getField("it_perjuicio_cliente")->getValue();
+			if ($it_perjuicio_cliente=='on') $it_perjuicio_cliente = 'SI';
+			if ($it_perjuicio_cliente=='') $it_perjuicio_cliente = 'NO';
+			
 			$it_importance = intval($it->getField("it_importance")->getValue());
 			// 
-			if ( ($it->getField("it_critico")->getValue()=='SI') && $it_aprobo =='NO')	$it_critico++;			
-
+			$ic = $it->getField("it_critico")->getValue();
+			error_log ("it_code $it_code, it_aprobo $it_aprobo it_perjuicio_cliente $it_perjuicio_cliente it_critico $ic  ");
+			if ( $it_aprobo =='NO')
+			{
+			   error_log ( "$it_aprobo =='NO'");
+			   error_log ( $it->getField("it_critico")->getValue() );
+			   if ($it->getField("it_critico")->getValue()=='SI') {
+			      $it_critico = $it_critico + 1 ;		
+			   }
+               $it_no_critico = $it_no_critico + 1 ;
+			}   
 			if ( ($it_perjuicio_cliente != 'SI') && ($it_perjuicio_cliente != 'NO'))
 			{   $it_perjuicio_cliente = 'NO'; 
-			    $it->getField("it_perjuicio_cliente")->setalue('NO');
+			    $it->getField("it_perjuicio_cliente")->setvalue('NO');
 			}
 			if ( ($it_aprobo != 'SI') && ($it_aprobo != 'NO'))
 			{   $it_aprobo = 'SI';
@@ -136,7 +174,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 			 $add_cap = $cap_perjuicio - $add_cap_ant;
              for ($i=0;$i<$add_cap;$i++)
 			{
- 			 $error = insertar_capacitacion($cir_code,$mon_code,$use_code_supervisor,$use_code_operador,$this->doc_storage); 	
+ 			 $error = insertar_capacitacion($cir_code,$mon_code,$use_code_supervisor,$use_code_operador,$mon_call_path); 	
 			 if ($error != "") 
 			   $res[] = "MENSAJE: Error al insertar Capacitacion";	
 				
@@ -151,7 +189,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		   $borrados=0;
            for ($i=0;$i<$cant_borrar;$i++)
 		   {		   
-		     $error = del_capacitacion($cir_code,$mon_code,1);
+		     $error = del_capacitacion($cir_code,$mon_code,$use_code_operador,1);
 		     if ($error != "") 
 			   error_log( __FILE__." Error al eliminar Capacitaciones Agregadas, ".$error);
 			 else  
@@ -167,7 +205,8 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		// Analizar Monitoreos a agregar o eliminar 
 		$mon_add_mon = 0;
         $add_mon = 0;	
-		if ( ($mon_puntaje < $cir_importance_min) || ($mon_perjuicio_cliente=='SI') || ($it_critico > 0))
+		error_log ( "$mon_puntaje < $cir_importance_min) || ($mon_perjuicio_cliente=='SI') || ($it_no_critico > 1) || ($it_critico > 0) ");
+		if ( ($mon_puntaje < $cir_importance_min) || ($mon_perjuicio_cliente=='SI') || ($it_no_critico > 1) || ($it_critico > 0))
 		{
 		  $obj->getField("mon_aprobo")->setValue("NO");
 		  $mon_add_mon = $mon_no_aprobo;
@@ -176,7 +215,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		  { 
 				for ($i=0;$i<$add_mon;$i++)
 				{
-				  $error = insertar_monitoreo($cir_code,$use_code_supervisor,$use_code_operador,$mon_date_aprox); 	
+				  $error = insertar_monitoreo($cir_code,$use_code_supervisor,$use_code_operador,$mon_date_aprox,$cir_semana); 	
 				  if ($error != "") $res[] = "MENSAJE: Error al insertar nuevo monitoreo";
 				}
           }
@@ -185,7 +224,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		{
 		  $obj->getField("mon_aprobo")->setValue("SI");
 		  $mon_add_mon = 0;
-		  $add_mon = $mon_no_aprobo - $add_mon_ant;		  
+		  $add_mon = 0 - $add_mon_ant;		  
 		}
 		
 		if ($add_mon < 0) 
@@ -194,7 +233,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		   $borrados = 0;
            for ($i=0;$i<$cant_borrar;$i++)
 		   {		   
-			   $error = del_monitoreo($cir_code,$mon_date_aprox, 1);
+			   $error = del_monitoreo($cir_code,$mon_date_aprox, $use_code_operador, 1);
 			   if ($error != "") 
 				   error_log( __FILE__." Error al eliminar Monitoreos. ".$error);
 			   else   
@@ -229,10 +268,14 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 
 							
 		}
+		if (count($res) == 0)
+			$primary_db->commitTransaction();
+		else
+			$primary_db->rollbackTransaction();
 		
 		return $res;
 	}	
-	
+	/*
 	function saveDoc($name,$doc_code,$path_file,$nota) 
 	{
 		 global $primary_db,$sess;
@@ -249,11 +292,9 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		
 		if (!copy ($path_file , $vox ))
 		    return "MENSAJE: No se pudo copiar archivo VOX de $path_file a $vox ";
-		$c = "sox -r 8k ".$vox." ".$archivo;	
-		// error_log($c);
-		exec($c, $output);
-    
-		// error_log (" resultado ".print_r($output));
+			
+        $c = "sox -r 6k ".$vox." ".$archivo;
+        exec($c, $output);
 		if (!is_file($archivo))
 			return "MENSAJE: No se pudo crear archivo wav de $vox $archivo ";
 		if (!unlink ($vox))
@@ -268,29 +309,29 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		return "";
 		
    }	
-   
+   */
    
    		
 		
 	function whereIs($file_name,$dir) {
-	    error_log("whereIs($file_name,$dir)");
+	    // error_log("whereIs($file_name,$dir)");
 		$path = "";
 		if (is_dir($dir)) {
 				if ($dh = opendir($dir)) {
 					while ((($file = readdir($dh)) !== false) && ($path=="")) {
-					    error_log($file);
+					    // error_log($file);
 					    if (($file != ".") && ($file != ".."))
 						{
 							$file1 = $dir."/".$file;
 							if (is_dir($file1))
 							{
-							   error_log ($file1." es dir");
+							   //error_log ($file1." es dir");
 							   $path = $this->whereIs($file_name,$file1);
-							   error_log("path->".$path);
+							   //error_log("path->".$path);
 							} else {
 							   if ($file == $file_name)
 							   {
-								  error_log ($file1." es el FILE !!!!!");
+								 // error_log ($file1." es el FILE !!!!!");
 								  $path = $file1;
 								}  
 							}
@@ -325,7 +366,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		$html.= "<b>Monitoreo Nro: </b>".$obj->getField("mon_code")->getValue().".<br>";
 		$html.= "<b>Estado del Monitoreo: </b>".$obj->getField("mon_status")->getValue().".<br>";
 		$html.= "<b>Aprobó?: </b>".$obj->getField("mon_aprobo")->getValue().".<br>";
-		$html.= "<b>Perjuicio al Vecino?: </b>".$obj->getField("mon_perjuicio_cliente")->getValue().".<br>";			
+		$html.= "<b>Requiere Capacitacion?: </b>".$obj->getField("mon_perjuicio_cliente")->getValue().".<br>";			
 		$html.= "<b>Puntaje: </b>".$obj->getField("mon_puntaje")->getValue().".<br>";
 		$html.= "</span><td></tr><tr><td colspan=3>";
 		$content['msgextra']= $html;
@@ -349,7 +390,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		$path.="/".$y.$m.$d."/";
 		$callrecs = $path."Callrecs.log";
 		if (!file_exists($callrecs)) {
-		    error_log(__FILE__." No se encontro el archivo: ".$callrecs);
+		    // error_log(__FILE__." No se encontro el archivo: ".$callrecs);
 			$path =$primary_db->QueryString("SELECT par_value FROM sec_parameters where par_code='path_calls_2' limit 1");
 			$path.="/".$m."-".$y."/".$y.$m.$d."/";
 			$callrecs = $path."Callrecs.log";			
@@ -385,11 +426,13 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 			{
 				 $this->llamada = $datos[2];
 				 $this->tel_origen = $datos[10];
-				 $this->operador = $datos[14];				 
+				 $this->operador = $datos[14];		
+				/*
 				 error_log(__FILE__." Llamada encontrada ".print_r($datos,1));
 				 error_log(__FILE__." Llamada  ".$this->llamada);
 				 error_log(__FILE__." tel_origen ".$this->tel_origen);
 				 error_log(__FILE__." oper ".$this->operador);			
+				 */
 				 break;
 			}
 		}

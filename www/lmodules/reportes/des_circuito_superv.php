@@ -28,6 +28,8 @@ class cdes_circuito_superv_sl extends csearchandlist {
         $this->m_search_fields = array('cir_code','use_code_supervisor');
 
         $this->addAction(3,"/lmodules/reportes/des_circuito_oper.php?OP=L",array(new caction_param('cir_code'),new caction_param('use_code_supervisor')),"","por operador","L","","/lmodules/reportes/des_circuito_superv.php?last=1&OP=L");
+        $this->addAction(3,"/lmodules/monitoreos/monitoreos.php?OP=L",array(new caction_param('cir_code'),new caction_param('use_code_supervisor')),"","ver monitoreos","L","","/lmodules/reportes/des_circuito_superv.php?last=1&OP=L");
+        $this->addAction(3,"/lmodules/monitoreos/monitoreos_superv.php?OP=L",array(new caction_param('cir_code'),new caction_param('use_code_supervisor')),"","monitorear","L","","/lmodules/reportes/des_circuito_superv.php?last=1&OP=L");
     }
 
     //Inicializo la parte de busqueda
@@ -73,23 +75,6 @@ class col2 extends ccolumn
 
         //Campos de la columna
          $this->m_fields[] = new CField(Array("Name"=>"use_code_supervisor", "Label"=>"Supervisor Asignado", "Type"=>"INT", "IsForDB"=>true, "Order"=>2, "Presentation"=>"SUPERVISOR", "IsVisible"=>true));
-    }
-}
-
-class col12 extends ccolumn
-{
-    function __construct($parent)
-    {
-        parent::__construct($parent);
-        $this->m_title = 'Promedio';
-        $this->m_order = '12';
-        $this->m_isvisible = true;
-        $this->m_align = 'left';
-        $this->m_sort_field = 'cirg_puntaje_prom';
-        $this->m_width = '';
-
-        //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cirg_puntaje_prom", "Label"=>"Promedio", "Type"=>"FLOAT", "IsForDB"=>true, "Order"=>12, "Presentation"=>"FLOAT", "IsVisible"=>true));
     }
 }
 
@@ -212,40 +197,6 @@ class col8 extends ccolumn
     }
 }
 
-class col9 extends ccolumn
-{
-    function __construct($parent)
-    {
-        parent::__construct($parent);
-        $this->m_title = 'Capac. OK';
-        $this->m_order = '9';
-        $this->m_isvisible = true;
-        $this->m_align = 'left';
-        $this->m_sort_field = 'cirg_cant_cap_ok';
-        $this->m_width = '';
-
-        //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cirg_cant_cap_ok", "Label"=>"Capac. OK", "Type"=>"INT", "IsForDB"=>true, "Order"=>9, "Presentation"=>"INT", "IsVisible"=>true, "total"=>true));
-    }
-}
-
-class col10 extends ccolumn
-{
-    function __construct($parent)
-    {
-        parent::__construct($parent);
-        $this->m_title = 'Capac. Mal';
-        $this->m_order = '10';
-        $this->m_isvisible = true;
-        $this->m_align = 'left';
-        $this->m_sort_field = 'cirg_cant_cap_mal';
-        $this->m_width = '';
-
-        //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cirg_cant_cap_mal", "Label"=>"Capac. Mal", "Type"=>"INT", "IsForDB"=>true, "Order"=>10, "Presentation"=>"INT", "IsVisible"=>true, "total"=>true));
-    }
-}
-
 class cdes_circuito_superv_table extends ctable
 {
     function __construct($parent)
@@ -258,7 +209,6 @@ class cdes_circuito_superv_table extends ctable
         //Agrego las columnas a la tabla
         $this->m_cols[1] = new col1($this);
         $this->m_cols[2] = new col2($this);
-        $this->m_cols[12] = new col12($this);
         $this->m_cols[3] = new col3($this);
         $this->m_cols[4] = new col4($this);
         $this->m_cols[5] = new col5($this);
@@ -266,8 +216,6 @@ class cdes_circuito_superv_table extends ctable
         $this->m_cols[11] = new col11($this);
         $this->m_cols[7] = new col7($this);
         $this->m_cols[8] = new col8($this);
-        $this->m_cols[9] = new col9($this);
-        $this->m_cols[10] = new col10($this);
     }
 
 }

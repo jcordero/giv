@@ -75,14 +75,15 @@ if(!class_exists('home_default'))
 			   $mal[]= intval($primary_db->QueryString($sql2." and mon_status='REALIZADO' and mon_aprobo='NO'"));				   
 			}
 			$this->filas = $i;			
-			$this->categorias.="]";			
+			$this->categorias.="]";		
+			// Series realizados +  cerradas + pendientes				
 			$this->series = "[";
-			$this->series.= "{name: 'Aprobadas',data: [";
-			for ($i=0;$i<sizeof($ok);$i++)  
+			$this->series.= "{name: 'Pendientes',data: [";
+			for ($i=0;$i<sizeof($pendientes);$i++)  
 			{
 			    if ($i>0) $this->series.= ",";
-				$this->series.= $ok[$i];
-			}
+				$this->series.= $pendientes[$i];
+			}			
 			$this->series.= "]},";
 			$this->series.= "{name: 'Desaprobadas',data: [";
 			for ($i=0;$i<sizeof($mal);$i++)  
@@ -91,11 +92,11 @@ if(!class_exists('home_default'))
 				$this->series.= $mal[$i];
 			}
 			$this->series.= "]},";		
-			$this->series.= "{name: 'Pendientes',data: [";
-			for ($i=0;$i<sizeof($pendientes);$i++)  
+			$this->series.= "{name: 'Aprobadas',data: [";
+			for ($i=0;$i<sizeof($ok);$i++)  
 			{
 			    if ($i>0) $this->series.= ",";
-				$this->series.= $pendientes[$i];
+				$this->series.= $ok[$i];
 			}
 			$this->series.= "]}";			
 			$this->series.="]";
@@ -113,27 +114,28 @@ if(!class_exists('home_default'))
 			// Obtener las semanas del circuito
 			$t="";
 			$mon_date_aprox = array();
-			$sql2 = "Select distinct DATE_FORMAT(mon_date_aprox, '%d/%m/%Y') as mon_date_aprox, m.cir_code as cir_code, cir_name, cir_date_ini, cir_date_fin 
-			from monitoreos m join circuitos c on m.cir_code=c.cir_code where cir_status='ACTIVO'  order by DATE_FORMAT(mon_date_aprox, '%Y%m%d') ";
+			$sql2 = "Select cir_semana, DATE_FORMAT(m.cir_date, '%d/%m/%Y') as cir_date, m.cir_code as cir_code, cir_name, 
+			m.cir_date_ini as cir_date_ini, m.cir_date_fin as cir_date_fin
+			from cir_semanas m join circuitos c on m.cir_code=c.cir_code where cir_status='ACTIVO'  order by cir_semana ";
 			$re2 = $primary_db->do_execute($sql2);
 			$j=0;
 			while($row2 = $primary_db->_fetch_row($re2))
 			 {    
-					   $mon_date_aprox[] = $row2["mon_date_aprox"];
-					   $t.="<td bgcolor='#BBD9FC'><b>".substr($row2["mon_date_aprox"],0,5)."</b></td>";
+					   $mon_date_aprox[] = $row2["cir_date"];
+					   $t.="<td bgcolor='#BBD9FC'><b>Sem ".$row2["cir_semana"]."</b></td>";
 					   $j++;
 					   if ($j==1)
 					   {
-					   $cir_code = $row2["cir_code"];
-					   $cir_name = $row2["cir_name"];
-					   $cir_date_ini = substr($row2["cir_date_ini"],0,10);					   
-					   $cir_date_fin = substr($row2["cir_date_fin"],0,10);
+						   $cir_code = $row2["cir_code"];
+						   $cir_name = $row2["cir_name"];
+						   $cir_date_ini = substr($row2["cir_date_ini"],0,10);					   
+						   $cir_date_fin = substr($row2["cir_date_fin"],0,10);
 					   }
 					   
 			}
 			// TITULO -----			
 			if 	($j > 1)
-			$this->tabla_mon.= "<tr><td colspan=".(12+$j)." class=titulo>".$cir_name." - ".$cir_date_ini." al ".$cir_date_fin."</td></tr>";	
+			$this->tabla_mon.= "<tr><td colspan=".(12+$j)." class=titulo>".$cir_name."</td></tr>";	
 			else
 		    $this->tabla_mon.= "<tr><td colspan=7 class=titulo>No hay circuito activos</td></tr>";	
 
@@ -152,14 +154,14 @@ if(!class_exists('home_default'))
 				{		
 				  $this->tabla_mon.= "<tr bgcolor='#4897f1'><td colspan=".(7+$j)."><b>Monitoreos</b></td></tr>";				 
 				  $this->tabla_mon.= "<tr bgcolor='#98C5F8'><td> </td><td colspan=".(1+$j)." bgcolor='#BBD9FC'><b>Pendientes</b></td><td colspan=6> </td></tr>";
-				  $this->tabla_mon.= "<tr bgcolor='#98C5F8'><td width='200px'>Operador</td>".$t."<td bgcolor='#BBD9FC'><b>Total</b></td><td>Realiz</td><td>Aprob</td><td>No Aprob</td><td>Cierre</td><td>Puntaje</td></tr>";
+				  $this->tabla_mon.= "<tr bgcolor='#98C5F8'><td width='200px'>Operador</td>".$t."<td bgcolor='#BBD9FC'><b>Total</b></td><td>Realiz</td><td>Aprob</td><td>No Aprob</td><td>Cierre</td></tr>";
 				}
 				$i++;
 				$use_code_operador = $row["use_code_operador"];
 			    $use_code_supervisor = $row["use_code_supervisor"];						
 				$uMon = WEB_PATH.'/lmodules/monitoreos/monitoreos_superv.php?OP=L&cir_code='.$cir_code.'&use_code_operador='.$use_code_operador.'&use_code_supervisor='.$use_code_supervisor;
 			    $sql2 = "select count(*) from monitoreos where cir_code=$cir_code and use_code_operador=$use_code_operador and use_code_supervisor=$use_code_supervisor";	
-				$mon_puntaje = $primary_db->QueryString("select round(avg(ifnull(mon_puntaje,0)),2) from monitoreos where cir_code=$cir_code and mon_status='REALIZADO' and use_code_operador=$use_code_operador and use_code_supervisor=$use_code_supervisor");		  				
+				// $mon_puntaje = $primary_db->QueryString("select round(avg(ifnull(mon_puntaje,0)),2) from monitoreos where cir_code=$cir_code and mon_status='REALIZADO' and use_code_operador=$use_code_operador and use_code_supervisor=$use_code_supervisor");		  				
    				$i++;
 				$t="";			
 				foreach($mon_date_aprox as $d)
@@ -180,8 +182,8 @@ if(!class_exists('home_default'))
 			
 				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=REALIZADO")."'>".$realizadas1."</a></td><td>";
 				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=REALIZADO&mon_aprobo=SI")."'>".$ok1."</a></td><td>";
-				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_aprobo=NO")."'>".$mal1."</a></td><td>";
-				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=CERRADO")."'>".$cerradas1."</a></td><td>".$mon_puntaje."</td></tr>";
+				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=REALIZADO&mon_aprobo=NO")."'>".$mal1."</a></td><td>";
+				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=CERRADO")."'>".$cerradas1."</a></td></tr>";
 			
 				// para graficos				
 			   if ($this->categorias != "[") $this->categorias.=",";
@@ -191,13 +193,14 @@ if(!class_exists('home_default'))
 			   $cerradas[]= $cerradas1;	
 			}
 			$this->filas = $i;			
-			$this->categorias.="]";			
+			$this->categorias.="]";	
+			// Series realizados +  cerradas + pendientes			
 			$this->series = "[";
-			$this->series.= "{name: 'Realizadas',data: [";
-			for ($i=0;$i<sizeof($realizadas);$i++)  
+			$this->series.= "{name: 'Pendientes',data: [";
+			for ($i=0;$i<sizeof($pendientes);$i++)  
 			{
 			    if ($i>0) $this->series.= ",";
-				$this->series.= $realizadas[$i];
+				$this->series.= $pendientes[$i];
 			}
 			$this->series.= "]},";
 			$this->series.= "{name: 'Cerradas',data: [";
@@ -206,13 +209,14 @@ if(!class_exists('home_default'))
 			    if ($i>0) $this->series.= ",";
 				$this->series.= $cerradas[$i];
 			}
-			$this->series.= "]},";		
-			$this->series.= "{name: 'Pendientes',data: [";
-			for ($i=0;$i<sizeof($pendientes);$i++)  
+			$this->series.= "]},";	
+			$this->series.= "{name: 'Realizadas',data: [";
+			for ($i=0;$i<sizeof($realizadas);$i++)  
 			{
 			    if ($i>0) $this->series.= ",";
-				$this->series.= $pendientes[$i];
-			}
+				$this->series.= $realizadas[$i];
+			}			
+	
 			$this->series.= "]}";			
 			$this->series.="]";
 			// Capacitaciones --------------------------------------------------
@@ -228,7 +232,7 @@ if(!class_exists('home_default'))
 				if ($i==0)
 				{
 				  $this->tabla_cap.= "<tr bgcolor='#a4d53a'><td colspan=5><b>Capacitaciones</b></td></tr>";
-				  $this->tabla_cap.= "<tr bgcolor='#BED689'><td width='200px'>Operador</td><td bgcolor='#DFFC9F'><b>Pend.</b></td><td>Realiz</td><td>Aprob</td><td>No Aprob</td></tr>";
+				  $this->tabla_cap.= "<tr bgcolor='#BED689'><td width='200px'>Operador</td><td bgcolor='#DFFC9F'><b>Pend.</b></td><td>Realiz</td></tr>";
 				}
 				$i++;			
 				$use_code_operador = $row["use_code_operador"];
@@ -237,8 +241,7 @@ if(!class_exists('home_default'))
 
 				$pendientes1= intval($primary_db->QueryString($sql2." and cap_status='PENDIENTE' "));		
 			    $realizadas1= intval($primary_db->QueryString($sql2." and cap_status='REALIZADO' "));		
-			    $ok1= intval($primary_db->QueryString($sql2." and cap_status='REALIZADO' and cap_rol_play_aprobado='SI'"));	
-			    $mal1= intval($primary_db->QueryString($sql2." and cap_status='REALIZADO' and cap_rol_play_aprobado='NO'"));				
+				
 				$this->tabla_cap.= "<tr bgcolor='#EDF7D7'><td nowrap>".substr($row["use_login"]." ".$row["use_name"],0,50)."</td>";	
 
 				$uCap = WEB_PATH.'/lmodules/capacitacion/capacitacion_superv_pend.php?OP=L&cir_code='.$cir_code.'&use_code_supervisor='.$use_code_supervisor.'&use_code_operador='.$use_code_operador;		
@@ -247,9 +250,7 @@ if(!class_exists('home_default'))
 				
 				$uCap = WEB_PATH.'/lmodules/capacitacion/capacitacion_superv.php?OP=L&cir_code='.$cir_code.'&use_code_supervisor='.$use_code_supervisor.'&use_code_operador='.$use_code_operador;			
 			
-				$this->tabla_cap.="<a href='".$sess->encodeURL($uCap."&cap_status=REALIZADO")."'>".$realizadas1."</a></td><td>";
-				$this->tabla_cap.="<a href='".$sess->encodeURL($uCap."&cap_status=REALIZADO&cap_rol_play_aprobado=SI")."'>".$ok1."</a></td><td>";
-				$this->tabla_cap.="<a href='".$sess->encodeURL($uCap."&cap_status=REALIZADO&cap_rol_play_aprobado=NO")."'>".$mal1."</a></td></tr>";
+				$this->tabla_cap.="<a href='".$sess->encodeURL($uCap."&cap_status=REALIZADO")."'>".$realizadas1."</a></td></tr>";
 			}
 			// FIN -----------------------------------------------------
 			$this->tabla_mon.= "</table>";
@@ -271,14 +272,15 @@ if(!class_exists('home_default'))
 			// Obtener las semanas del circuito
 			$t="";
 			$mon_date_aprox = array();
-			$sql2 = "Select distinct DATE_FORMAT(mon_date_aprox, '%d/%m/%Y') as mon_date_aprox, m.cir_code as cir_code, cir_name, cir_date_ini, cir_date_fin 
-			from monitoreos m join circuitos c on m.cir_code=c.cir_code where cir_status='ACTIVO'  order by DATE_FORMAT(mon_date_aprox, '%Y%m%d') ";
+			$sql2 = "Select cir_semana, DATE_FORMAT(m.cir_date, '%d/%m/%Y') as cir_date, m.cir_code as cir_code, cir_name, 
+			m.cir_date_ini as cir_date_ini, m.cir_date_fin as cir_date_fin
+			from cir_semanas m join circuitos c on m.cir_code=c.cir_code where cir_status='ACTIVO'  order by cir_semana ";
 			$re2 = $primary_db->do_execute($sql2);
 			$j=0;
 			while($row2 = $primary_db->_fetch_row($re2))
 			 {    
-					   $mon_date_aprox[] = $row2["mon_date_aprox"];
-					   $t.="<td bgcolor='#BBD9FC'><b>".substr($row2["mon_date_aprox"],0,5)."</b></td>";
+					   $mon_date_aprox[] = $row2["cir_date"];
+					   $t.="<td bgcolor='#BBD9FC'><b>Sem ".$row2["cir_semana"]."</b></td>";
 					   $j++;
 					   if ($j==1)
 					   {
@@ -290,7 +292,7 @@ if(!class_exists('home_default'))
 					   
 			}
 			if 	($j > 1)
-		    $this->tabla_mon.= "<tr><td colspan=".(7+$j)." class=titulo>".$cir_name." - ".$cir_date_ini." al ".$cir_date_fin."</td></tr>";
+		    $this->tabla_mon.= "<tr><td colspan=".(7+$j)." class=titulo>".$cir_name."</td></tr>";
 			else
 		    $this->tabla_mon.= "<tr><td colspan=7 class=titulo>No hay circuito activos</td></tr>";	
 			// Datos del monitoreo
@@ -309,12 +311,12 @@ if(!class_exists('home_default'))
 				{			
 				  $this->tabla_mon.= "<tr bgcolor='#4897f1'><td colspan=".(7+$j)."><b>Monitoreos</b></td></tr>";
 				  $this->tabla_mon.= "<tr bgcolor='#98C5F8'><td> </td><td colspan=".(1+$j)." bgcolor='#BBD9FC'><b>Pend</b></td><td colspan=6> </td></tr>";
-				  $this->tabla_mon.= "<tr bgcolor='#98C5F8'><td  width='150px' nowrap >Grupo</td>".$t."<td bgcolor='#BBD9FC'><b>Total</b></td><td>Realiz</td><td>Aprob</td><td>No Aprob</td><td>Cierre</td><td>Ptos</td></tr>";
+				  $this->tabla_mon.= "<tr bgcolor='#98C5F8'><td  width='150px' nowrap >Grupo</td>".$t."<td bgcolor='#BBD9FC'><b>Total</b></td><td>Realiz</td><td>Aprob</td><td>No Aprob</td><td>Cierre</td></tr>";
 				}
 			    $use_code_supervisor = $row["use_code_supervisor"];						
 				$uMon = WEB_PATH.'/lmodules/monitoreos/monitoreos_superv.php?OP=L&cir_code='.$cir_code.'&use_code_supervisor='.$use_code_supervisor;
 			    $sql2 = "select count(*) from monitoreos where cir_code=$cir_code and use_code_supervisor=$use_code_supervisor";	
-			  	$mon_puntaje = $primary_db->QueryString("select round(avg(ifnull(mon_puntaje,0)),2) from monitoreos where cir_code=$cir_code and mon_status='REALIZADO'  and use_code_supervisor=$use_code_supervisor");		  				
+			  	// $mon_puntaje = $primary_db->QueryString("select round(avg(ifnull(mon_puntaje,0)),2) from monitoreos where cir_code=$cir_code and mon_status='REALIZADO'  and use_code_supervisor=$use_code_supervisor");		  				
    						
    				$i++;
 				$t="";			
@@ -335,8 +337,8 @@ if(!class_exists('home_default'))
 				$this->tabla_mon.=$t."<td bgcolor='#E8F3FF'><a href='".$sess->encodeURL($uMon."&mon_status=PENDIENTE")."'>".$pendientes1."</a></td><td>";
 				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=REALIZADO")."'>".$realizadas1."</a></td><td>";
 				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=REALIZADO&mon_aprobo=SI")."'>". $ok1."</a></td><td>";
-				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_aprobo=NO")."'>".$mal1."</a></td><td>";
-				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=CERRADO")."'>".$cerradas1."</a></td><td>".$mon_puntaje."</td></tr>";
+				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=REALIZADO&mon_aprobo=NO")."'>".$mal1."</a></td><td>";
+				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=CERRADO")."'>".$cerradas1."</a></td></tr>";
 
 					// Para el grafico
 			   if ($this->categorias != "[") $this->categorias.=",";
@@ -348,13 +350,14 @@ if(!class_exists('home_default'))
 			   $cerradas[]= $cerradas1;	
 			}
 			$this->filas = $i;
-			$this->categorias.="]";			
+			$this->categorias.="]";		
+			// Series realizados +  cerradas + pendientes				
 			$this->series = "[";
-			$this->series.= "{name: 'Realizadas',data: [";
-			for ($i=0;$i<sizeof($realizadas);$i++)  
+			$this->series.= "{name: 'Pendientes',data: [";
+			for ($i=0;$i<sizeof($pendientes);$i++)  
 			{
 			    if ($i>0) $this->series.= ",";
-				$this->series.= $realizadas[$i];
+				$this->series.= $pendientes[$i];
 			}
 			$this->series.= "]},";
 			$this->series.= "{name: 'Cerradas',data: [";
@@ -363,13 +366,14 @@ if(!class_exists('home_default'))
 			    if ($i>0) $this->series.= ",";
 				$this->series.= $cerradas[$i];
 			}
-			$this->series.= "]},";		
-			$this->series.= "{name: 'Pendientes',data: [";
-			for ($i=0;$i<sizeof($pendientes);$i++)  
+			$this->series.= "]},";	
+			$this->series.= "{name: 'Realizadas',data: [";
+			for ($i=0;$i<sizeof($realizadas);$i++)  
 			{
 			    if ($i>0) $this->series.= ",";
-				$this->series.= $pendientes[$i];
-			}
+				$this->series.= $realizadas[$i];
+			}			
+	
 			$this->series.= "]}";			
 			$this->series.="]";
 			// CAPACITACION ------------------------
@@ -386,7 +390,7 @@ if(!class_exists('home_default'))
 				if ($i==0)
 				{
 				  $this->tabla_cap.= "<tr bgcolor='#a4d53a'><td colspan=5><b>Capacitaciones</b></td></tr>";
-				  $this->tabla_cap.= "<tr bgcolor='#BED689'><td width='200px'>Supervisor</td><td bgcolor='#DFFC9F'><b>Pend.</b></td><td>Realiz</td><td>Aprob</td><td>No Aprob</td></tr>";
+				  $this->tabla_cap.= "<tr bgcolor='#BED689'><td width='200px'>Supervisor</td><td bgcolor='#DFFC9F'><b>Pend.</b></td><td>Realiz</td></tr>";
 				}
 				$i++;
 			    $use_code_supervisor = $row["use_code_supervisor"];		
@@ -394,8 +398,8 @@ if(!class_exists('home_default'))
 
 				$pendientes1= intval($primary_db->QueryString($sql2." and cap_status='PENDIENTE' "));		
 			    $realizadas1= intval($primary_db->QueryString($sql2." and cap_status='REALIZADO' "));		
-			    $ok1= intval($primary_db->QueryString($sql2." and cap_status='REALIZADO' and cap_rol_play_aprobado='SI'"));	
-			    $mal1= intval($primary_db->QueryString($sql2." and cap_status='REALIZADO' and cap_rol_play_aprobado='NO'"));				
+			  //  $ok1= intval($primary_db->QueryString($sql2." and cap_status='REALIZADO' and cap_rol_play_aprobado='SI'"));	
+			  //  $mal1= intval($primary_db->QueryString($sql2." and cap_status='REALIZADO' and cap_rol_play_aprobado='NO'"));				
 				$this->tabla_cap.= "<tr bgcolor='#EDF7D7'><td nowrap>".substr($row["use_name"],0,50)."</td>";	
 
 				$uCap = WEB_PATH.'/lmodules/capacitacion/capacitacion_superv_pend.php?OP=L&cir_code='.$cir_code.'&use_code_supervisor='.$use_code_supervisor;	
@@ -403,9 +407,7 @@ if(!class_exists('home_default'))
 				
 				$uCap = WEB_PATH.'/lmodules/capacitacion/capacitacion_superv.php?OP=L&cir_code='.$cir_code.'&use_code_supervisor='.$use_code_supervisor;	
 			
-				$this->tabla_cap.="<a href='".$sess->encodeURL($uCap."&cap_status=REALIZADO")."'>".$realizadas1."</a></td><td>";
-				$this->tabla_cap.="<a href='".$sess->encodeURL($uCap."&cap_status=REALIZADO&cap_rol_play_aprobado=SI")."'>".$ok1."</a></td><td>";
-				$this->tabla_cap.="<a href='".$sess->encodeURL($uCap."&cap_status=REALIZADO&cap_rol_play_aprobado=NO")."'>".$mal1."</a></td></tr>";
+				$this->tabla_cap.="<a href='".$sess->encodeURL($uCap."&cap_status=REALIZADO")."'>".$realizadas1."</a></td></tr>";
 				
 			}			
 			$this->tabla_mon.= "</table>";

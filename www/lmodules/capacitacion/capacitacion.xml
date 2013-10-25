@@ -1,17 +1,17 @@
 <ayaxphpclass>
 
 <make object="class"> 
-	<build out_file="ccapacitacion.php" classname="ccapacitacion" classlabel="capacitacion">
+	<build out_file="ccapacitacion_small.php" classname="ccapacitacion_small" classlabel="capacitacion">
 		<parse in_file="capacitacion.sql" tablename="capacitacion" />	
 		<method ObjFactoryQuerySuffix=" ORDER BY cap_code desc"/>		
 	</build>
 </make>
 <!-- Del Supervisor -->
 <make object="search_and_list"> 
-	<build out_file="capacitacion_superv.php" classname="ccapacitacion" title="Listado de Capacitaciones">
+	<build out_file="capacitacion_superv.php" classname="ccapacitacion_small" title="Listado de Capacitaciones">
 			<field name="cap_code" label="Capacitación Nro" presentation="INT" />
 			<field name="mon_code" label="Monitoreo Nro" presentation="INT" />
-			<field name="cir_code" label="Circuito" presentation="CIRCUITO_ACTIVO" />
+			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" />
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" />
 			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" />
 			<field name="cap_status" label="Estado" presentation="CAP_STATUS"/>
@@ -49,18 +49,20 @@
 			<listfield name="cap_visto_oper" />
 
 			<action label="ver capacitacion" right="capacitacion.supervisor.pend"  target="capacitacion_superv_maint.php?OP=V" operation="V" next="capacitacion_superv.php?last=1&amp;OP=L">
-				<sendfield classname="ccapacitacion" name="cap_code"/>
+				<sendfield classname="ccapacitacion_small" name="cap_code"/>
 			</action>
 			<action label="ver monitoreo"  target="/lmodules/monitoreos/monitoreos_superv_maint.php?OP=V" operation="V"  next="/lmodules/capacitacion/capacitacion_superv.php?last=1&amp;OP=L">
-				<sendfield classname="ccapacitacion" name="mon_code"/>
+				<sendfield classname="ccapacitacion_small" name="mon_code"/>
 			</action>		
-		
+			<action label="modificar" right="capacitacion.supervisor.pend" target="capacitacion_superv_maint.php?OP=M" operation="M"   next="/lmodules/capacitacion/capacitacion_superv.php?last=1&amp;OP=L">
+				<sendfield classname="ccapacitacion_small" name="cap_code"/>
+			</action>			
 	</build>
 </make>
 		
 
 <make object="search_and_list"> 
-	<build out_file="capacitacion_superv_pend.php" classname="ccapacitacion" title="Listar Capacitaciones Pendientes">
+	<build out_file="capacitacion_superv_pend.php" classname="ccapacitacion_small" title="Listar Capacitaciones Pendientes">
 			<field name="cap_code" label="Capacitación Nro" presentation="INT" />
 			<field name="mon_code" label="Monitoreo Nro" presentation="INT" />
 			<field name="cir_code" label="Circuito" presentation="CIRCUITO_ACTIVO" />
@@ -81,11 +83,21 @@
 			<listfield name="use_code_operador"/>
 
 			<action label="capacitar" right="capacitacion.supervisor.pend" target="capacitacion_superv_maint.php?OP=M" operation="M"   next="/lmodules/capacitacion/capacitacion_superv_pend.php?last=1&amp;OP=L">
-				<sendfield classname="ccapacitacion" name="cap_code"/>
+				<sendfield classname="ccapacitacion_small" name="cap_code"/>
 			</action>	
 			<action label="ver monitoreo"  target="/lmodules/monitoreos/monitoreos_superv_maint.php?OP=V" operation="V"   next="/lmodules/capacitacion/capacitacion_superv_pend.php?last=1&amp;OP=L">
-				<sendfield classname="ccapacitacion" name="mon_code"/>
+				<sendfield classname="ccapacitacion_small" name="mon_code"/>
 			</action>								
+	</build>
+</make>
+
+<make object="class"> 
+	<build out_file="ccapacitacion.php" classname="ccapacitacion" classlabel="Capacitacion y Audios">
+		<parse in_file="capacitacion.sql" tablename="capacitacion" />	
+		<build classname="cap_calls" classlabel="cap_calls">
+			<parse in_file="capacitacion.sql" tablename="cap_calls"/>
+			<key parent="cap_code" child="cap_code"/>
+		</build>	
 	</build>
 </make>
 <make object="table_maint"> 
@@ -93,15 +105,15 @@
 		<group id="datos1" title="Datos Principales" order="1">
 			<field name="cap_code" label="Capacitación Nro" presentation="INT" isvisible="false"/>
 			<field name="mon_code" label="Monitoreo Nro" presentation="INT"  isvisible="false"/>
-			<field name="doc_storage" label="Llamada" presentation="CALLS_AUDIO"  readonly="true"/>
+			<field name="doc_storage" label="Llamada" presentation="CALLS_AUDIO"  readonly="true" isvisible="false"/>
 			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" ismandatory="true"/>	
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" ismandatory="true"/>	
-			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" ismandatory="true"/>	
+			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="CURRENTUSER" classparams="force" isvisible="false"/>
 			<field name="cap_status" label="Estado" presentation="CAP_STATUS" initialvalue="REALIZADO" readonly="true"/>
 		</group>
 		<group id="datos2" title="Datos a Completar" order="2" >	
-			<field name="cap_date" label="Fecha" presentation="DATETIME" classparams="force" readonly="true"/>		
-			<field name="cap_use_code" label="Capacitado por" presentation="CURRENTUSER" classparams="force" readonly="true"/>			
+			<field name="cap_date" label="Fecha" presentation="DATE" />		
+			<field name="cap_use_code" label="Capacitado por" presentation="CURRENTUSER" classparams="force" isvisible="false"/>			
 			<field name="cap_origen" label="Origen" presentation="SELECT" valuelist="cap_origen" ismandatory="true"/>	
 			<field name="cap_motivo" label="Motivo" presentation="TEXTAREA" cols="100" rows="2" ismandatory="true" />	
 			<field name="cap_habilidad" label="Habilidad" presentation="SELECT" valuelist="cap_habilidad" ismandatory="true"/>	
@@ -111,10 +123,24 @@
 		<group id="datos3" title="Observaciones / Procedimiento" order="4">
 		    <field name="cap_observaciones" label="Observaciones" presentation="TEXTAREA" cols="100" rows="4" ismandatory="true" />	
 		</group>
-		<group id="datos4" title="Visto Operador" order="5">
+		<group id="datos4" title="Visto Operador" order="6">
 			<field name="cap_visto_oper" label="Visto" presentation="TEXT"  initialvalue="NO"  readonly="true"/>			
 			<field name="cap_date_visto_oper" label="Fecha" presentation="DATETIME" readonly="true"/>			
-		</group>			
+		</group>	
+		<table relationclass="" classname="cap_calls" title="Audios" order="5" add="true" delete="true"  update="true">
+			<column title="Fecha LLamada" order="1">
+			<field name="cap_code" label="Capacitacion" isvisible="false"/>		
+			<field name="cap_call" label="Nro" isvisible="false"/>				
+			<field name="doc_storage" label="Archivo Call" presentation="TEXT" isvisible="false"/>			
+			<field name="cap_call_date" label="Fecha Llamada" presentation="DATE" ismandatory="true" />	
+			</column>
+			<column title="Referencia" order="2">			
+				<field name="cap_call_reference" label="Ref LLamado" presentation="TEXT"  ismandatory="true" />		
+			</column>			
+			<column title="Aprobado?" order="3">			
+				<field name="cap_call_aprobo" label="Aprobado?" presentation="SINO"  ismandatory="true"/>		
+			</column>
+		</table>			
 	</build>
 </make>
 
@@ -130,8 +156,8 @@
 			<field name="cap_status" label="Estado" presentation="CAP_STATUS" readonly="true"/>
 		</group>
 		<group id="datos2" title="Datos a Completar" order="2" >	
-			<field name="cap_date" label="Fecha" presentation="DATETIME" classparams="force" readonly="true"/>		
-			<field name="cap_use_code" label="Capacitado por" presentation="CURRENTUSER" classparams="force" readonly="true"/>			
+			<field name="cap_date" label="Fecha" presentation="DATETIME"  readonly="true"/>		
+			<field name="cap_use_code" label="Capacitado por" presentation="USER"  readonly="true"/>			
 			<field name="cap_origen" label="Origen" presentation="SELECT" valuelist="cap_origen" ismandatory="true"/>	
 			<field name="cap_motivo" label="Motivo" presentation="TEXTAREA" cols="100" rows="2" ismandatory="true" />	
 			<field name="cap_habilidad" label="Habilidad" presentation="SELECT" valuelist="cap_habilidad" ismandatory="true"/>	
@@ -141,7 +167,23 @@
 		<group id="datos3" title="Observaciones / Procedimiento" order="4">
 		    <field name="cap_observaciones" label="Observaciones" presentation="TEXTAREA" cols="100" rows="4" ismandatory="true" />	
 		</group>
-		<group id="datos4" title="Visto Operador" order="5">
+		<table relationclass="" classname="cap_calls" title="Audios Adicionales" order="5" add="true" delete="true"  update="true">
+			<column title="Fecha LLamada" order="1">
+			<field name="cap_code" label="Capacitacion" isvisible="false"/>		
+			<field name="cap_call" label="Nro" isvisible="false"/>				
+			<field name="cap_call_date" label="Fecha Llamada" presentation="DATE" ismandatory="true" />	
+			</column>
+			<column title="Referencia" order="2">			
+				<field name="cap_call_reference" label="Ref LLamado" presentation="TEXT"  ismandatory="true" />		
+			</column>			
+			<column title="Aprobado?" order="3">			
+				<field name="cap_call_aprobo" label="Aprobado?" presentation="SINO"  ismandatory="true"/>		
+			</column>
+			<column title="Audio" order="4">			
+				<field name="doc_storage" label="Llamada" presentation="CALLS_AUDIO"  readonly="true"/>	
+			</column>						
+		</table>	
+		<group id="datos4" title="Visto Operador" order="6">
 			<field name="cap_visto_oper" label="Visto" presentation="TEXT"  initialvalue="NO"  readonly="true"/>			
 			<field name="cap_date_visto_oper" label="Fecha" presentation="DATETIME" readonly="true"/>			
 		</group>		
@@ -151,10 +193,10 @@
 
 <!-- Del Operador -->
 <make object="search_and_list"> 
-	<build out_file="capacitacion_oper.php" classname="ccapacitacion" title="Listado de Mis Capacitaciones">
+	<build out_file="capacitacion_oper.php" classname="ccapacitacion_small" title="Listado de Mis Capacitaciones">
 			<field name="cap_code" label="Capacitación Nro" presentation="INT" />
 			<field name="mon_code" label="Monitoreo Nro" presentation="INT" />
-			<field name="cir_code" label="Circuito" presentation="CIRCUITO_ACTIVO" />
+			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" />
 			<field name="use_code_operador" label="Operador" presentation="CURRENTUSER" classparams="force"/>
 			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR" />
 			<field name="cap_status" label="Estado" presentation="CAP_STATUS"/>
@@ -190,10 +232,10 @@
 			<listfield name="cap_visto_oper" />
 
 			<action label="ver capacitacion" right="capacitacion.operador" target="capacitacion_superv_maint.php?OP=V" operation="V" next="capacitacion_oper.php?last=1&amp;OP=L">
-				<sendfield classname="ccapacitacion" name="cap_code"/>
+				<sendfield classname="ccapacitacion_small" name="cap_code"/>
 			</action>
 			<action label="ver monitoreo"  target="/lmodules/monitoreos/monitoreos_superv_maint.php?OP=V" operation="V"  next="/lmodules/capacitacion/capacitacion_oper.php?last=1&amp;OP=L">
-				<sendfield classname="ccapacitacion" name="mon_code"/>
+				<sendfield classname="ccapacitacion_small" name="mon_code"/>
 			</action>		
 				
 	</build>
@@ -247,7 +289,7 @@
 		</group>
 		<group id="datos2" title="Datos a Completar" order="2" >	
 			<field name="cap_date" label="Fecha" presentation="DATETIME"  readonly="true"/>
-			<field name="cap_use_code" label="Capacitado por" presentation="CURRENTUSER" readonly="true"/>			
+			<field name="cap_use_code" label="Capacitado por" presentation="USER" readonly="true"/>			
 			<field name="cap_origen" label="Origen" presentation="TEXT" readonly="true"/>	
 			<field name="cap_motivo" label="Motivo" presentation="TEXTAREA" cols="100" rows="2" readonly="true"/>	
 			<field name="cap_habilidad" label="Habilidad" presentation="TEXT"  readonly="true"/>	
@@ -261,7 +303,20 @@
 			<field name="cap_visto_oper" label="Visto" presentation="SINO" ismandatory="true"/>	
 			<field name="cap_date_visto_oper" label="Fecha" presentation="DATETIME" classparams="force" readonly="true"	/>	
 		</group>	
-			
+		<table relationclass="" classname="cap_calls" title="Audios" order="5" add="false" delete="false"  update="false">
+			<column title="Fecha LLamada" order="1">
+			<field name="cap_code" label="Capacitacion" isvisible="false"/>		
+			<field name="cap_call" label="Nro" isvisible="false"/>				
+			<field name="cap_call_reference" label="Ref LLamado" presentation="TEXT" isvisible="false"/>			
+			<field name="cap_call_date" label="Fecha Llamada" presentation="DATE" readonly="true"	/>	
+			</column>
+			<column title="Audio" order="2">		
+				<field name="doc_storage" label="Audio" presentation="CALLS_AUDIO" readonly="true"	/>					
+			</column>			
+			<column title="Aprobado?" order="3">			
+				<field name="cap_call_aprobo" label="Aprobado?" presentation="SINO" readonly="true"	/>		
+			</column>
+		</table>				
 	</build>
 </make>
 </ayaxphpclass>

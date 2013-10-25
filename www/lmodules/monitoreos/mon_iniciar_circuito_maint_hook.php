@@ -26,6 +26,7 @@ class cmon_iniciar_circuito_hooks extends cclass_maint_hooks
 			$res[]= $msg;
 			return $res;
 		}
+
 		$sql = "select * from circuitos where cir_status='ACTIVO'";
 		$out = $primary_db->do_execute($sql, $err);
 		if (count($err) != 0)
@@ -34,7 +35,8 @@ class cmon_iniciar_circuito_hooks extends cclass_maint_hooks
 				return $res;
 		}		
 		if ($row = $primary_db->_fetch_row($out))
-		{		       
+		{		    
+           	
 			$res = cerrarCircuito($row["cir_code"]);
 			if (count($res) > 0)	return $res;
 		}
@@ -51,6 +53,7 @@ class cmon_iniciar_circuito_hooks extends cclass_maint_hooks
 		{		$i++;
 				$obj->getField("cir_code")->setValue($row["cir_code"]);
 				$obj->getField("cir_date_ini")->setValue($row["cir_date_ini"]);
+				$obj->getField("cir_semanas")->setValue($row["cir_semanas"]);			
 				$obj->getField("cir_date_fin")->setValue($row["cir_date_fin"]);		
 				$obj->getField("cir_importance_min")->setValue($row["cir_importance_min"]);
 				$obj->getField("cir_status")->setValue($row["cir_status"]);				
@@ -83,7 +86,7 @@ class cmon_iniciar_circuito_hooks extends cclass_maint_hooks
 		$frm = $obj->m_parent;
 
 		$cir_code = $obj->getField("cir_code")->getValue();
-		$sql = "select cir_status,DATE_FORMAT(cir_date_ini,'%d/%m/%Y') as cir_date_ini,DATE_FORMAT(cir_date_fin,'%d/%m/%Y') as cir_date_fin FROM circuitos 
+		$sql = "select  cir_status,DATE_FORMAT(cir_date_ini,'%d/%m/%Y') as cir_date_ini,DATE_FORMAT(cir_date_fin,'%d/%m/%Y') as cir_date_fin FROM circuitos 
 		              where cir_code=".$cir_code;
 		
 		$out = $primary_db->do_execute($sql, $err);
@@ -101,6 +104,7 @@ class cmon_iniciar_circuito_hooks extends cclass_maint_hooks
 			}
 			else
 			{
+
 			   $res = iniciarCircuito($cir_code,$row["cir_date_ini"],$row["cir_date_fin"]);
 			}
 		}

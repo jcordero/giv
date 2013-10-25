@@ -31,7 +31,7 @@ class CDH_CALLS_AUDIO extends CDataHandler
 		else 
 		{
 		
-
+			/*
 			$fi = new _CFile();
 			$carpeta = $fi->get_path($val);
 			$file = $carpeta.$val;
@@ -43,9 +43,20 @@ class CDH_CALLS_AUDIO extends CDataHandler
 			$c = substr($carpeta,-26);
 			$file = WEB_PATH.$c.$val;			
 			error_log("calls_audio::RenderFilterForm ".$file);
+			*/
+			$f = md5($val.time());
+			$vox =  HOME_PATH."www/temp/".$f.".vox";
+			$wav =  HOME_PATH."www/temp/".$f.".wav";
+			$file = "/temp/".$f.".wav";
+			copy ($val , $vox );
+			error_log("copy ($val , $vox )");
+			$c = "sox -r 6k ".$vox." ".$wav;
+			exec($c, $output);
+			error_log("exec($c, $output)");
+			
 			$html ="<div id=\"$fld->m_Name\" class=\"itm\"><div class=\"desc\">$fld->m_Label</div><div class=\"fld\">";
-			$html.="<input type=\"FILE\" name=\"$name\" id=\"$id\" value=\"$val\" maxlength=\"200\" SIZE=\"60\"/>";
-
+			// $html.="<input type=\"FILE\" name=\"$name\" id=\"$id\" value=\"$val\" maxlength=\"200\" SIZE=\"60\"/>";
+                $html.="<input type=\"hidden\" name=\"$name\" id=\"$id\" value=\"$val\"/>";     
 			$html.="<audio controls>";
 			$html.="<source src=\"$file\" type=\"audio/wav\">";
 			$html.="Your browser does not support the audio element.";
@@ -76,7 +87,7 @@ class CDH_CALLS_AUDIO extends CDataHandler
 		
 		if($ro) 
 		{
-		
+			/*
 			$fi = new _CFile();
 			$carpeta = $fi->get_path($val);
 			$file = $carpeta.$val;
@@ -88,6 +99,17 @@ class CDH_CALLS_AUDIO extends CDataHandler
 			error_log("calls_audio::RenderTableEdit ".$file);	
 			$c = substr($carpeta,-26);
 			$file = WEB_PATH.$c.$val;			
+			*/
+			$name = md5($val.time());
+			$vox =  HOME_PATH."www/temp/".$name.".vox";
+			$wav =  HOME_PATH."www/temp/".$name.".wav";
+			$file = "/temp/".$name.".wav";
+			copy ($val , $vox );
+			error_log("copy ($val , $vox )");
+			$c = "sox -r 6k ".$vox." ".$wav;
+			exec($c, $output);
+			error_log("exec($c, $output)");
+			
 			$html ="<input type=\"hidden\" name=\"$name\" id=\"$id\" value=\"$val\"/>";
 
 			$html.="<audio controls>";
@@ -124,7 +146,7 @@ class CDH_CALLS_AUDIO extends CDataHandler
 		$name = $fld->m_Name;
 		$id = $name;
 
-
+		/*
 		$fi = new _CFile();
 		$carpeta = $fi->get_path($val);
 		$file = $carpeta.$val;
@@ -136,11 +158,22 @@ class CDH_CALLS_AUDIO extends CDataHandler
 
 		$c = substr($carpeta,-26);
 		$file = WEB_PATH.$c.$val;
-		
+		*/
 		if($fld->m_IsVisible)
 		{
+		
 			if($showlabel)
 			{
+				$name = md5($val.time());
+				$vox =  HOME_PATH."www/temp/".$name.".vox";
+				$wav =  HOME_PATH."www/temp/".$name.".wav";
+				$file = "/temp/".$name.".wav";
+				copy ($val , $vox );
+				error_log("copy ($val , $vox )");
+				$c = "sox -r 6k ".$vox." ".$wav;
+				exec($c, $output);
+				error_log("exec($c, $output)");
+				
                 $html ="<input type=\"hidden\" name=\"$name\" id=\"$id\" value=\"$val\"/>";      
 			
 				$html.="<audio controls>";
@@ -164,7 +197,6 @@ class CDH_CALLS_AUDIO extends CDataHandler
 			$html="<input type=\"HIDDEN\" name=\"$name\" id=\"$id\" value=\"$val\"/>"."\n";
 		}
 		$fld = null;
-		error_log(__FILE__." $html");
 		return $html;
 	}
 	

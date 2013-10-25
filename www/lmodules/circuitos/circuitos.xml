@@ -3,7 +3,7 @@
 <make object="class"> 
 	<build out_file="ccircuitos.php" classname="ccircuitos" classlabel="Circuitos">
 		<parse in_file="circuitos.sql" tablename="circuitos" />	
-		<field name="cir_code" sequence="circuitos"/>	
+
 		<method ObjFactoryQuerySuffix=" ORDER BY cir_date_ini desc"/>			
 	</build>
 </make> 
@@ -15,27 +15,20 @@
 			<field name="cir_date_fin" label="Fecha Final" presentation="DATERANGE" />
 			<field name="cir_importance_min" label="Importancia Min" presentation="INT" />	
 			<field name="cir_status" label="Estado" presentation="ESTADO_CIRCUITOS" />			
-			<searchfield name="cir_code"/>
 			<searchfield name="cir_name"/>
 			<searchfield name="cir_date_ini"/>
 			<searchfield name="cir_date_fin"/>
-			<searchfield name="cir_importance_min"/>
 			<searchfield name="cir_status"/>
+			<listfield name="cir_name"/>			
 			<listfield name="cir_date_ini"/>
 			<listfield name="cir_date_fin"/>		
 			<listfield name="cir_status"/>			
-			<listfield name="cir_code"/>
-			<listfield name="cir_name"/>
-			<listfield name="cir_importance_min"/>
+			<listfield name="cir_code"  isvisible="false"/>	
+			<listfield name="cir_importance_min" isvisible="false"/>	
 			<action label="ver" target="circuitos_maint.php?OP=V" operation="V" >
 				<sendfield classname="ccircuitos" name="cir_code"/>
 			</action>
-			<action label="modificar" right="circuitos.circuitos.actualizar" target="circuitos_maint.php?OP=M" operation="M"  >
-				<sendfield classname="ccircuitos" name="cir_code"/>
-			</action>
-			<action label="modificar fecha" right="circuitos.circuitos.actualizar" target="circuitos_fecha_maint.php?OP=M" operation="M"  >
-				<sendfield classname="ccircuitos" name="cir_code"/>
-			</action>				
+			
 			<action label="anular" right="circuitos.circuitos.actualizar" target="circuitos_baja_maint.php?OP=M" operation="M"  >
 				<sendfield classname="ccircuitos" name="cir_code"/>
 			</action>		
@@ -54,8 +47,9 @@
 <make object="table_maint"> 
 	<build out_file="circuitos_maint.php" classname="ccircuitos" title="Circuitos a Monitorear" next="circuitos.php?last=1&amp;OP=L">
 	<group title="Datos Principales" id="grupo" order="1">		
-		<field name="cir_code" label="Circuito Nro"  presentation="SEQUENCE" classparams="circuitos" readonly="true"/>	
-		<field name="cir_name" label="Nombre" presentation="TEXT"  ismandatory="true" />		
+		<field name="cir_code" label="Circuito Nro"  presentation="INT"  readonly="true"  isvisible="false"/>		
+		<field name="cir_name" label="Nombre" presentation="TEXT"  ismandatory="true" />	
+		<field name="cir_semanas" label="Semanas de Monitoreo" presentation="INT"  ismandatory="true" />			
 		<field name="cir_date_ini" label="Fecha Inicio" presentation="DATE"  ismandatory="true" />		
 		<field name="cir_date_fin" label="Fecha Final" presentation="DATE"  ismandatory="true" />		
 		<field name="cir_importance_min" label="Importancia Min" presentation="INT"  ismandatory="true" />		
@@ -67,8 +61,9 @@
 <make object="table_maint"> 
 	<build out_file="circuitos_fecha_maint.php" classname="ccircuitos" title="Circuitos a Monitorear" next="circuitos.php?last=1&amp;OP=L">
 	<group title="Datos Principales" id="grupo" order="1">	
-		<field name="cir_code" label="Circuito Nro"  presentation="INT"  readonly="true"/>	
+		<field name="cir_code" label="Circuito Nro"  presentation="INT"  readonly="true"  isvisible="false"/>	
 		<field name="cir_name" label="Nombre" presentation="TEXT"  readonly="true"/>		
+		<field name="cir_semanas" label="Semanas de Monitoreo" presentation="INT" readonly="true"/>	
 		<field name="cir_date_ini" label="Fecha Inicio" presentation="DATE"   readonly="true"/>	
 		<field name="cir_date_fin" label="Fecha Final" presentation="DATE"  ismandatory="true" />		
 		<field name="cir_importance_min" label="Importancia Min" presentation="INT"  readonly="true"/>	
@@ -79,8 +74,9 @@
 <make object="table_maint"> 
 	<build out_file="circuitos_baja_maint.php" classname="ccircuitos" title="Anular un Circuito">
 	<group title="Datos Principales" id="grupo" order="1">	
-		<field name="cir_code" label="Circuito Nro"  presentation="SEQUENCE" classparams="circuitos" readonly="true"/>	
+		<field name="cir_code" label="Circuito Nro"  presentation="INT" readonly="true"  isvisible="false"/>	
 		<field name="cir_name" label="Nombre" presentation="TEXT"  readonly="true"/>
+		<field name="cir_semanas" label="Semanas de Monitoreo" presentation="INT"   readonly="true"/>		
 		<field name="cir_date_ini" label="Fecha Inicio" presentation="DATE"  readonly="true"/>		
 		<field name="cir_date_fin" label="Fecha Final" presentation="DATE"  readonly="true"/>	
 		<field name="cir_importance_min" label="Importancia Min" presentation="INT"  readonly="true"/>		
@@ -101,7 +97,7 @@
 		    <field name="cir_code" label="Circuito" presentation="CIRCUITOS" />		
 		    <field name="use_code_supervisor" label="Supervisor" presentation="SUPERVISOR"  />		
 			<field name="oper_grupo" label="Grupo" presentation="SELECT" valuelist="oper_grupo" />				
-			<searchfield name="cir_code"/>
+			<searchfield name="cir_code" />
 			<searchfield name="cirg_code"/>
 			<searchfield name="use_code_supervisor"/>
 			<searchfield name="oper_grupo"/>			
@@ -112,6 +108,7 @@
 			<action label="ver" target="cir_groups_v_maint.php?OP=V" operation="V" >
 				<sendfield classname="ccir_groups" name="cirg_code"/>
 			</action>
+			
 			<action label="modificar" right="circuitos.cir_groups.actualizar" target="cir_groups_maint.php?OP=M" operation="M"  >
 				<sendfield classname="ccir_groups" name="cirg_code"/>
 			</action>	
@@ -212,7 +209,29 @@
 		</table>				
 	</build>
 </make>
-
+<!-- cir_semanas -->
+<make object="class"> 
+	<build out_file="ccir_semanas.php" classname="ccir_semanas" classlabel="Semanas del Circuito">
+		<parse in_file="circuitos.sql" tablename="cir_semanas" />		
+	</build>
+</make>
+<make object="search_and_list"> 
+	<build out_file="cir_semanas.php" classname="ccir_semanas" title="Semanas del Circuito">
+			<field name="cir_code" label="Circuito" presentation="CIRCUITO" />
+			<field name="cir_semana" label="Semana" presentation="INT" />
+			<field name="cir_date" label="Fecha Aprox" presentation="DATERANGE" />		
+			<field name="cir_date_ini" label="Fecha INI" presentation="DATE" />
+			<field name="cir_date_fin" label="Fecha FIN" presentation="DATE" />			
+			<searchfield name="cir_code"/>
+			<searchfield name="cir_semana"/>
+			<searchfield name="cir_date"/>
+			<listfield name="cir_code"/>
+			<listfield name="cir_semana"/>
+			<listfield name="cir_date"/>
+			<listfield name="cir_date_ini"/>			
+			<listfield name="cir_date_fin"/>							
+	</build>
+</make>
 <!-- OEPRADORES POR GRUPOS  -->
 <make object="class"> 
 	<build out_file="ccir_oper.php" classname="ccir_oper" classlabel="Operadores por Grupos">
@@ -252,7 +271,6 @@
 			<listfield name="use_code_operador"/>
 			<listfield name="crit_status_ini"/>
 			<listfield name="crit_status_fin"/>
-			<listfield name="cirg_puntaje_prom"/>
 			<listfield name="cirg_cant_mon_pendientes" total="true"/>
 			<listfield name="cirg_cant_mon_realizados" total="true"/>
 			<listfield name="cirg_cant_mon_ok" total="true"/>
@@ -260,8 +278,7 @@
 			<listfield name="cirg_cant_mon_cierre_forz" total="true"/>	
 			<listfield name="cirg_cant_cap_pendientes" total="true"/>
 			<listfield name="cirg_cant_cap_realizados" total="true"/>
-			<listfield name="cirg_cant_cap_ok" total="true"/>
-			<listfield name="cirg_cant_cap_mal" total="true"/>	
+
 
 			<action label="monitoreos" target="/lmodules/monitoreos/monitoreos.php?OP=L" operation="L" next="/lmodules/circuitos/cir_oper.php?last=1&amp;OP=L" >
 				<sendfield classname="ccir_oper" name="cir_code"/>

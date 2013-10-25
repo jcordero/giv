@@ -3,25 +3,32 @@
 <make object="class"> 
 	<build out_file="cdes_circuito.php" classname="cdes_circuito" classlabel="Desemp. Circuito">
 	    <parse tablename="des_circuito"/>
-		<method SaveDBTotalQuery="select count(*) as cant,
-				sum(cirg_cant_mon_pendientes) as cirg_cant_mon_pendientes, sum(cirg_cant_mon_realizados) as cirg_cant_mon_realizados, 
-				sum(cirg_cant_mon_ok) as cirg_cant_mon_ok, 
-				sum(cirg_cant_mon_mal) as cirg_cant_mon_mal, sum(cirg_cant_cap_pendientes) as cirg_cant_cap_pendientes, 
-				sum(cirg_cant_cap_realizados) as cirg_cant_cap_realizados, sum(cirg_cant_cap_ok) as cirg_cant_cap_ok,
-				sum(cirg_cant_cap_mal) as cirg_cant_cap_mal, sum(cirg_cant_mon_cierre_forz) as cirg_cant_mon_cierre_forz,
-				round(avg(ifnull(cirg_puntaje_prom,0)),2) as cirg_puntaje_prom
-				FROM cir_oper "/>	
-         <method ObjFactoryQuery="SELECT cir_code,
-				sum(cirg_cant_mon_pendientes) as cirg_cant_mon_pendientes, sum(cirg_cant_mon_realizados) as cirg_cant_mon_realizados, 
-				sum(cirg_cant_mon_ok) as cirg_cant_mon_ok, 
-				sum(cirg_cant_mon_mal) as cirg_cant_mon_mal, sum(cirg_cant_cap_pendientes) as cirg_cant_cap_pendientes, 
-				sum(cirg_cant_cap_realizados) as cirg_cant_cap_realizados, sum(cirg_cant_cap_ok) as cirg_cant_cap_ok,
-				sum(cirg_cant_cap_mal) as cirg_cant_cap_mal, sum(cirg_cant_mon_cierre_forz) as cirg_cant_mon_cierre_forz,
-				round(avg(ifnull(cirg_puntaje_prom,0)),2) as cirg_puntaje_prom
-				FROM cir_oper "/>
-         <method ObjFactoryQuerySuffix=" group by cir_code	ORDER BY cir_code desc "/>				
-
-        <field name="cir_code" label="circuito" type="INT" isfordb="true" ispk="false"/>
+		 <method SaveDBTotalQuery="select count(*) as cant,
+				sum(IF (mon_status='PENDIENTE' , 1 , 0)) as cirg_cant_mon_pendientes, 
+				sum(IF (mon_status='REALIZADO' , 1 , 0)) as cirg_cant_mon_realizados, 
+				sum(IF (mon_status='CERRADO' , 1 , 0)) as cirg_cant_mon_cierre_forz,				
+				sum(IF ((mon_status='REALIZADO' and mon_aprobo='SI') , 1 , 0)) as cirg_cant_mon_ok, 
+				sum(IF ((mon_status='REALIZADO' and mon_aprobo='NO') , 1 , 0)) as cirg_cant_mon_mal, 
+				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and  cap_status='PENDIENTE'),0)  as cirg_cant_cap_pendientes, 
+				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and  cap_status='REALIZADO'),0) as cirg_cant_cap_realizados, 
+				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and  cap_status='REALIZADO' and cap_rol_play_aprobado='SI'),0) as cirg_cant_cap_ok,
+				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and  cap_status='REALIZADO' and cap_rol_play_aprobado='NO'),0) as cirg_cant_cap_mal,
+				round( ( sum(IF (mon_status='REALIZADO' ,ifnull(mon_puntaje,0),0)) / sum(IF (mon_status='REALIZADO' , 1 , 0)) ) ,2) as cirg_puntaje_prom
+				FROM monitoreos m where 1 = 1  "/>		 
+        <method ObjFactoryQuery="SELECT cir_code,
+				sum(IF (mon_status='PENDIENTE' , 1 , 0)) as cirg_cant_mon_pendientes, 
+				sum(IF (mon_status='REALIZADO' , 1 , 0)) as cirg_cant_mon_realizados, 
+				sum(IF (mon_status='CERRADO' , 1 , 0)) as cirg_cant_mon_cierre_forz,				
+				sum(IF ((mon_status='REALIZADO' and mon_aprobo='SI') , 1 , 0)) as cirg_cant_mon_ok, 
+				sum(IF ((mon_status='REALIZADO' and mon_aprobo='NO') , 1 , 0)) as cirg_cant_mon_mal, 
+				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and  cap_status='PENDIENTE'),0)  as cirg_cant_cap_pendientes, 
+				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and  cap_status='REALIZADO'),0) as cirg_cant_cap_realizados, 
+				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and  cap_status='REALIZADO' and cap_rol_play_aprobado='SI'),0) as cirg_cant_cap_ok,
+				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and  cap_status='REALIZADO' and cap_rol_play_aprobado='NO'),0) as cirg_cant_cap_mal,
+				round( ( sum(IF (mon_status='REALIZADO' ,ifnull(mon_puntaje,0),0)) / sum(IF (mon_status='REALIZADO' , 1 , 0)) ) ,2) as cirg_puntaje_prom
+				FROM monitoreos m  where 1 = 1 "/>
+        <method ObjFactoryQuerySuffix=" group by cir_code	ORDER BY cir_code desc "/>
+        <field name="cir_code" label="circuito" type="INT" isfordb="true" ispk="false"/>	 
 		<field name="cirg_cant_mon_pendientes" total="true"  type="INT" isfordb="true" ispk="false"/>
 		<field name="cirg_cant_mon_realizados" total="true"  type="INT" isfordb="true" ispk="false"/>
 		<field name="cirg_cant_mon_ok" total="true"  type="INT" isfordb="true" ispk="false"/>
@@ -31,7 +38,8 @@
 		<field name="cirg_cant_cap_ok" total="true"  type="INT" isfordb="true" ispk="false"/>
 		<field name="cirg_cant_cap_mal" total="true"  type="INT" isfordb="true" ispk="false"/>	
 		<field name="cirg_cant_mon_cierre_forz" total="true"  type="INT" isfordb="true" ispk="false"/>		
-		<field name="cirg_puntaje_prom" type="FLOAT" isfordb="true" ispk="false"/>		 
+		<field name="cirg_puntaje_prom" type="FLOAT" isfordb="true" ispk="false"/>		
+		
    </build>
 </make>
 
@@ -50,7 +58,6 @@
 			<field name="cirg_cant_cap_mal" label="Capac. Mal" presentation="INT" total="true"/>			
 			<searchfield name="cir_code"/>
 			<listfield name="cir_code"/>
-			<listfield name="cirg_puntaje_prom"/>
 			<listfield name="cirg_cant_mon_pendientes" total="true"/>
 			<listfield name="cirg_cant_mon_realizados" total="true"/>
 			<listfield name="cirg_cant_mon_ok" total="true"/>
@@ -58,14 +65,18 @@
 			<listfield name="cirg_cant_mon_cierre_forz" total="true"/>	
 			<listfield name="cirg_cant_cap_pendientes" total="true"/>
 			<listfield name="cirg_cant_cap_realizados" total="true"/>
-			<listfield name="cirg_cant_cap_ok" total="true"/>
-			<listfield name="cirg_cant_cap_mal" total="true"/>	
 			<action label="por supervisor" target="/lmodules/reportes/des_circuito_superv.php?OP=L" operation="L" next="/lmodules/reportes/des_circuito.php?last=1&amp;OP=L" >
 				<sendfield classname="cdes_circuito" name="cir_code"/>
 			</action>
 			<action label="por operador" target="/lmodules/reportes/des_circuito_oper.php?OP=L" operation="L" next="/lmodules/reportes/des_circuito.php?last=1&amp;OP=L" >
 				<sendfield classname="cdes_circuito" name="cir_code"/>
 			</action>
+			<action label="ver monitoreos" target="/lmodules/monitoreos/monitoreos.php?OP=L"  operation="L" next="/lmodules/reportes/des_circuito.php?last=1&amp;OP=L" >
+				<sendfield classname="cdes_circuito" name="cir_code"/>		
+			</action>			
+			<action label="monitorear" target="/lmodules/monitoreos/monitoreos_superv.php?OP=L"  operation="L" next="/lmodules/reportes/des_circuito.php?last=1&amp;OP=L" >
+				<sendfield classname="cdes_circuito" name="cir_code"/>		
+			</action>				
 	</build>
 </make>
 <!-- Desemp por Supervisor -->
@@ -82,7 +93,7 @@
 				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and c.use_code_supervisor=m.use_code_supervisor and cap_status='REALIZADO'),0) as cirg_cant_cap_realizados, 
 				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and c.use_code_supervisor=m.use_code_supervisor and cap_status='REALIZADO' and cap_rol_play_aprobado='SI'),0) as cirg_cant_cap_ok,
 				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and c.use_code_supervisor=m.use_code_supervisor and cap_status='REALIZADO' and cap_rol_play_aprobado='NO'),0) as cirg_cant_cap_mal,
-				round(avg(ifnull(mon_puntaje,0)),2) as cirg_puntaje_prom
+				round( ( sum(IF (mon_status='REALIZADO' ,ifnull(mon_puntaje,0),0)) / sum(IF (mon_status='REALIZADO' , 1 , 0)) ) ,2) as cirg_puntaje_prom
 				FROM monitoreos m where 1 = 1  "/>		 
         <method ObjFactoryQuery="SELECT cir_code,use_code_supervisor,
 				sum(IF (mon_status='PENDIENTE' , 1 , 0)) as cirg_cant_mon_pendientes, 
@@ -94,7 +105,7 @@
 				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and c.use_code_supervisor=m.use_code_supervisor and cap_status='REALIZADO'),0) as cirg_cant_cap_realizados, 
 				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and c.use_code_supervisor=m.use_code_supervisor and cap_status='REALIZADO' and cap_rol_play_aprobado='SI'),0) as cirg_cant_cap_ok,
 				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and c.use_code_supervisor=m.use_code_supervisor and cap_status='REALIZADO' and cap_rol_play_aprobado='NO'),0) as cirg_cant_cap_mal,
-				round(avg(ifnull(mon_puntaje,0)),2) as cirg_puntaje_prom
+				round( ( sum(IF (mon_status='REALIZADO' ,ifnull(mon_puntaje,0),0)) / sum(IF (mon_status='REALIZADO' , 1 , 0)) ) ,2) as cirg_puntaje_prom
 				FROM monitoreos m  where 1 = 1 "/>
         <method ObjFactoryQuerySuffix=" group by cir_code,use_code_supervisor	ORDER BY cir_code desc,use_code_supervisor "/>
          <field name="cir_code" label="circuito" type="INT" isfordb="true" ispk="false"/>
@@ -130,7 +141,7 @@
 			<searchfield name="use_code_supervisor"/>
 			<listfield name="cir_code" isvisible="false" />
 			<listfield name="use_code_supervisor"/>
-			<listfield name="cirg_puntaje_prom"/>
+
 			<listfield name="cirg_cant_mon_pendientes" total="true"/>
 			<listfield name="cirg_cant_mon_realizados" total="true"/>
 			<listfield name="cirg_cant_mon_ok" total="true"/>
@@ -138,13 +149,20 @@
 			<listfield name="cirg_cant_mon_cierre_forz" total="true"/>	
 			<listfield name="cirg_cant_cap_pendientes" total="true"/>
 			<listfield name="cirg_cant_cap_realizados" total="true"/>
-			<listfield name="cirg_cant_cap_ok" total="true"/>
-			<listfield name="cirg_cant_cap_mal" total="true"/>	
+
 
 			<action label="por operador" target="/lmodules/reportes/des_circuito_oper.php?OP=L"  operation="L" next="/lmodules/reportes/des_circuito_superv.php?last=1&amp;OP=L" >
 				<sendfield classname="cdes_circuito_superv" name="cir_code"/>
 				<sendfield classname="cdes_circuito_superv" name="use_code_supervisor"/>
 			</action>
+			<action label="ver monitoreos" target="/lmodules/monitoreos/monitoreos.php?OP=L"  operation="L" next="/lmodules/reportes/des_circuito_superv.php?last=1&amp;OP=L" >
+				<sendfield classname="cdes_circuito_superv" name="cir_code"/>
+				<sendfield classname="cdes_circuito_superv" name="use_code_supervisor"/>			
+			</action>			
+			<action label="monitorear" target="/lmodules/monitoreos/monitoreos_superv.php?OP=L"  operation="L" next="/lmodules/reportes/des_circuito_superv.php?last=1&amp;OP=L" >
+				<sendfield classname="cdes_circuito_superv" name="cir_code"/>
+				<sendfield classname="cdes_circuito_superv" name="use_code_supervisor"/>			
+			</action>				
 	</build>
 </make>
 <!-- Desemp por Operadores -->
@@ -161,7 +179,7 @@
 				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and c.use_code_operador=m.use_code_operador and c.use_code_supervisor=m.use_code_supervisor and cap_status='REALIZADO'),0) as cirg_cant_cap_realizados, 
 				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and c.use_code_operador=m.use_code_operador and c.use_code_supervisor=m.use_code_supervisor and cap_status='REALIZADO' and cap_rol_play_aprobado='SI'),0) as cirg_cant_cap_ok,
 				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and c.use_code_operador=m.use_code_operador and c.use_code_supervisor=m.use_code_supervisor and cap_status='REALIZADO' and cap_rol_play_aprobado='NO'),0) as cirg_cant_cap_mal,
-				round(avg(ifnull(mon_puntaje,0)),2) as cirg_puntaje_prom
+				round( ( sum(IF (mon_status='REALIZADO' ,ifnull(mon_puntaje,0),0)) / sum(IF (mon_status='REALIZADO' , 1 , 0)) ) ,2) as cirg_puntaje_prom
 				FROM monitoreos m where 1= 1 "/>		 
         <method ObjFactoryQuery="SELECT cir_code,use_code_operador,use_code_supervisor,
 				sum(IF (mon_status='PENDIENTE' , 1 , 0)) as cirg_cant_mon_pendientes, 
@@ -173,7 +191,7 @@
 				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and c.use_code_operador=m.use_code_operador and c.use_code_supervisor=m.use_code_supervisor and cap_status='REALIZADO'),0) as cirg_cant_cap_realizados, 
 				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and c.use_code_operador=m.use_code_operador and c.use_code_supervisor=m.use_code_supervisor and cap_status='REALIZADO' and cap_rol_play_aprobado='SI'),0) as cirg_cant_cap_ok,
 				ifnull((select count(distinct cap_code) from capacitacion c where c.cir_code=m.cir_code and c.use_code_operador=m.use_code_operador and c.use_code_supervisor=m.use_code_supervisor and cap_status='REALIZADO' and cap_rol_play_aprobado='NO'),0) as cirg_cant_cap_mal,
-				round(avg(ifnull(mon_puntaje,0)),2) as cirg_puntaje_prom
+				round( ( sum(IF (mon_status='REALIZADO' ,ifnull(mon_puntaje,0),0)) / sum(IF (mon_status='REALIZADO' , 1 , 0)) ) ,2) as cirg_puntaje_prom
 				FROM monitoreos m where 1= 1 "/>
         <method ObjFactoryQuerySuffix=" group by cir_code,use_code_supervisor,use_code_operador	ORDER BY cir_code desc,use_code_supervisor,use_code_operador "/>
          <field name="cir_code" label="circuito" type="INT" isfordb="true" ispk="false"/>
@@ -214,7 +232,6 @@
 			<listfield name="cir_code" isvisible="false" />
 			<listfield name="use_code_operador"/>
 			<listfield name="use_code_supervisor"/>			
-			<listfield name="cirg_puntaje_prom"/>
 			<listfield name="cirg_cant_mon_pendientes" total="true"/>
 			<listfield name="cirg_cant_mon_realizados" total="true"/>
 			<listfield name="cirg_cant_mon_ok" total="true"/>
@@ -222,15 +239,73 @@
 			<listfield name="cirg_cant_mon_cierre_forz" total="true"/>	
 			<listfield name="cirg_cant_cap_pendientes" total="true"/>
 			<listfield name="cirg_cant_cap_realizados" total="true"/>
-			<listfield name="cirg_cant_cap_ok" total="true"/>
-			<listfield name="cirg_cant_cap_mal" total="true"/>	
-			<action label="monitoreos" target="/lmodules/monitoreos/monitoreos.php?OP=L"  operation="L" next="/lmodules/reportes/des_circuito_oper.php?last=1&amp;OP=L" >
+
+			<action label="ver monitoreos" target="/lmodules/monitoreos/monitoreos.php?OP=L"  operation="L" next="/lmodules/reportes/des_circuito_oper.php?last=1&amp;OP=L" >
 				<sendfield classname="cdes_circuito_oper" name="cir_code"/>
 				<sendfield classname="cdes_circuito_oper" name="use_code_supervisor"/>
 				<sendfield classname="cdes_circuito_oper" name="use_code_operador"/>				
 			</action>			
+			<action label="monitorear" target="/lmodules/monitoreos/monitoreos_superv.php?OP=L"  operation="L" next="/lmodules/reportes/des_circuito_oper.php?last=1&amp;OP=L" >
+				<sendfield classname="cdes_circuito_oper" name="cir_code"/>
+				<sendfield classname="cdes_circuito_oper" name="use_code_supervisor"/>
+				<sendfield classname="cdes_circuito_oper" name="use_code_operador"/>				
+			</action>	
 
+	</build>
+</make>
 
+<!-- Desemp por Item de Monitoreo -->
+<make object="class"> 
+	<build out_file="cdes_item.php" classname="cdes_item" classlabel="Desemp. Items de Monitoreo">
+	     <parse tablename="des_item"/>
+		 <method SaveDBTotalQuery="select count(*) as cant
+								  from mon_items i join monitoreos m on m.mon_code = i.mon_code where not(mon_status='PENDIENTE')"/>		 
+        <method ObjFactoryQuery="select count(*) as cantidad,
+								  avg(it_puntaje) as it_puntaje,
+								  sum(if (ifnull(it_aprobo,'')='SI',1,0)) as aprobados,
+								  sum(if (ifnull(it_aprobo,'')='NO',1,0)) as no_aprobados,
+								  sum(if (ifnull(it_perjuicio_cliente,'') ='SI',1,0)) as perjuicio,
+								  sum(if (ifnull(it_perjuicio_cliente,'') ='NO',1,0)) as no_perjuicio,
+								  it_code, cir_code,use_code_supervisor,use_code_operador
+								  from mon_items i join monitoreos m on m.mon_code = i.mon_code where not(mon_status='PENDIENTE') "/>		
+        <method ObjFactoryQuerySuffix=" group by it_code,  cir_code, use_code_supervisor, use_code_operador	order by it_code,  cir_code, use_code_supervisor, use_code_operador "/>
+           <field name="it_code" label="item"  type="INT" isfordb="true" ispk="false"/>
+		<field name="cir_code" label="circuito" type="INT" isfordb="true" ispk="false"/>
+         <field name="use_code_operador" label="operador" type="INT" isfordb="true" ispk="false"/>		
+         <field name="use_code_supervisor" label="supervisor" type="INT" isfordb="true" ispk="false"/>				 
+		<field name="aprobados" total="true"  type="INT" isfordb="true" ispk="false"/>
+		<field name="no_aprobados" total="true"  type="INT" isfordb="true" ispk="false"/>
+		<field name="perjuicio" total="true"  type="INT" isfordb="true" ispk="false"/>
+		<field name="no_perjuicio" total="true"  type="INT" isfordb="true" ispk="false"/> 
+		<field name="cantidad" total="true"  type="INT" isfordb="true" ispk="false"/>		
+		<field name="it_puntaje" type="FLOAT" isfordb="true" ispk="false"/>			
+   </build>
+</make>
+<make object="search_and_list"> 
+	<build out_file="des_item.php" classname="cdes_item" title="Desempeño por Items de Monitoreo">
+		    <field name="cir_code" label="Circuito"  presentation="CIRCUITOS" />	
+			<field name="use_code_operador" label="Operador" presentation="OPERADOR"/>	
+			<field name="use_code_supervisor" label="Supervisor Asignado" presentation="SUPERVISOR"/>				
+			<field name="it_code" label="Item" presentation="ITEM"/>		
+			<field name="aprobados" label="Aprobados" presentation="INT" total="true"/>
+			<field name="no_aprobados" label="NO Aprobados" presentation="INT" total="true"/>
+			<field name="perjuicio" label="Req. Capacitac." presentation="INT" total="true"/>
+			<field name="no_perjuicio" label="No Req. Capac."  presentation="INT" total="true"/>	
+			<field name="it_puntaje" label="Promedio" presentation="FLOAT"/>		
+			<field name="cantidad" label="Cantidad" presentation="INT" total="true"/>	
+			<searchfield name="cir_code"/>
+			<searchfield name="use_code_operador"/>
+			<searchfield name="use_code_supervisor"/>
+			<searchfield name="it_code"/>
+			<listfield name="cir_code"  />
+			<listfield name="use_code_operador"/>
+			<listfield name="use_code_supervisor"/>	
+			<listfield name="it_code"/>			
+			<listfield name="cantidad" total="true"/>
+			<listfield name="aprobados" total="true"/>
+			<listfield name="no_aprobados" total="true"/>				
+			<listfield name="no_perjuicio" total="true"/>	
+			<listfield name="perjuicio" total="true"/>
 	</build>
 </make>
 

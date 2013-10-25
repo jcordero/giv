@@ -24,6 +24,7 @@ class grupo_gr extends cform_group {
         //Campos del grupo
         $this->m_fields[] = 'ccircuitos:cir_code';
         $this->m_fields[] = 'ccircuitos:cir_name';
+        $this->m_fields[] = 'ccircuitos:cir_semanas';
         $this->m_fields[] = 'ccircuitos:cir_date_ini';
         $this->m_fields[] = 'ccircuitos:cir_date_fin';
         $this->m_fields[] = 'ccircuitos:cir_importance_min';
@@ -33,12 +34,13 @@ class grupo_gr extends cform_group {
 
     public function InitializeInstance() {
         //SetDisplayValues($attributes) 
-        $this->getClass("ccircuitos")->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsVisible"=>true, "IsReadOnly"=>true, "Sequence"=>"circuitos", "Class"=>"ccircuitos"));
+        $this->getClass("ccircuitos")->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circuito Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"INT", "IsNullable"=>false, "IsReadOnly"=>true, "Class"=>"ccircuitos"));
         $this->getClass("ccircuitos")->GetField("cir_name")->SetDisplayValues(Array("Name"=>"cir_name", "Label"=>"Nombre", "Size"=>200, "IsForDB"=>true, "Order"=>102, "Presentation"=>"TEXT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccircuitos"));
-        $this->getClass("ccircuitos")->GetField("cir_date_ini")->SetDisplayValues(Array("Name"=>"cir_date_ini", "Label"=>"Fecha Inicio", "Type"=>"datetime", "IsForDB"=>true, "Order"=>103, "Presentation"=>"DATE", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccircuitos"));
-        $this->getClass("ccircuitos")->GetField("cir_date_fin")->SetDisplayValues(Array("Name"=>"cir_date_fin", "Label"=>"Fecha Final", "Type"=>"datetime", "IsForDB"=>true, "Order"=>104, "IsMandatory"=>true, "Presentation"=>"DATE", "IsVisible"=>true, "Class"=>"ccircuitos"));
-        $this->getClass("ccircuitos")->GetField("cir_importance_min")->SetDisplayValues(Array("Name"=>"cir_importance_min", "Label"=>"Importancia Min", "Type"=>"int", "IsForDB"=>true, "Order"=>105, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccircuitos"));
-        $this->getClass("ccircuitos")->GetField("cir_status")->SetDisplayValues(Array("Name"=>"cir_status", "Label"=>"Estado", "Size"=>20, "IsForDB"=>true, "Order"=>106, "Presentation"=>"ESTADO_CIRCUITOS", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccircuitos"));
+        $this->getClass("ccircuitos")->GetField("cir_semanas")->SetDisplayValues(Array("Name"=>"cir_semanas", "Label"=>"Semanas de Monitoreo", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccircuitos"));
+        $this->getClass("ccircuitos")->GetField("cir_date_ini")->SetDisplayValues(Array("Name"=>"cir_date_ini", "Label"=>"Fecha Inicio", "Type"=>"datetime", "IsForDB"=>true, "Order"=>104, "Presentation"=>"DATE", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccircuitos"));
+        $this->getClass("ccircuitos")->GetField("cir_date_fin")->SetDisplayValues(Array("Name"=>"cir_date_fin", "Label"=>"Fecha Final", "Type"=>"datetime", "IsForDB"=>true, "Order"=>105, "IsMandatory"=>true, "Presentation"=>"DATE", "IsVisible"=>true, "Class"=>"ccircuitos"));
+        $this->getClass("ccircuitos")->GetField("cir_importance_min")->SetDisplayValues(Array("Name"=>"cir_importance_min", "Label"=>"Importancia Min", "Type"=>"int", "IsForDB"=>true, "Order"=>106, "Presentation"=>"INT", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccircuitos"));
+        $this->getClass("ccircuitos")->GetField("cir_status")->SetDisplayValues(Array("Name"=>"cir_status", "Label"=>"Estado", "Size"=>20, "IsForDB"=>true, "Order"=>107, "Presentation"=>"ESTADO_CIRCUITOS", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccircuitos"));
     }
 }
 }

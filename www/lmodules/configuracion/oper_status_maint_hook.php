@@ -61,8 +61,36 @@ class coper_status_m_hooks extends cclass_maint_hooks
 		$use_code = intval($obj->getField("use_code")->getValue());
 		$cir_code = intval($obj->getField("cir_code")->getValue());
 		$oper_grupo = $obj->getField("oper_grupo")->getValue();
-		$modificar_circuito = $obj->getField("modificar_circuito")->getValue();
+		$oper_nuevo = $obj->getField("oper_nuevo")->getValue();
 		$crit_status = $obj->getField("crit_status")->getValue();
+		if ($oper_nuevo == 'SI') 
+		{
+		  $semanas = 2;
+		  if ($oper_grupo != 'Nuevos')
+		  {
+				$res[] = "MENSAJE: Si un operador es nuevo debe pertenecer al Grupo Nuevos.";	
+				return $res;
+		  }
+		  if ($crit_status != 4)
+		  {
+				$res[] = "MENSAJE: Si un operador es nuevo debe tener Estado Operador 4 (Nuevo Operador)";	
+				return $res;
+		  }		  
+		}else{
+		     $semanas = 0; // De acuerdo al criterio
+		  if ($oper_grupo == 'Nuevos')
+		  {
+				$res[] = "MENSAJE: Si un operador no es nuevo no puede pertenecer al Grupo Nuevos.";	
+				return $res;
+		  }		
+		  if ($crit_status != 4)
+		  {
+				$res[] = "MENSAJE: Si un operador no es nuevo no puede tener Estado Operador 4 (Nuevo Operador)";	
+				return $res;
+		  }			  
+		}
+		$modificar_circuito = $obj->getField("modificar_circuito")->getValue();
+		
 		$oper_status = $obj->getField("oper_status")->getValue();
 		if ($oper_status != 'ACTIVO') 
 		{
@@ -92,8 +120,7 @@ class coper_status_m_hooks extends cclass_maint_hooks
 				return $res;
 			}	
 
-			$fecha1	=  $primary_db->QueryString("select DATE_FORMAT(mon_date_aprox,'%d/%m/%Y') from monitoreos where cir_code=".$cir_code." and mon_date_aprox >= date(now()) order by mon_date_aprox limit 1");
-			if ($fecha1 == "") $fecha1 = date("d/m/Y"); 
+		
 					  
 			$cirg_code_act = $primary_db->QueryString("select cirg_code from cir_groups where oper_grupo='$oper_grupo' and cir_code=".$cir_code);	
 			if ($cirg_code_act == "")
@@ -111,8 +138,7 @@ class coper_status_m_hooks extends cclass_maint_hooks
 			if ($OP == "N")
 			{
 			  // insertar monitoreos
-
-			       $error = insertar_operador_en_circuito($cir_code,$oper_grupo,$use_code_supervisor,$use_code,$crit_status,$fecha1,$cir_date_fin);
+			       $error = insertar_operador_en_circuito($cir_code,$oper_grupo,$use_code_supervisor,$use_code,$crit_status,$semanas);
 				   if ($error != "") $res[] = "MENSAJE: ".$error;
 			}
 			else
@@ -121,11 +147,17 @@ class coper_status_m_hooks extends cclass_maint_hooks
 				   $cant =  $primary_db->QueryString("select count(*) from monitoreos  where cir_code = $cir_code and use_code_operador = $use_code"  );
 				   if (intval($cant) > 0)
 				   {
+				       /* Mover los pendientes */
 				       $oper_grupo_ant =  $primary_db->QueryString("select oper_grupo from oper_status  where use_code = $use_code" );
 				       $error = mover_operador_en_circuito($cir_code,$oper_grupo_ant,$oper_grupo,$use_code);
 					   if ($error != "") $res[] = "MENSAJE: ".$error;
+					   // Si es nuevo y no tiene monitoreos futuros, hay que insertarles las semanas restantes
+					   $cant_mon =  $primary_db->QueryString("select count(*) from monitoreos where cir_code=".$cir_code." and use_code_operador = $use_code and mon_date_aprox >= date(now()) order by mon_date_aprox limit 1");
+					   if (intval($cant_mon) == 0)
+							$error = insertar_monitoreos_en_circuito($cir_code,$oper_grupo,$use_code_supervisor,$use_code,$crit_status,0);	
+					   
 				   }else{
-						$error = insertar_operador_en_circuito($cir_code,$oper_grupo,$use_code_supervisor,$use_code,$crit_status,$fecha1,$cir_date_fin);
+						$error = insertar_operador_en_circuito($cir_code,$oper_grupo,$use_code_supervisor,$use_code,$crit_status);
 						if ($error != "") $res[] = "MENSAJE: ".$error;
 				   }
 		    }

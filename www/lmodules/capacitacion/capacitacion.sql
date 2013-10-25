@@ -19,5 +19,12 @@ CREATE TABLE capacitacion (
   constraint pk_capacitacion primary key clustered (cap_code)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-
--- --------------------------------------------------------
+CREATE TABLE cap_calls (
+  cap_code int(10) NOT NULL,
+  cap_call int(10) NOT NULL, 
+  cap_call_date datetime NULL, 
+  cap_call_reference varchar(20) NULL,    
+  doc_storage varchar(200) NULL,  
+  cap_call_aprobo varchar(2) NULL,
+  constraint pk_cap_calls primary key clustered (cap_call)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

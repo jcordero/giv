@@ -5,14 +5,14 @@
 include_once "common/csearchandlist.php";
 
 //Clases involucradas en esta pagina
-include_once "ccapacitacion.php";
+include_once "ccapacitacion_small.php";
 
-class ccapacitacion_sl extends csearchandlist {
+class ccapacitacion_small_sl extends csearchandlist {
     function __construct() {
         parent::__construct();
         $this->m_title = "Listar Capacitaciones Pendientes";
-        $this->m_classname = "ccapacitacion_sl";
-        $this->m_obj = new ccapacitacion();
+        $this->m_classname = "ccapacitacion_small_sl";
+        $this->m_obj = new ccapacitacion_small();
         $this->m_page_name = "capacitacion_superv_pend.php";
         $this->m_result = new ctable($this->m_title);
         $this->m_print_orientation = 'P';
@@ -132,13 +132,13 @@ class col104 extends ccolumn
     }
 }
 
-class ccapacitacion_table extends ctable
+class ccapacitacion_small_table extends ctable
 {
     function __construct($parent)
     {
         parent::__construct($parent);
         $this->m_title = 'Listar Capacitaciones Pendientes'; //Titulo de la tabla
-        $this->m_classname = 'ccapacitacion'; //Clase contenedora de datos
+        $this->m_classname = 'ccapacitacion_small'; //Clase contenedora de datos
         $this->m_total = false; //Incluir ultima fila de totales
 
         //Agrego las columnas a la tabla
@@ -151,7 +151,7 @@ class ccapacitacion_table extends ctable
 
 }
 
-$pg = new ccapacitacion_sl();
+$pg = new ccapacitacion_small_sl();
 $pg->CreatePage();
 
 ?>

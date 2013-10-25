@@ -1,6 +1,7 @@
 CREATE TABLE circuitos (
   cir_code int(10) NOT NULL,
   cir_name varchar(200) NULL,
+  cir_semanas int(10)  NULL,
   cir_date_ini datetime NULL,
   cir_date_fin datetime  NULL,
   cir_importance_min int NULL,
@@ -11,13 +12,14 @@ CREATE TABLE circuitos (
 
 CREATE TABLE cir_semanas (
   cir_code int(10) NOT NULL,
+  cir_semana int NULL, 
   cir_date datetime NULL,
   cir_date_ini datetime NULL,
   cir_date_fin datetime  NULL,
   constraint pk_cir_semanas primary key clustered 
   (	cir_code, cir_date)
 ) 
-
+  
 CREATE TABLE cir_groups (
   cirg_code int(10) NOT NULL,
   cir_code int(10) NOT NULL,
@@ -47,6 +49,17 @@ CREATE TABLE cir_oper (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;  
 
 
+/*
+create table cir1 (
+  cir_code int(10) NOT NULL,
+  cir_semana int NULL, 
+  cir_date datetime NULL
+);
+insert into cir1 (cir_code,cir_semana,cir_date)
+select cir_code,(select count(*) from cir_semanas c1 where c1.cir_code=c2.cir_code and c1.cir_date<=c2.cir_date),cir_date from cir_semanas c2;
 
+update cir_semanas set cir_semana = (select cir_semana from cir1 where cir1.cir_code = cir_semanas.cir_code and   cir1.cir_date = cir_semanas.cir_date);
+drop table cir1;
+*/
  
 -- --------------------------------------------------------

@@ -112,23 +112,6 @@ class col104 extends ccolumn
     }
 }
 
-class col105 extends ccolumn
-{
-    function __construct($parent)
-    {
-        parent::__construct($parent);
-        $this->m_title = 'Promedio';
-        $this->m_order = '105';
-        $this->m_isvisible = true;
-        $this->m_align = 'left';
-        $this->m_sort_field = 'cirg_puntaje_prom';
-        $this->m_width = '';
-
-        //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cirg_puntaje_prom", "Label"=>"Promedio", "Type"=>"float", "IsForDB"=>true, "Order"=>105, "Presentation"=>"FLOAT", "IsVisible"=>true));
-    }
-}
-
 class col106 extends ccolumn
 {
     function __construct($parent)
@@ -248,40 +231,6 @@ class col111 extends ccolumn
     }
 }
 
-class col112 extends ccolumn
-{
-    function __construct($parent)
-    {
-        parent::__construct($parent);
-        $this->m_title = 'Capac. OK';
-        $this->m_order = '112';
-        $this->m_isvisible = true;
-        $this->m_align = 'left';
-        $this->m_sort_field = 'cirg_cant_cap_ok';
-        $this->m_width = '';
-
-        //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cirg_cant_cap_ok", "Label"=>"Capac. OK", "Type"=>"int", "IsForDB"=>true, "Order"=>112, "Presentation"=>"INT", "IsVisible"=>true, "total"=>true));
-    }
-}
-
-class col113 extends ccolumn
-{
-    function __construct($parent)
-    {
-        parent::__construct($parent);
-        $this->m_title = 'Capac. Mal';
-        $this->m_order = '113';
-        $this->m_isvisible = true;
-        $this->m_align = 'left';
-        $this->m_sort_field = 'cirg_cant_cap_mal';
-        $this->m_width = '';
-
-        //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cirg_cant_cap_mal", "Label"=>"Capac. Mal", "Type"=>"int", "IsForDB"=>true, "Order"=>113, "Presentation"=>"INT", "IsVisible"=>true, "total"=>true));
-    }
-}
-
 class ccir_oper_table extends ctable
 {
     function __construct($parent)
@@ -296,7 +245,6 @@ class ccir_oper_table extends ctable
         $this->m_cols[102] = new col102($this);
         $this->m_cols[103] = new col103($this);
         $this->m_cols[104] = new col104($this);
-        $this->m_cols[105] = new col105($this);
         $this->m_cols[106] = new col106($this);
         $this->m_cols[107] = new col107($this);
         $this->m_cols[108] = new col108($this);
@@ -304,8 +252,6 @@ class ccir_oper_table extends ctable
         $this->m_cols[114] = new col114($this);
         $this->m_cols[110] = new col110($this);
         $this->m_cols[111] = new col111($this);
-        $this->m_cols[112] = new col112($this);
-        $this->m_cols[113] = new col113($this);
     }
 
 }

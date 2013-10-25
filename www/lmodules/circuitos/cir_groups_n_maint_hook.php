@@ -36,7 +36,7 @@ class ccir_groups_n_hooks extends cclass_maint_hooks
 			if ( ($cir_status != 'PENDIENTE') && ($cir_status != 'ACTIVO'))
 				$res[] = "MENSAJE: Solo se pueden actualizar circuitos con estado PENDIENTE o ACTIVO.";
 		} else
-			$res[] = "MENSAJE: No se encontró el circuito.";
+			$res[] = "MENSAJE: No se encontrï¿½ el circuito.";
 		
 		if (count($res) > 0) return $res;
 		
@@ -58,7 +58,6 @@ class ccir_groups_n_hooks extends cclass_maint_hooks
 		
 		if ( $cir_status == 'ACTIVO')
 		{
-			// Controlar que los conceptos no esten repetidos
 			$i=0;	
 			foreach($obj->m_childs['oper_status'] as $o)
 			{
@@ -72,9 +71,12 @@ class ccir_groups_n_hooks extends cclass_maint_hooks
 				       $oper_grupo_ant =  $primary_db->QueryString("select oper_grupo from oper_status  where use_code = $use_code_operador" );
 				       $error = mover_operador_en_circuito($cir_code,$oper_grupo_ant,$oper_grupo,$use_code_operador);
 					   if ($error != "") $res[] = "MENSAJE: ".$error;
+					   $cant_mon =  $primary_db->QueryString("select count(*) from monitoreos where cir_code=".$cir_code." and use_code_operador = $use_code_operador and mon_date_aprox >= date(now()) ");
+					   if (intval($cant_mon) == 0) 
+							$error = insertar_monitoreos_en_circuito($cir_code,$oper_grupo,$use_code_supervisor,$use_code_operador,$crit_status,$semanas);					   
 				}else{
 				   // Insertar Monitoreos
-						$error = insertar_operador_en_circuito($cir_code,$oper_grupo,$use_code_supervisor,$use_code_operador,$crit_status,$cir_date_ini,$cir_date_fin);
+						$error = insertar_operador_en_circuito($cir_code,$oper_grupo,$use_code_supervisor,$use_code_operador,$crit_status,$semanas);
 						if ($error != "") $res[] = "MENSAJE: ".$error;
 				}
 				   

@@ -52,6 +52,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		$mon_add_mon = intval($obj->getField("mon_add_mon")->getValue());
 		$mon_add_cap = intval($obj->getField("mon_add_cap")->getValue());	
 		$mon_date_aprox = $obj->getField("mon_date_aprox")->getValue();
+		$mon_date_aprox = $obj->getField("mon_date")->getValue();
 		/*
 		if ($mon_status != 'PENDIENTE')
 		{
@@ -64,8 +65,8 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		$obj->getField("mon_aprobo")->setValue("NO");
 		$obj->getField("mon_puntaje")->setValue("0");	
 		$obj->getField("mon_perjuicio_cliente")->setValue("NO");
-		
-		$sql = "update monitoreos set mon_forzado='SI', mon_motivo='".$mon_motivo."', mon_date= now(), ";
+		$primary_db->beginTransaction();		
+		$sql = "update monitoreos set mon_forzado='SI', mon_motivo='".$mon_motivo."', mon_date= now(),mon_add_mon=0,mon_add_cap=0, ";
 		$sql.= "mon_aprobo='NO',mon_puntaje=0,mon_perjuicio_cliente='NO',mon_status='CERRADO',mon_use_code=".$sess->user_id;
 		$sql.= " where mon_code=".$mon_code;
 		$primary_db->do_execute($sql, $err);
@@ -74,9 +75,9 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 			
 		else
 		{
-			if ($mon_add_cap < 0) 
+			if ($mon_add_cap > 0) 
 			{
-			   $error = del_capacitacion($cir_code,$mon_code, $mon_add_cap);
+			   $error = del_capacitacion($cir_code,$mon_code, $use_code_operador, $mon_add_cap);
 			   if ($error != "") 
 				   $res[] = "MENSAJE: Error al eliminar Capacitaciones Agregadas";	
 			}
@@ -84,11 +85,15 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 
 			if ($mon_add_mon > 0) 
 			{
-			   $error = del_monitoreo($cir_code,$mon_date_aprox, $mon_add_mon);
+			   $error = del_monitoreo($cir_code,$mon_date_aprox, $use_code_operador, $mon_add_mon);
 			   if ($error != "") 
 				   $res[] = "MENSAJE: Error al eliminar Monitoreos Agregados";	
 			}
 		}	
+		if (count($res) == 0)
+			$primary_db->commitTransaction();
+		else
+			$primary_db->rollbackTransaction();
 
 		
 		return $res;
@@ -117,7 +122,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		$html.= "<b>Estado del Monitoreo: </b>".$obj->getField("mon_status")->getValue().".<br>";
 		$html.= "<b>Cierre Forzado: </b>".$obj->getField("mon_forzado")->getValue().".<br>";
 		$html.= "<b>Aprobó?: </b>".$obj->getField("mon_aprobo")->getValue().".<br>";
-		$html.= "<b>Perjuicio al Vecino?: </b>".$obj->getField("mon_perjuicio_cliente")->getValue().".<br>";			
+		$html.= "<b>Requiere Capacitacion?: </b>".$obj->getField("mon_perjuicio_cliente")->getValue().".<br>";			
 		$html.= "<b>Puntaje: </b>".$obj->getField("mon_puntaje")->getValue().".<br>";
 		$html.= "</span><td></tr><tr><td colspan=3>";
 		$content['msgextra']= $html;

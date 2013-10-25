@@ -7,8 +7,9 @@
 		   <menuitem name="Mis Monitoreos Operador" right="monitoreos.operador" action="/lmodules/monitoreos/monitoreos_operador.php?OP=L" tooltip="Listar y consultar mis Monitoreos" order="4" pda="true"/>			
 		   <menuitem name="Desempeño" order="5" right="circuitos.cir_oper" >
 			<menuitem name="Desempeño por Supervisor"  action="/lmodules/reportes/des_circuito_superv.php?OP=L" tooltip="Listar desempeño de Operadores totalizado por Supervisor" order="2" pda="true"/>
-			<menuitem name="Desempeño por Operadores" action="/lmodules/circuitos/cir_oper.php?OP=L" tooltip="Listar desempeño de Operadores" order="3" pda="true"/>
+			<menuitem name="Desempeño por Operadores" action="/lmodules/circuitos/cir_oper.php?OP=L" tooltip="Listar desempeño de Operadores" order="3" pda="true"/>					
 		  </menuitem>
+		<menuitem name="Items de Monitoreo" action="/lmodules/reportes/des_item.php?OP=X" tooltip="Listar desempeño de Item de Monitoreo" order="6" pda="true"/>		  
 		</menuitem>
 	</menu>	
 </module>
