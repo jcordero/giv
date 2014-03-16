@@ -83,7 +83,7 @@ class coper_status_m_hooks extends cclass_maint_hooks
 				$res[] = "MENSAJE: Si un operador no es nuevo no puede pertenecer al Grupo Nuevos.";	
 				return $res;
 		  }		
-		  if ($crit_status != 4)
+		  if ($crit_status == 4)
 		  {
 				$res[] = "MENSAJE: Si un operador no es nuevo no puede tener Estado Operador 4 (Nuevo Operador)";	
 				return $res;
@@ -138,7 +138,7 @@ class coper_status_m_hooks extends cclass_maint_hooks
 			if ($OP == "N")
 			{
 			  // insertar monitoreos
-			       $error = insertar_operador_en_circuito($cir_code,$oper_grupo,$use_code_supervisor,$use_code,$crit_status,$semanas);
+			       $error = insertar_operador_en_circuito($cir_code,$oper_grupo,$use_code_supervisor,$use_code,$crit_status,$semanas,false);
 				   if ($error != "") $res[] = "MENSAJE: ".$error;
 			}
 			else
@@ -151,13 +151,11 @@ class coper_status_m_hooks extends cclass_maint_hooks
 				       $oper_grupo_ant =  $primary_db->QueryString("select oper_grupo from oper_status  where use_code = $use_code" );
 				       $error = mover_operador_en_circuito($cir_code,$oper_grupo_ant,$oper_grupo,$use_code);
 					   if ($error != "") $res[] = "MENSAJE: ".$error;
-					   // Si es nuevo y no tiene monitoreos futuros, hay que insertarles las semanas restantes
-					   $cant_mon =  $primary_db->QueryString("select count(*) from monitoreos where cir_code=".$cir_code." and use_code_operador = $use_code and mon_date_aprox >= date(now()) order by mon_date_aprox limit 1");
-					   if (intval($cant_mon) == 0)
-							$error = insertar_monitoreos_en_circuito($cir_code,$oper_grupo,$use_code_supervisor,$use_code,$crit_status,0);	
+					   // Si  no tiene monitoreos futuros, hay que insertarles las semanas restantes
+					   $error = insertar_monitoreos_en_circuito($cir_code,$oper_grupo,$use_code_supervisor,$use_code,$crit_status,$semanas, false);	
 					   
 				   }else{
-						$error = insertar_operador_en_circuito($cir_code,$oper_grupo,$use_code_supervisor,$use_code,$crit_status);
+						$error = insertar_operador_en_circuito($cir_code,$oper_grupo,$use_code_supervisor,$use_code,$crit_status,$semanas,false);
 						if ($error != "") $res[] = "MENSAJE: ".$error;
 				   }
 		    }

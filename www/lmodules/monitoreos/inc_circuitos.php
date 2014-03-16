@@ -283,23 +283,37 @@ function insertar_monitoreos_en_circuito($cir_code,$oper_grupo_act,$use_code_sup
 	if ($completo)
 	{
 	  $sql2 = "select DATE_FORMAT(cir_date,'%d/%m/%Y') as cir_date,cir_semana from cir_semanas where cir_code=".$cir_code ;
+	  $out2 = $primary_db->do_execute($sql2, $err2);
+	  if (count($err2) != 0) $error = "Error al buscar las fechas del circuito $cir_code.";	
 	}
 	else
 	{
 	// A partir de la fecha
-	  $sql2 = "select DATE_FORMAT(cir_date,'%d/%m/%Y') as cir_date,cir_semana from cir_semanas where cir_code=".$cir_code." and cir_date >=  date(now()) order by cir_code,cir_date asc" ;
-
+	  $sql2 = "select DATE_FORMAT(cir_date,'%d/%m/%Y') as cir_date,cir_semana from cir_semanas where cir_code=".$cir_code." and cir_date >=  date(now())  order by cir_date asc" ;
+	  $out2 = $primary_db->do_execute($sql2, $err2);
+	  /*
+	  if (count($err2) != 0)
+	  {
+		 $sql2 = "select DATE_FORMAT(cir_date,'%d/%m/%Y') as cir_date,cir_semana from cir_semanas where cir_code=".$cir_code."  order by cir_date desc limit 0,1" ;
+	     $out2 = $primary_db->do_execute($sql2, $err2);
+      }
+	  */
+	  if (count($err2) != 0) $error = "Error al buscar las fechas del circuito $cir_code.";	
 	}
-	$out2 = $primary_db->do_execute($sql2, $err2);
-	if (count($err2) != 0)
-					$error = "Error al buscar las fechas del circuito $cir_code.";
-	else {
+     		 	
+	if ($error == '')
+	{
 		while ( ($row2 = $primary_db->_fetch_row($out2)) && ($error ==''))	{
-	        $cirg_cant_mon_pendientes=$cirg_cant_mon_pendientes+$crit_status_mon_sem;
-			for ($i=0;$i<$crit_status_mon_sem;$i++)	{
-				$error = insertar_monitoreo($cir_code,$use_code_supervisor,$use_code_operador,$row2["cir_date"],$row2["cir_semana"]); 	
-				if ($error != '')  break; 			  
-			}
+		
+		    $cant = intval($primary_db->QueryString("select count(*) from monitoreos where cir_code=".$cir_code." and use_code_operador=".$use_code_operador." and cir_semana=".intval($row2["cir_semana"])));
+			if ($cant == 0)
+			{
+				$cirg_cant_mon_pendientes=$cirg_cant_mon_pendientes+$crit_status_mon_sem;
+				for ($i=0;$i<$crit_status_mon_sem;$i++)	{
+					$error = insertar_monitoreo($cir_code,$use_code_supervisor,$use_code_operador,$row2["cir_date"],$row2["cir_semana"]); 	
+					if ($error != '')  break; 			  
+				}
+			}	
 			$j++;
 			if (($semanas > 0) && ($j==$semanas)) break;
 		}

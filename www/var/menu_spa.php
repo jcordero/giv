@@ -157,6 +157,8 @@
             	$buff.='</ul>';
             	$buff.='</li>';
             }
+        	$buff.="<li><a href=\"".$this->encodeURL('/lmodules/reportes/des_item.php?OP=X')."\">Items de Monitoreo</a>";
+        	$buff.='</li>';
         	$buff.='</ul>';
         }
         if($this->haveRight($primary_db,'capacitacion.menu')) { 

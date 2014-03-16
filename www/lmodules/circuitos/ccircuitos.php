@@ -25,6 +25,7 @@ class ccircuitos extends cobjbase {
         $this->m_fields['cir_date_fin'] = new CField(Array("Name"=>"cir_date_fin", "Type"=>"datetime", "IsForDB"=>true, "Order"=>105));
         $this->m_fields['cir_importance_min'] = new CField(Array("Name"=>"cir_importance_min", "Type"=>"int", "IsForDB"=>true, "Order"=>106));
         $this->m_fields['cir_status'] = new CField(Array("Name"=>"cir_status", "Size"=>20, "IsForDB"=>true, "Order"=>107));
+        $this->m_fields['tmp_graph'] = new CField(Array("Name"=>"tmp_graph", "Type"=>"int", "Order"=>8));
 
         //--Contenedores de Clases dependientes
         // No hay clases dependientes

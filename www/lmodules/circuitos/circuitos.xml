@@ -4,7 +4,8 @@
 	<build out_file="ccircuitos.php" classname="ccircuitos" classlabel="Circuitos">
 		<parse in_file="circuitos.sql" tablename="circuitos" />	
 
-		<method ObjFactoryQuerySuffix=" ORDER BY cir_date_ini desc"/>			
+		<method ObjFactoryQuerySuffix=" ORDER BY cir_date_ini desc"/>		
+		<field name="tmp_graph" type="int" />		
 	</build>
 </make> 
 <make object="search_and_list"> 
@@ -40,6 +41,9 @@
 			</action>	
 			<action label="grupos" right="circuitos.cir_groups" target="cir_groups.php?OP=L" operation="L"  >
 				<sendfield classname="ccircuitos" name="cir_code"/>
+			</action>		
+			<action label="grafico"  target="cir_grafico_maint.php?OP=M" operation="M"  >
+				<sendfield classname="ccircuitos" name="cir_code"/>
 			</action>				
 	</build>
 </make>
@@ -56,6 +60,14 @@
 		<field name="cir_status" label="Estado" presentation="ESTADO_CIRCUITOS" initialvalue="PENDIENTE" readonly="true" />	
 	</group>
 		<action label="Asignar Grupo de Operadores" target="cir_groups_n_maint.php?OP=N"  operation="N" />		
+	</build>
+</make>
+<make object="table_maint">
+	<build out_file="cir_grafico_maint.php" classname="ccircuitos" title="Gráfico del Circuito" default_operation="M">		
+			<include file="cir_grafico.js"/>
+			<field name="cir_code" label="Circuito" presentation="CIRCUITOS" isvisible="false" />			
+			<field name="tmp_graph" label="" readonly="true"/>
+	
 	</build>
 </make>
 <make object="table_maint"> 
@@ -235,7 +247,10 @@
 <!-- OEPRADORES POR GRUPOS  -->
 <make object="class"> 
 	<build out_file="ccir_oper.php" classname="ccir_oper" classlabel="Operadores por Grupos">
-		<parse in_file="circuitos.sql" tablename="cir_oper" />			
+		<parse in_file="circuitos.sql" tablename="cir_oper" />		
+		<method SaveDBTotalQuery="select  COUNT(*)  as cant from cir_oper  where cir_code in (select cir_code from circuitos where cir_status='CERRADO') " />		
+		<method ObjFactoryQuery="select * from cir_oper  where cir_code in (select cir_code from circuitos where cir_status='CERRADO') " />		
+		<method ObjFactoryQuerySuffix=" order by cir_code,use_code_operador desc"/>
 		<field name="cirg_cant_mon_pendientes" total="true" />
 		<field name="cirg_cant_mon_realizados" total="true" />
 		<field name="cirg_cant_mon_ok" total="true" />
@@ -249,7 +264,7 @@
 </make>
 <make object="search_and_list"> 
 	<build out_file="cir_oper.php" classname="ccir_oper" title="Desempeño">
-			 <field name="cir_code" label="Circ. Nro"  presentation="CIRCUITOS" />	
+			 <field name="cir_code" label="Circ. Nro"  presentation="CIRCUITO_CERRADO" />	
 			<field name="use_code_operador" label="Operador" presentation="OPERADOR" />
 			<field name="crit_status_ini" label="Estado Ini" presentation="CRIT_STATUS" />
 			<field name="crit_status_fin" label="Estado Fin" presentation="CRIT_STATUS" />

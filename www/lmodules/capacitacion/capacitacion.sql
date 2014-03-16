@@ -26,5 +26,6 @@ CREATE TABLE cap_calls (
   cap_call_reference varchar(20) NULL,    
   doc_storage varchar(200) NULL,  
   cap_call_aprobo varchar(2) NULL,
+  cap_note varchar(200) NULL,  
   constraint pk_cap_calls primary key clustered (cap_call)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

@@ -83,16 +83,17 @@ class cap_calls extends cobjbase {
         $this->m_fields['cap_call_reference'] = new CField(Array("Name"=>"cap_call_reference", "Size"=>20, "IsForDB"=>true, "Order"=>104));
         $this->m_fields['doc_storage'] = new CField(Array("Name"=>"doc_storage", "Size"=>200, "IsForDB"=>true, "Order"=>105));
         $this->m_fields['cap_call_aprobo'] = new CField(Array("Name"=>"cap_call_aprobo", "Size"=>2, "IsForDB"=>true, "Order"=>106));
+        $this->m_fields['cap_note'] = new CField(Array("Name"=>"cap_note", "Size"=>200, "IsForDB"=>true, "Order"=>107));
 
         //--Contenedores de Clases dependientes
         // No hay clases dependientes
 
         //Consultas particulares a la base de datos
-        $this->m_loaddb_sql = "SELECT cap_code, cap_call, cap_call_date, cap_call_reference, doc_storage, cap_call_aprobo FROM cap_calls  WHERE cap_call= :cap_call_key:";
-        $this->m_objfactory_sql = "SELECT cap_code, cap_call, cap_call_date, cap_call_reference, doc_storage, cap_call_aprobo FROM cap_calls";
+        $this->m_loaddb_sql = "SELECT cap_code, cap_call, cap_call_date, cap_call_reference, doc_storage, cap_call_aprobo, cap_note FROM cap_calls  WHERE cap_call= :cap_call_key:";
+        $this->m_objfactory_sql = "SELECT cap_code, cap_call, cap_call_date, cap_call_reference, doc_storage, cap_call_aprobo, cap_note FROM cap_calls";
         $this->m_objfactory_suffix_sql = "";
-        $this->m_savedb_update_sql = "UPDATE cap_calls SET cap_code= :cap_code:, cap_call= :cap_call:, cap_call_date= :cap_call_date:, cap_call_reference= :cap_call_reference:, doc_storage= :doc_storage:, cap_call_aprobo= :cap_call_aprobo: WHERE cap_call=:cap_call_key:";
-        $this->m_savedb_insert_sql = "INSERT INTO cap_calls(cap_code, cap_call, cap_call_date, cap_call_reference, doc_storage, cap_call_aprobo) VALUES (:cap_code:, :cap_call:, :cap_call_date:, :cap_call_reference:, :doc_storage:, :cap_call_aprobo:)";
+        $this->m_savedb_update_sql = "UPDATE cap_calls SET cap_code= :cap_code:, cap_call= :cap_call:, cap_call_date= :cap_call_date:, cap_call_reference= :cap_call_reference:, doc_storage= :doc_storage:, cap_call_aprobo= :cap_call_aprobo:, cap_note= :cap_note: WHERE cap_call=:cap_call_key:";
+        $this->m_savedb_insert_sql = "INSERT INTO cap_calls(cap_code, cap_call, cap_call_date, cap_call_reference, doc_storage, cap_call_aprobo, cap_note) VALUES (:cap_code:, :cap_call:, :cap_call_date:, :cap_call_reference:, :doc_storage:, :cap_call_aprobo:, :cap_note:)";
         $this->m_savedb_delete_sql = "DELETE FROM cap_calls WHERE cap_call=:cap_call_key:";
         $this->m_savedb_purge_sql = "DELETE FROM cap_calls";
         $this->m_savedb_total_sql = "SELECT COUNT(*) as cant FROM cap_calls ";

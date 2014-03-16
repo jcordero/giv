@@ -35,7 +35,7 @@ class ccir_oper_sl extends csearchandlist {
         //SetDisplayValues($attributes) 
 
     /* Campos de busqueda */
-        $this->m_obj->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circ. Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"CIRCUITOS", "IsNullable"=>false, "IsVisible"=>true));
+        $this->m_obj->GetField("cir_code")->SetDisplayValues(Array("Name"=>"cir_code", "Label"=>"Circ. Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"CIRCUITO_CERRADO", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("use_code_operador")->SetDisplayValues(Array("Name"=>"use_code_operador", "Label"=>"Operador", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>102, "Presentation"=>"OPERADOR", "IsNullable"=>false, "IsVisible"=>true));
         $this->m_obj->GetField("crit_status_ini")->SetDisplayValues(Array("Name"=>"crit_status_ini", "Label"=>"Estado Ini", "Type"=>"int", "IsForDB"=>true, "Order"=>103, "Presentation"=>"CRIT_STATUS", "IsVisible"=>true));
         $this->m_obj->GetField("crit_status_fin")->SetDisplayValues(Array("Name"=>"crit_status_fin", "Label"=>"Estado Fin", "Type"=>"int", "IsForDB"=>true, "Order"=>104, "Presentation"=>"CRIT_STATUS", "IsVisible"=>true));
@@ -57,7 +57,7 @@ class col101 extends ccolumn
         $this->m_width = '';
 
         //Campos de la columna
-         $this->m_fields[] = new CField(Array("Name"=>"cir_code", "Label"=>"Circ. Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"CIRCUITOS", "IsNullable"=>false, "IsVisible"=>true));
+         $this->m_fields[] = new CField(Array("Name"=>"cir_code", "Label"=>"Circ. Nro", "Type"=>"int", "IsPK"=>true, "IsForDB"=>true, "Order"=>101, "Presentation"=>"CIRCUITO_CERRADO", "IsNullable"=>false, "IsVisible"=>true));
     }
 }
 

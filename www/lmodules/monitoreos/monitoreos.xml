@@ -188,12 +188,12 @@
 		</group>
 		<group id="datos2" title="Datos a Completar en el Monitoreo" order="2" >	
 			<field name="mon_puntaje" label="Puntaje" presentation="INT" isvisible="false"/>
-			<field name="mon_perjuicio_cliente" label="Req. Capacitac." presentation="TEXT" isvisible="false"/>
 			<field name="mon_aprobo" label="Aprobado" presentation="TEXT" isvisible="false"/>
 			<field name="mon_add_mon" label="Monitoreos Agregados" presentation="INT" isvisible="false"/>
 			<field name="mon_add_cap" label="Capacitaciones Agregadas" presentation="INT" isvisible="false"/>		
 		    <field name="mon_forzado" label="Cierre Forzado ?" presentation="TEXT" initialvalue='NO' isvisible="false"/>
 		    <field name="mon_motivo" label="Motivo de Cierre Forzado" isvisible="false"/>		
+			<field name="mon_perjuicio_cliente" label="Requiere Capacitación" presentation="SINO" ismandatory="true" initialvalue='NO' />				
 			<field name="cli_call_code" label="Tipo LLamado" presentation="CLI_CALL" ismandatory="true"/>	
 			<field name="mon_note" label="Nota" presentation="TEXTAREA" cols="100" rows="4" ismandatory="true" />	
 			<field name="mon_call_date" label="Fecha Llamada" presentation="DATE" ismandatory="true" />	
@@ -203,6 +203,7 @@
 		<table relationclass="" classname="mon_items" title="Items" order="3" add="false" delete="false"  update="false">
 			<column title="Item" order="1">
 				<field name="mon_code" label="Monitoreo" isvisible="false"/>
+				<field name="it_perjuicio_cliente" label="Req. Capacitac." isvisible="false"/>				
 				<field name="it_name" label="Desc" presentation="TEXT" isvisible="false"/>					
 				<field name="it_order" label="Orden" isvisible="false"/>	
 				<field name="it_critico" label="Items Criticos" isvisible="false"/>	
@@ -213,9 +214,11 @@
 			<column title="Aprobado?" order="2">			
 				<field name="it_aprobo" label="Aprobado?" presentation="CHECKBOX" direct_edit="true" ismandatory="true"/>		
 			</column>
+			<!--
 			<column title="Req. Capacitacion" order="3">			
 				<field name="it_perjuicio_cliente" label="Req. Capacitac." presentation="CHECKBOX"  direct_edit="true" ismandatory="true"/>		
 			</column>
+			-->
 			<column title="Nota" order="4">			
 				<field name="it_note" label="Nota" presentation="TEXT" direct_edit="true" cols="200" />		
 			</column>

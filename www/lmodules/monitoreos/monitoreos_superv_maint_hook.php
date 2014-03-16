@@ -68,6 +68,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		$use_code_supervisor = $obj->getField("use_code_supervisor")->getValue();
 		$use_code_operador = $obj->getField("use_code_operador")->getValue();
 		$mon_date_aprox = $obj->getField("mon_date_aprox")->getValue();
+		$mon_perjuicio_cliente=$obj->getField("mon_perjuicio_cliente")->getValue();		
 		$cir_semana = $obj->getField("cir_semana")->getValue();
 		$mon_note = $obj->getField("mon_note")->getValue();
 		$mon_status=$obj->getField("mon_status")->getValue();
@@ -112,7 +113,7 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 		$cap_perjuicio=$primary_db->QueryString("select par_value from sec_parameters where par_code = 'cap_perjuicio'");
 
 		$mon_puntaje=0;
-		$mon_perjuicio_cliente='NO';
+
 		
 		$i=0;	
 		$it_critico = 0;
@@ -125,14 +126,11 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 			if ($it_aprobo=='on') $it_aprobo = 'SI';
 			if ($it_aprobo=='') $it_aprobo = 'NO';
 			
-			$it_perjuicio_cliente = $it->getField("it_perjuicio_cliente")->getValue();
-			if ($it_perjuicio_cliente=='on') $it_perjuicio_cliente = 'SI';
-			if ($it_perjuicio_cliente=='') $it_perjuicio_cliente = 'NO';
 			
 			$it_importance = intval($it->getField("it_importance")->getValue());
 			// 
 			$ic = $it->getField("it_critico")->getValue();
-			error_log ("it_code $it_code, it_aprobo $it_aprobo it_perjuicio_cliente $it_perjuicio_cliente it_critico $ic  ");
+			error_log ("it_code $it_code, it_aprobo $it_aprobo it_critico $ic  ");
 			if ( $it_aprobo =='NO')
 			{
 			   error_log ( "$it_aprobo =='NO'");
@@ -142,29 +140,22 @@ class cmonitoreos_superv_hooks extends cclass_maint_hooks
 			   }
                $it_no_critico = $it_no_critico + 1 ;
 			}   
-			if ( ($it_perjuicio_cliente != 'SI') && ($it_perjuicio_cliente != 'NO'))
-			{   $it_perjuicio_cliente = 'NO'; 
-			    $it->getField("it_perjuicio_cliente")->setvalue('NO');
-			}
+
 			if ( ($it_aprobo != 'SI') && ($it_aprobo != 'NO'))
 			{   $it_aprobo = 'SI';
 			    $it->getField("it_aprobo")->setValue('SI');
 			}
-
-			if ( $it_perjuicio_cliente == 'SI')
-			    $mon_perjuicio_cliente='SI';
 			if ($it_aprobo!='SI') $it_importance = 0;
 		    $mon_puntaje=$mon_puntaje+$it_importance;
 			$it->getField("it_puntaje")->setValue($it_importance);
 			   
-			$sql2 = "UPDATE mon_items SET  it_puntaje=".$it_importance.", it_aprobo= '".$it_aprobo."', it_perjuicio_cliente= '".$it_perjuicio_cliente;
-			$sql2.= "', it_note= '".$it_note."' WHERE mon_code=$mon_code AND it_code=".$it_code;
+			$sql2 = "UPDATE mon_items SET  it_puntaje=".$it_importance.", it_aprobo= '".$it_aprobo."', it_perjuicio_cliente= 'NO', it_note= '".$it_note."' ";
+			$sql2.= "  WHERE mon_code=$mon_code AND it_code=".$it_code;
 			$primary_db->do_execute($sql2, $err2);
 			if (count($err2) > 0)  $res[]= "MENSAJE: Error al actualizar el monitoreo.";					 
 		}
 		$obj->getField("mon_status")->setValue("REALIZADO");
 		$obj->getField("mon_puntaje")->setValue($mon_puntaje);
-		$obj->getField("mon_perjuicio_cliente")->setValue($mon_perjuicio_cliente);
 
 		// Ver si hay que agregar o eliminar capacitaciones 
 		$mon_add_cap = 0;		

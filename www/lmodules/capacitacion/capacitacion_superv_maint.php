@@ -73,7 +73,7 @@ class datos2_gr extends cform_group {
 
     public function InitializeInstance() {
         //SetDisplayValues($attributes) 
-        $this->getClass("ccapacitacion")->GetField("cap_date")->SetDisplayValues(Array("Name"=>"cap_date", "Label"=>"Fecha", "Type"=>"datetime", "IsForDB"=>true, "Order"=>106, "Presentation"=>"DATETIME", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
+        $this->getClass("ccapacitacion")->GetField("cap_date")->SetDisplayValues(Array("Name"=>"cap_date", "Label"=>"Fecha", "Type"=>"datetime", "IsForDB"=>true, "Order"=>106, "Presentation"=>"DATE", "IsVisible"=>true, "Class"=>"ccapacitacion"));
         $this->getClass("ccapacitacion")->GetField("cap_use_code")->SetDisplayValues(Array("Name"=>"cap_use_code", "Label"=>"Capacitado por", "Type"=>"int", "IsForDB"=>true, "Order"=>110, "Presentation"=>"USER", "IsVisible"=>true, "IsReadOnly"=>true, "Class"=>"ccapacitacion"));
         $this->getClass("ccapacitacion")->GetField("cap_origen")->SetDisplayValues(Array("Name"=>"cap_origen", "Label"=>"Origen", "Size"=>20, "IsForDB"=>true, "Order"=>111, "IsMandatory"=>true, "ValueList"=>"cap_origen", "Presentation"=>"SELECT", "IsVisible"=>true, "Class"=>"ccapacitacion"));
         $this->getClass("ccapacitacion")->GetField("cap_motivo")->SetDisplayValues(Array("Name"=>"cap_motivo", "Label"=>"Motivo", "Size"=>200, "IsForDB"=>true, "Order"=>112, "IsMandatory"=>true, "Presentation"=>"TEXTAREA", "IsVisible"=>true, "Rows"=>2, "Cols"=>100, "Class"=>"ccapacitacion"));
@@ -172,11 +172,13 @@ class cap_calls_th5 extends ctable_handler {
         $this->m_datafields['cap_call_reference']=4;
         $this->m_datafields['cap_call_aprobo']=5;
         $this->m_datafields['doc_storage']=6;
+        $this->m_datafields['cap_note']=7;
 
         $this->m_columns[1] = new ctable_column(1,'Fecha LLamada',array('cap_code','cap_call','cap_call_date'));
         $this->m_columns[2] = new ctable_column(2,'Referencia',array('cap_call_reference'));
         $this->m_columns[3] = new ctable_column(3,'Aprobado?',array('cap_call_aprobo'));
         $this->m_columns[4] = new ctable_column(4,'Audio',array('doc_storage'));
+        $this->m_columns[5] = new ctable_column(5,'Observaciones',array('cap_note'));
     }
 
     public function getJsIncludes($obj) {
@@ -187,6 +189,7 @@ class cap_calls_th5 extends ctable_handler {
         $r[]=$obj->GetField("cap_call_reference")->getJsIncludes();
         $r[]=$obj->GetField("cap_call_aprobo")->getJsIncludes();
         $r[]=$obj->GetField("doc_storage")->getJsIncludes();
+        $r[]=$obj->GetField("cap_note")->getJsIncludes();
         return $r;
     }
 
@@ -198,6 +201,7 @@ class cap_calls_th5 extends ctable_handler {
         $obj->GetField("cap_call_reference")->SetDisplayValues(Array("Name"=>"cap_call_reference", "Label"=>"Ref LLamado", "Size"=>20, "IsForDB"=>true, "Order"=>104, "IsMandatory"=>true, "Presentation"=>"TEXT", "IsVisible"=>true));
         $obj->GetField("cap_call_aprobo")->SetDisplayValues(Array("Name"=>"cap_call_aprobo", "Label"=>"Aprobado?", "Size"=>2, "IsForDB"=>true, "Order"=>106, "IsMandatory"=>true, "Presentation"=>"SINO", "IsVisible"=>true));
         $obj->GetField("doc_storage")->SetDisplayValues(Array("Name"=>"doc_storage", "Label"=>"Llamada", "Size"=>200, "IsForDB"=>true, "Order"=>105, "Presentation"=>"CALLS_AUDIO", "IsVisible"=>true, "IsReadOnly"=>true));
+        $obj->GetField("cap_note")->SetDisplayValues(Array("Name"=>"cap_note", "Label"=>"Observaciones", "Size"=>200, "IsForDB"=>true, "Order"=>107, "Presentation"=>"TEXTAREA", "IsVisible"=>true, "Rows"=>4));
     }
 
 }

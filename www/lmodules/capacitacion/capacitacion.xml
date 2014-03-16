@@ -140,6 +140,10 @@
 			<column title="Aprobado?" order="3">			
 				<field name="cap_call_aprobo" label="Aprobado?" presentation="SINO"  ismandatory="true"/>		
 			</column>
+			<column title="Observaciones" order="4">			
+				<field name="cap_note" label="Observaciones"  presentation="TEXTAREA" cols="50" rows="4"/>
+			</column>			
+			
 		</table>			
 	</build>
 </make>
@@ -156,7 +160,7 @@
 			<field name="cap_status" label="Estado" presentation="CAP_STATUS" readonly="true"/>
 		</group>
 		<group id="datos2" title="Datos a Completar" order="2" >	
-			<field name="cap_date" label="Fecha" presentation="DATETIME"  readonly="true"/>		
+			<field name="cap_date" label="Fecha" presentation="DATE" />		
 			<field name="cap_use_code" label="Capacitado por" presentation="USER"  readonly="true"/>			
 			<field name="cap_origen" label="Origen" presentation="SELECT" valuelist="cap_origen" ismandatory="true"/>	
 			<field name="cap_motivo" label="Motivo" presentation="TEXTAREA" cols="100" rows="2" ismandatory="true" />	
@@ -181,7 +185,10 @@
 			</column>
 			<column title="Audio" order="4">			
 				<field name="doc_storage" label="Llamada" presentation="CALLS_AUDIO"  readonly="true"/>	
-			</column>						
+			</column>			
+			<column title="Observaciones" order="5">			
+				<field name="cap_note" label="Observaciones"  presentation="TEXTAREA" cols="50" rows="4"/>	
+			</column>					
 		</table>	
 		<group id="datos4" title="Visto Operador" order="6">
 			<field name="cap_visto_oper" label="Visto" presentation="TEXT"  initialvalue="NO"  readonly="true"/>			
@@ -316,6 +323,9 @@
 			<column title="Aprobado?" order="3">			
 				<field name="cap_call_aprobo" label="Aprobado?" presentation="SINO" readonly="true"	/>		
 			</column>
+			<column title="Observaciones" order="4">			
+				<field name="cap_note" label="Observaciones" resentation="TEXTAREA" cols="50" rows="4"  readonly="true"	/>
+			</column>					
 		</table>				
 	</build>
 </make>

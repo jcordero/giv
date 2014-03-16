@@ -32,6 +32,7 @@ class ccircuitos_sl extends csearchandlist {
         $this->addAction(5,"cir_oper.php?OP=L",array(new caction_param('cir_code')),"","desempeño","L","circuitos.cir_groups","");
         $this->addAction(5,"cir_groups_n_maint.php?OP=N",array(new caction_param('cir_code')),"","asignar grupo","N","circuitos.cir_groups.nuevo","");
         $this->addAction(5,"cir_groups.php?OP=L",array(new caction_param('cir_code')),"","grupos","L","circuitos.cir_groups","");
+        $this->addAction(5,"cir_grafico_maint.php?OP=M",array(new caction_param('cir_code')),"","grafico","M","","");
     }
 
     //Inicializo la parte de busqueda
