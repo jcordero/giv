@@ -173,7 +173,7 @@ if(!class_exists('grafico_circuito'))
 				$this->tabla_mon.= "<tr bgcolor='#D6E6FA'><td nowrap>".substr($row["use_login"]." ".$row["use_name"],0,50)."</td>";
 				$this->tabla_mon.=$t."<td bgcolor='#E8F3FF'><a href='".$sess->encodeURL($uMon."&mon_status=PENDIENTE")."'>".$pendientes1."</a></td><td>";	
 
-				$uMon = WEB_PATH.'/lmodules/monitoreos/monitoreos.php?OP=L&cir_code=$cir_code&use_code_operador=$use_code_operador&use_code_supervisor=$use_code_supervisor';
+				$uMon = WEB_PATH.'/lmodules/monitoreos/monitoreos.php?OP=L&cir_code='.$cir_code.'&use_code_operador='.$use_code_operador.'&use_code_supervisor='.$use_code_supervisor;
 			
 				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=REALIZADO")."'>".$realizadas1."</a></td><td>";
 				$this->tabla_mon.="<a href='".$sess->encodeURL($uMon."&mon_status=REALIZADO&mon_aprobo=SI")."'>".$ok1."</a></td><td>";
